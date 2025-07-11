@@ -44,32 +44,34 @@ h1{font-size:clamp(2.5rem,6vw,3rem);font-weight:700}
 <div id="rankPanel"><strong>RANKING MUNDIAL</strong><ul id="rankList"></ul></div>
 <div id="modalRoot"></div>
 
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+
 <script>
-/* ---------- Config Firebase ---------- */
+/* ---------- Inicialización Firebase ---------- */
 firebase.initializeApp({
   apiKey:"AIzaSyCQks6syI84wvIIYa_As9ts7Hc5lenN8hk",
   authDomain:"mundochido-ranking.firebaseapp.com",
-  databaseURL:"https://mundochido-ranking-default-rtdb.firebaseio.com",
   projectId:"mundochido-ranking"
 });
-const db=firebase.database();
-const scoresRef=db.ref("scores");
+const db = firebase.firestore();
 
 /* ---------- UI helpers ---------- */
 const $=id=>document.getElementById(id);
 const modalRoot=$("modalRoot");
 function showModal(msg,cb){
-  modalRoot.innerHTML=`<div class="overlay"><div class="modal"><p>${msg}</p>${cb?'<button id="ok">OK</button>':''}</div></div>`;
+  modalRoot.innerHTML=`<div class="overlay"><div class="modal"><p>${msg}</p>${cb?'<button id="ok">Aceptar</button>':''}</div></div>`;
   if(cb)$("ok").onclick=()=>{modalRoot.innerHTML="";cb();}
 }
+
 /* ---------- Ripple ---------- */
 addEventListener("click",e=>{
   const r=document.createElement("div");
   r.className="ripple";r.style.left=`${e.clientX}px`;r.style.top=`${e.clientY}px`;
   document.body.append(r);setTimeout(()=>r.remove(),1400);
 });
+
 /* ---------- Botón secreto YouTube ---------- */
 $("secret").onclick=()=>{
   const app="vnd.youtube://JN2N5HorqSI";
@@ -77,6 +79,7 @@ $("secret").onclick=()=>{
   const t=setTimeout(()=>open(web,"_blank"),600);
   location.href=app;setTimeout(()=>clearTimeout(t),800);
 };
+
 /* ---------- Easter-egg: carteles ---------- */
 let phase=0,clicks=0;const msgs=[
   "PARA UN TOQUE CON LOS CLICKS",
@@ -87,19 +90,23 @@ let phase=0,clicks=0;const msgs=[
 document.body.addEventListener("click",()=>{if(game.started)return;
   clicks++;if(clicks%7===0&&phase<msgs.length){const p=phase++;showModal(msgs[p],()=>{if(p===3)startGame();});}
 });
+
 /* ---------- Juego Mosquito ---------- */
 const canvas=$("canvas"),ctx=canvas.getContext("2d");const vw=()=>canvas.width=innerWidth, vh=()=>canvas.height=innerHeight;vw();vh();addEventListener("resize",()=>{vw();vh();});
 const M="🦟",OTH=["🪱","🥢","🧩","📡","🟫"];let mos=[],spawnInt;
 const game={lives:3,score:0,speed:1.5,started:false};
+
 function spawn(){
-  const bad=Math.random()>.7,emoji=bad?OTH[Math.random()*OTH.length|0]:M;
+  const bad=Math.random()>.7,emoji=bad?OTH[Math.floor(Math.random()*OTH.length)]:M;
   mos.push({e:emoji,x:Math.random()*(canvas.width-40),y:-40,v:game.speed+(Math.random()),bad});
   if(game.speed<4)game.speed+=.02;
 }
+
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   mos.forEach(m=>{ctx.font="40px serif";ctx.fillText(m.e,m.x,m.y);m.y+=m.v;});
 }
+
 function loop(){
   if(!game.started)return;
   draw();
@@ -112,6 +119,7 @@ function loop(){
   }
   requestAnimationFrame(loop);
 }
+
 canvas.onclick=e=>{
   if(!game.started)return;
   const {left,top}=canvas.getBoundingClientRect(),x=e.clientX-left,y=e.clientY-top;
@@ -125,10 +133,12 @@ canvas.onclick=e=>{
     }
   }
 };
+
 function feedback(sym,x,y){
   const d=document.createElement("div");d.textContent=sym;d.style.cssText=`position:fixed;left:${x}px;top:${y}px;font-size:3rem;z-index:25;transition:.6s;opacity:.8`;
   document.body.append(d);setTimeout(()=>{d.style.opacity=0;d.style.transform="translateY(-40px)"},10);setTimeout(()=>d.remove(),600);
 }
+
 function updateScore(s){$("score").textContent=`Mosquitos atrapados: ${s}`;}
 function loseLife(){
   if(--game.lives<=0)return endGame();
@@ -136,26 +146,78 @@ function loseLife(){
 }
 function endGame(){
   game.started=false;clearInterval(spawnInt);canvas.style.pointerEvents="none";
-  showModal(`Perdiste 😢<br>Puntaje: ${game.score}<br><input id='name' placeholder='Tu nombre' style='margin-top:8px;padding:6px;width:90%'>`,()=>{
-    const n=$("name").value.trim();if(n) scoresRef.push({name:n,score:game.score});
-    $("retry").remove?null:null; // placeholder
-  });
-  $("retry").style.display="block";
+  // Modal para ingresar nombre y guardar puntaje
+  modalRoot.innerHTML=`
+    <div class="overlay">
+      <div class="modal">
+        <p>Perdiste 😢<br>Puntaje: ${game.score}</p>
+        <input id='name' placeholder='Tu nombre' style='margin-top:8px;padding:6px;width:90%' autocomplete="off" />
+        <button id="saveScore">Aceptar</button>
+      </div>
+    </div>
+  `;
+  $("saveScore").onclick=async()=>{
+    const n=$("name").value.trim();
+    if(n){
+      try {
+        await db.collection("scores").add({name:n,score:game.score});
+      } catch(e){console.error(e);}
+    }
+    modalRoot.innerHTML="";
+    $("retryBtn")?.remove();
+    createRetryButton();
+  };
 }
+
 /* ---------- Ranking ---------- */
 function loadRank(){
-  scoresRef.orderByChild("score").limitToLast(5).on("value",snap=>{
-    const ul=$("rankList");ul.innerHTML="";const arr=[];snap.forEach(c=>arr.push(c.val()));arr.reverse().forEach((v,i)=>ul.innerHTML+=`<li>${i+1}. ${v.name} — ${v.score}</li>`);
-  });
+  db.collection("scores")
+    .orderBy("score", "desc")
+    .limit(5)
+    .onSnapshot(snapshot=>{
+      const ul=$("rankList");ul.innerHTML="";
+      snapshot.forEach(doc=>{
+        const d=doc.data();
+        ul.innerHTML+=`<li>${d.name} — ${d.score}</li>`;
+      });
+    });
 }
-$("rankingBtn").onclick=()=>$("rankPanel").style.display=$("rankPanel").style.display==="none"?"block":"none";
+$("rankingBtn").onclick=()=> {
+  const panel = $("rankPanel");
+  panel.style.display = (panel.style.display === "block") ? "none" : "block";
+};
+
+/* ---------- Retry button ---------- */
+function createRetryButton(){
+  const btn=document.createElement("button");
+  btn.id="retryBtn";
+  btn.textContent="Reintentar";
+  btn.style.position="fixed";
+  btn.style.bottom="20px";
+  btn.style.right="25px";
+  btn.style.padding="10px 16px";
+  btn.style.fontWeight="700";
+  btn.style.borderRadius="16px";
+  btn.style.backgroundColor="#d4af37";
+  btn.style.border="none";
+  btn.style.color="#111";
+  btn.style.cursor="pointer";
+  btn.style.zIndex="25";
+  btn.onclick=()=>{
+    btn.remove();
+    startGame();
+  };
+  document.body.appendChild(btn);
+}
+
 /* ---------- Iniciar ---------- */
 function startGame(){
   if(game.started)return;
   game.started=true;game.lives=3;game.score=0;game.speed=1.5;mos=[];canvas.style.pointerEvents="auto";
   $("score").style.display=$("lives").style.display=$("rankingBtn").style.display="block";
   $("lives").textContent="❤️❤️❤️";updateScore(0);loadRank();
-  spawnInt=setInterval(spawn,1000);loop();
+  spawnInt=setInterval(spawn,1000);
+  loop();
 }
 </script>
 </body>
