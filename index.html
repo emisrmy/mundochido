@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mundo Chido – Muy pronto</title>
   <link rel="icon" href="https://fav.farm/✨" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -19,7 +19,7 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Poppins', sans-serif;
       height: 100vh;
       overflow: hidden;
       display: flex;
@@ -29,6 +29,12 @@
       background-color: #f8f8f8;
       color: #111;
       text-align: center;
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
 
     body::before {
@@ -42,17 +48,19 @@
 
     main {
       padding: 1rem;
+      animation: float 4s ease-in-out infinite;
     }
 
-    h1, p {
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 600;
-      opacity: 0.95;
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 3rem);
+      font-weight: 700;
     }
 
-    p {
-      margin-top: 0.5rem;
-      font-weight: 400;
+    /* Animación flotante */
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
     }
 
     /* Botón secreto */
@@ -87,8 +95,7 @@
 <body>
 
   <main>
-    <h1>Muy pronto</h1>
-    <p>en Mundo Chido... los mejores precios</p>
+    <h1>Muy pronto... :P</h1>
   </main>
 
   <button id="secret" aria-label="Sorpresa">?</button>
