@@ -90,6 +90,28 @@
         color: rgba(0, 0, 0, 0.12);
       }
     }
+
+    /* ---------- NUEVO: efecto ripple ---------- */
+    @keyframes ripple {
+      to {
+        transform: scale(15);
+        opacity: 0;
+      }
+    }
+    .ripple {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      pointer-events: none;
+      opacity: 0.6;
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple 600ms ease-out;
+      z-index: 9;           /* justo debajo del botón secreto */
+      mix-blend-mode: overlay;
+    }
+    /* ------------------------------------------ */
   </style>
 </head>
 <body>
@@ -101,10 +123,24 @@
   <button id="secret" aria-label="Sorpresa">?</button>
 
   <script>
-    document.getElementById("secret").addEventListener("click", () => {
+    /* ---------- NUEVO: listener global para ripple ---------- */
+    document.addEventListener("pointerdown", (e) => {
+      const circle = document.createElement("span");
+      circle.classList.add("ripple");
+      circle.style.left = `${e.clientX}px`;
+      circle.style.top  = `${e.clientY}px`;
+      document.body.appendChild(circle);
+      circle.addEventListener("animationend", () => circle.remove());
+    });
+    /* -------------------------------------------------------- */
+
+    // Tu código original del botón secreto
+    document.getElementById("secret").addEventListener("click", (event) => {
+      event.stopPropagation();          // evita ripple doble en el botón
       const sonido = new Audio("click.mp3");  // opcional
       sonido.play().catch(() => {});
-      window.location.href = "https://www.youtube.com/watch?v=JN2N5HorqSI&list=RDJN2N5HorqSI&start_radio=1";
+      window.location.href =
+        "https://www.youtube.com/watch?v=JN2N5HorqSI&list=RDJN2N5HorqSI&start_radio=1";
     });
   </script>
 
