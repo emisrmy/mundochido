@@ -2,15 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mundo Chido – Muy pronto</title>
-  <link rel="icon" href="https://fav.farm/🎉" />
+  <link rel="icon" href="https://fav.farm/✨" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --accent: #00aeff;
-      --accent-dark: #0067b8;
+      --gold: #d4af37;
     }
+
     * {
       margin: 0;
       padding: 0;
@@ -18,14 +19,16 @@
     }
 
     body {
-      font-family: "Segoe UI", Verdana, sans-serif;
+      font-family: 'Inter', sans-serif;
       height: 100vh;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      background-color: #000;
+      background-color: #f8f8f8;
+      color: #111;
+      text-align: center;
     }
 
     body::before {
@@ -33,40 +36,23 @@
       position: absolute;
       inset: 0;
       background: url("img/fondo.jpg") center/cover no-repeat fixed;
-      filter: blur(8px) brightness(1.1);
-      z-index: -2;
-    }
-
-    body::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 30%, rgba(0, 170, 255, 0.25), rgba(0, 60, 200, 0.2));
+      filter: blur(8px) brightness(1.05);
       z-index: -1;
     }
 
     main {
-      text-align: center;
-      color: #000;
-      text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
       padding: 1rem;
     }
 
-    h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      margin-bottom: 0.5rem;
-      animation: float 4s ease-in-out infinite;
-    }
-
-    p {
-      font-size: clamp(1.2rem, 3vw, 1.6rem);
+    h1, p {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 600;
       opacity: 0.95;
     }
 
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0); }
+    p {
+      margin-top: 0.5rem;
+      font-weight: 400;
     }
 
     /* Botón secreto */
@@ -84,15 +70,16 @@
     }
 
     #secret:hover {
-      color: var(--accent);
+      color: var(--gold);
       transform: scale(1.2);
-      text-shadow: 0 0 10px var(--accent-dark);
+      text-shadow: 0 0 10px var(--gold);
     }
 
     @media (max-width: 600px) {
       #secret {
         font-size: 1.8rem;
         right: 15px;
+        color: rgba(0, 0, 0, 0.12);
       }
     }
   </style>
