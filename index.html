@@ -32,6 +32,23 @@ h1{font-size:clamp(2.5rem,6vw,3rem);font-weight:700}
 #rankPanel{position:fixed;top:50px;left:10px;width:200px;max-height:60vh;overflow-y:auto;background:rgba(0,0,0,.6);color:#fff;border-radius:12px;padding:12px 16px;display:none;z-index:20}
 #rankPanel ul{list-style:none;padding-left:0;margin-top:8px;font-size:.9rem}
 #rankPanel li{margin-bottom:6px}
+
+/* Botón reintentar centrado abajo */
+#retryBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 16px;
+  font-weight: 700;
+  border-radius: 16px;
+  background-color: #d4af37;
+  border: none;
+  color: #111;
+  cursor: pointer;
+  z-index: 25;
+  display: none; /* oculto inicialmente */
+}
 </style>
 </head>
 <body>
@@ -146,7 +163,9 @@ function loseLife(){
 }
 function endGame(){
   game.started=false;clearInterval(spawnInt);canvas.style.pointerEvents="none";
+  $("retryBtn")?.style.display = "block";
   // Modal para ingresar nombre y guardar puntaje
+  if(modalRoot.innerHTML.trim() !== "") return; // Previene modal doble
   modalRoot.innerHTML=`
     <div class="overlay">
       <div class="modal">
@@ -164,8 +183,6 @@ function endGame(){
       } catch(e){console.error(e);}
     }
     modalRoot.innerHTML="";
-    $("retryBtn")?.remove();
-    createRetryButton();
   };
 }
 
@@ -189,25 +206,28 @@ $("rankingBtn").onclick=()=> {
 
 /* ---------- Retry button ---------- */
 function createRetryButton(){
-  const btn=document.createElement("button");
-  btn.id="retryBtn";
-  btn.textContent="Reintentar";
-  btn.style.position="fixed";
-  btn.style.bottom="20px";
-  btn.style.right="25px";
-  btn.style.padding="10px 16px";
-  btn.style.fontWeight="700";
-  btn.style.borderRadius="16px";
-  btn.style.backgroundColor="#d4af37";
-  btn.style.border="none";
-  btn.style.color="#111";
-  btn.style.cursor="pointer";
-  btn.style.zIndex="25";
-  btn.onclick=()=>{
-    btn.remove();
+  const btn=$("retryBtn");
+  if(btn)return;
+  const btnNew=document.createElement("button");
+  btnNew.id="retryBtn";
+  btnNew.textContent="Reintentar";
+  btnNew.style.position="fixed";
+  btnNew.style.bottom="20px";
+  btnNew.style.left="50%";
+  btnNew.style.transform="translateX(-50%)";
+  btnNew.style.padding="10px 16px";
+  btnNew.style.fontWeight="700";
+  btnNew.style.borderRadius="16px";
+  btnNew.style.backgroundColor="#d4af37";
+  btnNew.style.border="none";
+  btnNew.style.color="#111";
+  btnNew.style.cursor="pointer";
+  btnNew.style.zIndex="25";
+  btnNew.onclick=()=>{
+    btnNew.style.display="none";
     startGame();
   };
-  document.body.appendChild(btn);
+  document.body.appendChild(btnNew);
 }
 
 /* ---------- Iniciar ---------- */
@@ -215,6 +235,7 @@ function startGame(){
   if(game.started)return;
   game.started=true;game.lives=3;game.score=0;game.speed=1.5;mos=[];canvas.style.pointerEvents="auto";
   $("score").style.display=$("lives").style.display=$("rankingBtn").style.display="block";
+  $("retryBtn")?.style.display="none";
   $("lives").textContent="❤️❤️❤️";updateScore(0);loadRank();
   spawnInt=setInterval(spawn,1000);
   loop();
