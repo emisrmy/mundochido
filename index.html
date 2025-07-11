@@ -10,11 +10,16 @@
     :root { --gold:#d4af37; }
 
     *{margin:0;padding:0;box-sizing:border-box;}
+    html, body {
+      height: 100%;
+      overflow: hidden; /* evita scroll externo */
+    }
     body{
-      font-family:'Poppins',sans-serif;height:100vh;overflow:hidden;display:flex;
+      font-family:'Poppins',sans-serif;display:flex;
       align-items:center;justify-content:center;position:relative;
       background-color:#f8f8f8;color:#111;text-align:center;
       animation:fadeIn 1.2s ease forwards;opacity:0;
+      height: 100vh;
     }
     @keyframes fadeIn{to{opacity:1;}}
 
@@ -60,8 +65,23 @@
     .emoji{position:absolute;font-size:2rem;user-select:none;cursor:pointer;transition:transform .1s;}
     #scoreBoard{position:fixed;top:12px;left:50%;transform:translateX(-50%);
       font-size:1.1rem;font-weight:700;z-index:22;color:white;text-shadow:0 0 6px #000;}
-    #ranking{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-      background:rgba(0,0,0,.6);color:#fff;padding:.6rem 1rem;border-radius:12px;font-size:.9rem;z-index:22;display:none;}
+    #ranking {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      z-index: 22;
+      display: none;
+      max-height: 180px;  /* limita la altura */
+      width: 320px;
+      overflow-y: auto; /* scroll interno */
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body>
@@ -134,10 +154,11 @@
     const EMOJIS=["🪱","🥢","🧩","📡","🟫","🦟"];
     let active=false,score=0,interval=null,scoreBoard=null,rankingBox=null;
     let fallTime=4000, minFall=1500, speedStep=200; // ms
+    let gameEnded = false;
 
     function startMosquitoMode(){
       if(active) return;
-      active=true;score=0;fallTime=4000;
+      active=true;score=0;fallTime=4000;gameEnded=false;
       document.body.style.filter="brightness(.7)";
       scoreBoard=document.createElement("div");
       scoreBoard.id="scoreBoard";
@@ -193,8 +214,12 @@
     }
 
     async function endGame(){
+      if(gameEnded) return;
+      gameEnded = true;
+
       clearInterval(interval);
       document.querySelectorAll(".emoji").forEach(el=>el.remove());
+
       nameModal(async name=>{
         if(name){
           try{
@@ -205,7 +230,8 @@
           }catch(e){alert("Error guardando: "+e.message);}
         }
         showRanking();
-        active=false;
+        active = false;
+        gameEnded = false;
       });
     }
 
