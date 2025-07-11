@@ -57,7 +57,7 @@
     }
     @keyframes fadeOverlay{from{opacity:0;}to{opacity:1;}}
     .modal{
-      background:rgba(255,255,255,.9);backdrop-filter:blur(6px);
+      background:white;
       padding:2rem 2.5rem;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.15);
       text-align:center;max-width:90%;width:320px;position:relative;
       animation:pop .35s cubic-bezier(.4,0,.2,1) forwards;transform:scale(.8);opacity:0;
@@ -77,7 +77,7 @@
   <button id="secret" aria-label="Sorpresa">?</button>
 
   <script>
-    /* ---- Efecto ripple ---- */
+    // Ripple efecto
     document.addEventListener("pointerdown",(e)=>{
       const ripple=document.createElement("span");
       ripple.className="ripple";
@@ -85,46 +85,66 @@
       ripple.style.top =`${e.clientY}px`;
       document.body.appendChild(ripple);
       ripple.addEventListener("animationend",()=>ripple.remove());
-      handleClickBurst();          // cuenta clicks rápidos
+      handleClickBurst();
     });
 
-    /* ---- Botón secreto con deep-link + fallback ---- */
+    // Botón secreto con deep-link + fallback
     const ytAppLink="vnd.youtube:JN2N5HorqSI";
     const ytWebLink="https://youtu.be/JN2N5HorqSI?si=4Cuq9r8f856Q_lq0";
     document.getElementById("secret").addEventListener("click",(ev)=>{
       ev.stopPropagation();
       new Audio("click.mp3").play().catch(()=>{});
-      window.location.href=ytAppLink;               // intenta app
-      setTimeout(()=>{window.location.href=ytWebLink;},800); // fallback web
+      window.location.href=ytAppLink;
+      setTimeout(()=>{window.location.href=ytWebLink;},800);
     });
 
-    /* ---- Contador de clicks rápidos ---- */
-    let clickCount=0, timer=null;
+    // Contador de clics rápidos y fases
+    let clickCount=0, timer=null, warningPhase=0;
+    const warningMessages = [
+      "PARA UN TOQUE CON LOS CLICKS",
+      "DALE LOCO PARAAAAAA",
+      "BUENO LISTO HACE LO QUE SE TE CANTA"
+    ];
+
     function handleClickBurst(){
       clickCount++;
       if(!timer){
-        timer=setTimeout(()=>{clickCount=0;timer=null;},1500); // ventana 1.5 s
+        timer = setTimeout(() => {
+          clickCount = 0;
+          timer = null;
+        }, 1500);
       }
-      if(clickCount>=7){            // umbral de clics
-        clickCount=0;clearTimeout(timer);timer=null;
+      if(clickCount >= 7){
+        clickCount = 0;
+        clearTimeout(timer);
+        timer = null;
         showOverlay();
       }
     }
 
-    /* ---- Función para mostrar overlay ---- */
     function showOverlay(){
-      if(document.querySelector(".overlay")) return;   // ya visible
-      const overlay=document.createElement("div");
-      overlay.className="overlay";
-      overlay.innerHTML=`
-        <div class="modal">
-          <button class="close-btn" aria-label="Cerrar aviso">&times;</button>
-          <h2>PARA UN TOQUE CON LOS CLICKS</h2>
-        </div>`;
+      if(document.querySelector(".overlay")) return;
+
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
+
+      const modal = document.createElement("div");
+      modal.className = "modal";
+
+      const closeBtn = document.createElement("button");
+      closeBtn.className = "close-btn";
+      closeBtn.innerHTML = "&times;";
+      closeBtn.addEventListener("click", () => overlay.remove());
+
+      const message = document.createElement("h2");
+      message.textContent = warningMessages[Math.min(warningPhase, warningMessages.length - 1)];
+
+      modal.appendChild(closeBtn);
+      modal.appendChild(message);
+      overlay.appendChild(modal);
       document.body.appendChild(overlay);
 
-      overlay.querySelector(".close-btn").addEventListener("click",()=>overlay.remove());
-      overlay.addEventListener("click",(e)=>{if(e.target===overlay)overlay.remove();});
+      warningPhase++;
     }
   </script>
 </body>
