@@ -302,8 +302,9 @@ h1 {
 
     for(let i = mos.length - 1; i >= 0; i--) {
       const m = mos[i];
-      // Hitbox ajustada
-      if(x >= m.x && x <= m.x + 40 && y >= m.y - 40 && y <= m.y) {
+      // Hitbox ajustada (más pequeña para malos)
+      let hitboxSize = m.bad ? 25 : 40;
+      if(x >= m.x && x <= m.x + hitboxSize && y >= m.y - hitboxSize && y <= m.y) {
         mos.splice(i, 1);
         feedback(m.bad ? "❌" : "✅", e.clientX, e.clientY);
         if(m.bad) loseLife();
@@ -372,8 +373,11 @@ h1 {
   }
 
   // Ranking
+  let unsubscribeRank = null;
+
   function loadRank() {
-    db.collection("scores")
+    if (unsubscribeRank) unsubscribeRank();
+    unsubscribeRank = db.collection("scores")
       .orderBy("score", "desc")
       .limit(5)
       .onSnapshot(snapshot => {
