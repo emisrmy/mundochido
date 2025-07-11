@@ -8,31 +8,136 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
 <style>
 :root { --gold:#d4af37; }
-*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
-body,html{height:100%;overflow:hidden;font-family:'Poppins',sans-serif}
-body{display:flex;align-items:center;justify-content:center;background:#f8f8f8;color:#111;text-align:center;position:relative;opacity:0;animation:fadeIn 1.2s ease forwards}
-@keyframes fadeIn{to{opacity:1}}
-body::before{content:'';position:absolute;inset:0;background:url("img/fondo.jpg") center/cover no-repeat fixed;filter:blur(8px) brightness(1.05);z-index:-1}
-main{animation:float 4s ease-in-out infinite}
-h1{font-size:clamp(2.5rem,6vw,3rem);font-weight:700}
-@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
-#secret{position:fixed;bottom:20px;right:25px;background:transparent;border:none;font-size:2.2rem;color:rgba(0,0,0,.04);cursor:pointer;transition:.3s;z-index:10}
-#secret:hover{color:var(--gold);transform:scale(1.2);text-shadow:0 0 10px var(--gold)}
-@media(max-width:600px){#secret{font-size:1.8rem;right:15px;color:rgba(0,0,0,.12)}}
-@keyframes ripple{0%{transform:translate(-50%,-50%) scale(.4);opacity:.5}100%{transform:translate(-50%,-50%) scale(10);opacity:0}}
-.ripple{position:fixed;width:120px;height:120px;border:2px solid rgba(255,255,255,.3);border-radius:50%;pointer-events:none;animation:ripple 1.4s cubic-bezier(.4,0,.2,1);z-index:1;backdrop-filter:blur(2px);transform:translate(-50%,-50%)}
-/* --- Modales --- */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:30}
-.modal{background:#fff;padding:2rem;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.15);width:90%;max-width:320px;text-align:center;font-weight:600}
-/* --- Canvas y HUD --- */
-#canvas{position:absolute;inset:0;pointer-events:none;z-index:5}
-#score,#lives{position:fixed;top:10px;right:10px;background:rgba(255,255,255,.75);backdrop-filter:blur(4px);padding:6px 12px;border-radius:12px;font-weight:700;display:none;z-index:20}
-#lives{top:50px}
-#rankingBtn{position:fixed;top:10px;left:10px;font-size:1.8rem;background:rgba(0,0,0,.3);color:#fff;padding:4px 8px;border-radius:10px;cursor:pointer;display:none;z-index:20}
-#rankPanel{position:fixed;top:50px;left:10px;width:200px;max-height:60vh;overflow-y:auto;background:rgba(0,0,0,.6);color:#fff;border-radius:12px;padding:12px 16px;display:none;z-index:20}
-#rankPanel ul{list-style:none;padding-left:0;margin-top:8px;font-size:.9rem}
-#rankPanel li{margin-bottom:6px}
-
+*, *:before, *:after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; }
+body {
+  display: flex; align-items: center; justify-content: center;
+  background: #f8f8f8; color: #111; text-align: center;
+  position: relative; opacity: 0; animation: fadeIn 1.2s ease forwards;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+body::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("img/fondo.jpg") center/cover no-repeat fixed;
+  filter: blur(8px) brightness(1.05);
+  z-index: -1;
+}
+main {
+  animation: float 4s ease-in-out infinite;
+}
+h1 {
+  font-size: clamp(2.5rem, 6vw, 3rem);
+  font-weight: 700;
+}
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+#secret {
+  position: fixed; bottom: 20px; right: 25px;
+  background: transparent; border: none;
+  font-size: 2.2rem; color: rgba(0,0,0,0.04);
+  cursor: pointer; transition: 0.3s ease; z-index: 10;
+}
+#secret:hover {
+  color: var(--gold);
+  transform: scale(1.2);
+  text-shadow: 0 0 10px var(--gold);
+}
+@media(max-width: 600px) {
+  #secret {
+    font-size: 1.8rem; right: 15px; color: rgba(0,0,0,0.12);
+  }
+}
+/* Ripple */
+@keyframes ripple {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+}
+.ripple {
+  position: fixed;
+  width: 120px; height: 120px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ripple 1.4s cubic-bezier(0.4,0,0.2,1);
+  z-index: 1;
+  backdrop-filter: blur(2px);
+  transform: translate(-50%, -50%);
+}
+/* Modal Estilo */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 30;
+}
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 320px;
+  text-align: center;
+  font-weight: 600;
+}
+/* Canvas y HUD */
+#canvas {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+#score, #lives {
+  position: fixed;
+  top: 10px; right: 10px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(4px);
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: none;
+  z-index: 20;
+}
+#lives {
+  top: 50px;
+}
+#rankingBtn {
+  position: fixed;
+  top: 10px; left: 10px;
+  font-size: 1.8rem;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: none;
+  z-index: 20;
+}
+#rankPanel {
+  position: fixed;
+  top: 50px; left: 10px;
+  width: 220px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: none;
+  z-index: 20;
+}
+#rankPanel ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+#rankPanel li {
+  margin-bottom: 6px;
+}
 /* Botón reintentar centrado abajo */
 #retryBtn {
   position: fixed;
@@ -47,11 +152,12 @@ h1{font-size:clamp(2.5rem,6vw,3rem);font-weight:700}
   color: #111;
   cursor: pointer;
   z-index: 25;
-  display: none; /* oculto inicialmente */
+  display: none;
 }
 </style>
 </head>
 <body>
+
 <main><h1>Muy pronto... :P</h1></main>
 <button id="secret" aria-label="Sorpresa">?</button>
 <canvas id="canvas"></canvas>
@@ -60,186 +166,254 @@ h1{font-size:clamp(2.5rem,6vw,3rem);font-weight:700}
 <div id="rankingBtn">🏆</div>
 <div id="rankPanel"><strong>RANKING MUNDIAL</strong><ul id="rankList"></ul></div>
 <div id="modalRoot"></div>
+<button id="retryBtn">Reintentar</button>
 
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
 
 <script>
-/* ---------- Inicialización Firebase ---------- */
-firebase.initializeApp({
-  apiKey:"AIzaSyCQks6syI84wvIIYa_As9ts7Hc5lenN8hk",
-  authDomain:"mundochido-ranking.firebaseapp.com",
-  projectId:"mundochido-ranking"
-});
-const db = firebase.firestore();
+  // Firebase init
+  firebase.initializeApp({
+    apiKey:"AIzaSyCQks6syI84wvIIYa_As9ts7Hc5lenN8hk",
+    authDomain:"mundochido-ranking.firebaseapp.com",
+    projectId:"mundochido-ranking"
+  });
+  const db = firebase.firestore();
 
-/* ---------- UI helpers ---------- */
-const $=id=>document.getElementById(id);
-const modalRoot=$("modalRoot");
-function showModal(msg,cb){
-  modalRoot.innerHTML=`<div class="overlay"><div class="modal"><p>${msg}</p>${cb?'<button id="ok">Aceptar</button>':''}</div></div>`;
-  if(cb)$("ok").onclick=()=>{modalRoot.innerHTML="";cb();}
-}
+  // Helpers
+  const $ = id => document.getElementById(id);
+  const modalRoot = $("modalRoot");
 
-/* ---------- Ripple ---------- */
-addEventListener("click",e=>{
-  const r=document.createElement("div");
-  r.className="ripple";r.style.left=`${e.clientX}px`;r.style.top=`${e.clientY}px`;
-  document.body.append(r);setTimeout(()=>r.remove(),1400);
-});
-
-/* ---------- Botón secreto YouTube ---------- */
-$("secret").onclick=()=>{
-  const app="vnd.youtube://JN2N5HorqSI";
-  const web="https://youtu.be/JN2N5HorqSI?si=4Cuq9r8f856Q_lq0";
-  const t=setTimeout(()=>open(web,"_blank"),600);
-  location.href=app;setTimeout(()=>clearTimeout(t),800);
-};
-
-/* ---------- Easter-egg: carteles ---------- */
-let phase=0,clicks=0;const msgs=[
-  "PARA UN TOQUE CON LOS CLICKS",
-  "DALE LOCO PARAAAAAA",
-  "BUENO LISTO HACE LO QUE SE TE CANTA",
-  "¡Modo Mosquito activado… 🦟!"
-];
-document.body.addEventListener("click",()=>{if(game.started)return;
-  clicks++;if(clicks%7===0&&phase<msgs.length){const p=phase++;showModal(msgs[p],()=>{if(p===3)startGame();});}
-});
-
-/* ---------- Juego Mosquito ---------- */
-const canvas=$("canvas"),ctx=canvas.getContext("2d");const vw=()=>canvas.width=innerWidth, vh=()=>canvas.height=innerHeight;vw();vh();addEventListener("resize",()=>{vw();vh();});
-const M="🦟",OTH=["🪱","🥢","🧩","📡","🟫"];let mos=[],spawnInt;
-const game={lives:3,score:0,speed:1.5,started:false};
-
-function spawn(){
-  const bad=Math.random()>.7,emoji=bad?OTH[Math.floor(Math.random()*OTH.length)]:M;
-  mos.push({e:emoji,x:Math.random()*(canvas.width-40),y:-40,v:game.speed+(Math.random()),bad});
-  if(game.speed<4)game.speed+=.02;
-}
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  mos.forEach(m=>{ctx.font="40px serif";ctx.fillText(m.e,m.x,m.y);m.y+=m.v;});
-}
-
-function loop(){
-  if(!game.started)return;
-  draw();
-  for(let i=mos.length-1;i>=0;i--){
-    const m=mos[i];
-    if(m.y>canvas.height){
-      if(!m.bad)loseLife();
-      mos.splice(i,1);
-    }
-  }
-  requestAnimationFrame(loop);
-}
-
-canvas.onclick=e=>{
-  if(!game.started)return;
-  const {left,top}=canvas.getBoundingClientRect(),x=e.clientX-left,y=e.clientY-top;
-  for(let i=mos.length-1;i>=0;i--){
-    const m=mos[i];
-    if(x>=m.x&&x<=m.x+40&&y>=m.y-40&&y<=m.y){
-      mos.splice(i,1);
-      feedback(m.bad?"❌":"✅",e.clientX,e.clientY);
-      m.bad?loseLife():updateScore(++game.score);
-      return;
-    }
-  }
-};
-
-function feedback(sym,x,y){
-  const d=document.createElement("div");d.textContent=sym;d.style.cssText=`position:fixed;left:${x}px;top:${y}px;font-size:3rem;z-index:25;transition:.6s;opacity:.8`;
-  document.body.append(d);setTimeout(()=>{d.style.opacity=0;d.style.transform="translateY(-40px)"},10);setTimeout(()=>d.remove(),600);
-}
-
-function updateScore(s){$("score").textContent=`Mosquitos atrapados: ${s}`;}
-function loseLife(){
-  if(--game.lives<=0)return endGame();
-  $("lives").textContent="❤️".repeat(game.lives);
-}
-function endGame(){
-  game.started=false;clearInterval(spawnInt);canvas.style.pointerEvents="none";
-  $("retryBtn")?.style.display = "block";
-  // Modal para ingresar nombre y guardar puntaje
-  if(modalRoot.innerHTML.trim() !== "") return; // Previene modal doble
-  modalRoot.innerHTML=`
-    <div class="overlay">
-      <div class="modal">
-        <p>Perdiste 😢<br>Puntaje: ${game.score}</p>
-        <input id='name' placeholder='Tu nombre' style='margin-top:8px;padding:6px;width:90%' autocomplete="off" />
-        <button id="saveScore">Aceptar</button>
+  // Modal show
+  function showModal(msg, cb) {
+    modalRoot.innerHTML = `
+      <div class="overlay">
+        <div class="modal">
+          <p>${msg}</p>
+          ${cb ? '<button id="ok">Aceptar</button>' : ''}
+        </div>
       </div>
-    </div>
-  `;
-  $("saveScore").onclick=async()=>{
-    const n=$("name").value.trim();
-    if(n){
-      try {
-        await db.collection("scores").add({name:n,score:game.score});
-      } catch(e){console.error(e);}
-    }
-    modalRoot.innerHTML="";
+    `;
+    if(cb) $("ok").onclick = () => { modalRoot.innerHTML = ""; cb(); }
+  }
+
+  // Ripple effect on click
+  addEventListener("click", e => {
+    const r = document.createElement("div");
+    r.className = "ripple";
+    r.style.left = `${e.clientX}px`;
+    r.style.top = `${e.clientY}px`;
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 1400);
+  });
+
+  // Secret button (YouTube app or web)
+  $("secret").onclick = () => {
+    const app = "vnd.youtube://JN2N5HorqSI";
+    const web = "https://youtu.be/JN2N5HorqSI?si=4Cuq9r8f856Q_lq0";
+    const t = setTimeout(() => open(web, "_blank"), 600);
+    location.href = app;
+    setTimeout(() => clearTimeout(t), 800);
   };
-}
 
-/* ---------- Ranking ---------- */
-function loadRank(){
-  db.collection("scores")
-    .orderBy("score", "desc")
-    .limit(5)
-    .onSnapshot(snapshot=>{
-      const ul=$("rankList");ul.innerHTML="";
-      snapshot.forEach(doc=>{
-        const d=doc.data();
-        ul.innerHTML+=`<li>${d.name} — ${d.score}</li>`;
+  // Easter egg phases
+  let phase = 0, clicks = 0;
+  const msgs = [
+    "PARA UN TOQUE CON LOS CLICKS",
+    "DALE LOCO PARAAAAAA",
+    "BUENO LISTO HACE LO QUE SE TE CANTA",
+    "¡Modo Mosquito activado… 🦟!"
+  ];
+
+  document.body.addEventListener("click", () => {
+    if(game.started) return;
+    clicks++;
+    if(clicks % 7 === 0 && phase < msgs.length) {
+      const p = phase++;
+      showModal(msgs[p], () => {
+        if(p === 3) startGame();
       });
-    });
-}
-$("rankingBtn").onclick=()=> {
-  const panel = $("rankPanel");
-  panel.style.display = (panel.style.display === "block") ? "none" : "block";
-};
+    }
+  });
 
-/* ---------- Retry button ---------- */
-function createRetryButton(){
-  const btn=$("retryBtn");
-  if(btn)return;
-  const btnNew=document.createElement("button");
-  btnNew.id="retryBtn";
-  btnNew.textContent="Reintentar";
-  btnNew.style.position="fixed";
-  btnNew.style.bottom="20px";
-  btnNew.style.left="50%";
-  btnNew.style.transform="translateX(-50%)";
-  btnNew.style.padding="10px 16px";
-  btnNew.style.fontWeight="700";
-  btnNew.style.borderRadius="16px";
-  btnNew.style.backgroundColor="#d4af37";
-  btnNew.style.border="none";
-  btnNew.style.color="#111";
-  btnNew.style.cursor="pointer";
-  btnNew.style.zIndex="25";
-  btnNew.onclick=()=>{
-    btnNew.style.display="none";
+  // Game variables
+  const canvas = $("canvas");
+  const ctx = canvas.getContext("2d");
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  const M = "🦟";
+  const OTH = ["🪱", "🥢", "🧩", "📡", "🟫"];
+  let mos = [], spawnInt;
+
+  const game = {
+    lives: 3,
+    score: 0,
+    speed: 1.5,
+    started: false,
+  };
+
+  function spawn() {
+    const bad = Math.random() > 0.7;
+    const emoji = bad ? OTH[Math.floor(Math.random() * OTH.length)] : M;
+    mos.push({
+      e: emoji,
+      x: Math.random() * (canvas.width - 40),
+      y: -40,
+      v: game.speed + Math.random(),
+      bad,
+    });
+    if(game.speed < 4) game.speed += 0.02;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    mos.forEach(m => {
+      ctx.font = "40px serif";
+      ctx.fillText(m.e, m.x, m.y);
+      m.y += m.v;
+    });
+  }
+
+  function loop() {
+    if(!game.started) return;
+    draw();
+
+    for(let i = mos.length - 1; i >= 0; i--) {
+      const m = mos[i];
+      if(m.y > canvas.height) {
+        if(!m.bad) loseLife();
+        mos.splice(i, 1);
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+
+  canvas.onclick = e => {
+    if(!game.started) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    for(let i = mos.length - 1; i >= 0; i--) {
+      const m = mos[i];
+      // Hitbox ajustada
+      if(x >= m.x && x <= m.x + 40 && y >= m.y - 40 && y <= m.y) {
+        mos.splice(i, 1);
+        feedback(m.bad ? "❌" : "✅", e.clientX, e.clientY);
+        if(m.bad) loseLife();
+        else updateScore(++game.score);
+        return;
+      }
+    }
+  };
+
+  function feedback(sym, x, y) {
+    const d = document.createElement("div");
+    d.textContent = sym;
+    d.style.cssText = `
+      position: fixed; left: ${x}px; top: ${y}px;
+      font-size: 3rem; z-index: 25;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      opacity: 0.8;
+      pointer-events: none;
+      user-select: none;
+    `;
+    document.body.appendChild(d);
+    setTimeout(() => {
+      d.style.opacity = "0";
+      d.style.transform = "translateY(-40px)";
+    }, 10);
+    setTimeout(() => d.remove(), 600);
+  }
+
+  function updateScore(s) {
+    $("score").textContent = `Mosquitos atrapados: ${s}`;
+  }
+
+  function loseLife() {
+    if(--game.lives <= 0) return endGame();
+    $("lives").textContent = "❤️".repeat(game.lives);
+  }
+
+  function endGame() {
+    game.started = false;
+    clearInterval(spawnInt);
+    canvas.style.pointerEvents = "none";
+    $("retryBtn").style.display = "block";
+
+    if(modalRoot.innerHTML.trim() !== "") return; // Evita modal repetido
+
+    modalRoot.innerHTML = `
+      <div class="overlay">
+        <div class="modal">
+          <p>Perdiste 😢<br>Puntaje: ${game.score}</p>
+          <input id="name" placeholder="Tu nombre" style="margin-top:8px;padding:6px;width:90%" autocomplete="off" />
+          <button id="saveScore">Aceptar</button>
+        </div>
+      </div>
+    `;
+    $("saveScore").onclick = async () => {
+      const n = $("name").value.trim();
+      if(n) {
+        try {
+          await db.collection("scores").add({name: n, score: game.score});
+        } catch(e) {
+          console.error(e);
+        }
+      }
+      modalRoot.innerHTML = "";
+    };
+  }
+
+  // Ranking
+  function loadRank() {
+    db.collection("scores")
+      .orderBy("score", "desc")
+      .limit(5)
+      .onSnapshot(snapshot => {
+        const ul = $("rankList");
+        ul.innerHTML = "";
+        snapshot.forEach(doc => {
+          const d = doc.data();
+          ul.innerHTML += `<li>${d.name} — ${d.score}</li>`;
+        });
+      });
+  }
+
+  $("rankingBtn").onclick = () => {
+    const panel = $("rankPanel");
+    panel.style.display = (panel.style.display === "block") ? "none" : "block";
+  };
+
+  // Retry button
+  $("retryBtn").onclick = () => {
+    $("retryBtn").style.display = "none";
     startGame();
   };
-  document.body.appendChild(btnNew);
-}
 
-/* ---------- Iniciar ---------- */
-function startGame(){
-  if(game.started)return;
-  game.started=true;game.lives=3;game.score=0;game.speed=1.5;mos=[];canvas.style.pointerEvents="auto";
-  $("score").style.display=$("lives").style.display=$("rankingBtn").style.display="block";
-  $("retryBtn")?.style.display="none";
-  $("lives").textContent="❤️❤️❤️";updateScore(0);loadRank();
-  spawnInt=setInterval(spawn,1000);
-  loop();
-}
+  // Start game function
+  function startGame() {
+    if(game.started) return;
+    game.started = true;
+    game.lives = 3;
+    game.score = 0;
+    game.speed = 1.5;
+    mos = [];
+    canvas.style.pointerEvents = "auto";
+    $("score").style.display = $("lives").style.display = $("rankingBtn").style.display = "block";
+    $("retryBtn").style.display = "none";
+    $("lives").textContent = "❤️❤️❤️";
+    updateScore(0);
+    loadRank();
+    spawnInt = setInterval(spawn, 1000);
+    loop();
+  }
 </script>
 </body>
 </html>
