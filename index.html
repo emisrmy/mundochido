@@ -30,20 +30,17 @@
 
     @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-8px);}100%{transform:translateY(0);}}
 
-    /* Botón secreto */
     #secret{position:fixed;bottom:20px;right:25px;background:transparent;border:none;
       font-size:2.2rem;color:rgba(0,0,0,0.04);transition:.3s;cursor:pointer;z-index:10;}
     #secret:hover{color:var(--gold);transform:scale(1.2);text-shadow:0 0 10px var(--gold);}
     @media(max-width:600px){#secret{font-size:1.8rem;right:15px;color:rgba(0,0,0,0.12);}}
 
-    /* Onda de agua */
     @keyframes ripple{0%{transform:translate(-50%,-50%) scale(.4);opacity:.5;}
                       100%{transform:translate(-50%,-50%) scale(10);opacity:0;}}
     .ripple{position:fixed;width:120px;height:120px;border:2px solid rgba(255,255,255,.3);
       border-radius:50%;pointer-events:none;animation:ripple 1.4s cubic-bezier(.4,0,.2,1);
       z-index:1;backdrop-filter:blur(2px);}
 
-    /* ---------- Overlay aviso ---------- */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);
       display:flex;align-items:center;justify-content:center;animation:fadeOverlay .25s ease forwards;z-index:20;}
     @keyframes fadeOverlay{from{opacity:0;}to{opacity:1;}}
@@ -55,8 +52,11 @@
     .close-btn{position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.3rem;
       cursor:pointer;color:#555;transition:.2s;}
     .close-btn:hover{color:#000;transform:scale(1.15);}
+    .modal input{width:100%;padding:.6rem 1rem;border:1px solid #ccc;border-radius:10px;font-family:inherit;margin-bottom:1rem;}
+    .modal button.submit{background:var(--gold);border:none;color:#fff;padding:.6rem 1.2rem;
+      border-radius:10px;font-weight:700;cursor:pointer;transition:.2s;}
+    .modal button.submit:hover{filter:brightness(1.1);}
 
-    /* --- Modo Mosquito --- */
     .emoji{position:absolute;font-size:2rem;user-select:none;cursor:pointer;transition:transform .1s;}
     #scoreBoard{position:fixed;top:12px;left:50%;transform:translateX(-50%);
       font-size:1.1rem;font-weight:700;z-index:22;color:white;text-shadow:0 0 6px #000;}
@@ -83,12 +83,10 @@
       appId: "1:241949692398:web:0993d30fbddef3f7673eff",
       measurementId: "G-TDYXGHK0TB"
     };
-
-    // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // --- Ripple efecto ---
+    /* Ripple */
     document.addEventListener("pointerdown",(e)=>{
       const r=document.createElement("span");
       r.className="ripple";
@@ -99,75 +97,56 @@
       handleBurst();
     });
 
-    // Botón secreto para abrir YouTube en app o web
+    /* YouTube botón */
     const ytApp="vnd.youtube:JN2N5HorqSI";
     const ytWeb="https://youtu.be/JN2N5HorqSI?si=4Cuq9r8f856Q_lq0";
     document.getElementById("secret").addEventListener("click",e=>{
       e.stopPropagation();
       new Audio("click.mp3").play().catch(()=>{});
-      location.href=ytApp;
-      setTimeout(()=>location.href=ytWeb,800);
+      location.href=ytApp;setTimeout(()=>location.href=ytWeb,800);
     });
 
-    // Avisos y conteo clicks
-    let clicks=0, timer=null, phase=0, modalDone=false;
+    /* Avisos */
+    let clicks=0,timer=null,phase=0,modalDone=false;
     const msgs=["PARA UN TOQUE CON LOS CLICKS","DALE LOCO PARAAAAAA","BUENO LISTO HACE LO QUE SE TE CANTA"];
     function handleBurst(){
-      if(modalDone) return; // Después del juego no molestar
-      clicks++;
-      if(!timer) timer=setTimeout(()=>{clicks=0;timer=null;},1500);
+      if(modalDone) return;
+      clicks++;if(!timer)timer=setTimeout(()=>{clicks=0;timer=null;},1500);
       if(clicks>=7){
-        clicks=0;
-        clearTimeout(timer);
-        timer=null;
-        if(phase<msgs.length){
-          showModal(msgs[phase]);
-          phase++;
-        } else {
-          startMosquitoMode();
-          modalDone=true;
-        }
+        clicks=0;clearTimeout(timer);timer=null;
+        if(phase<msgs.length){showModal(msgs[phase]);phase++;}
+        else{startMosquitoMode();modalDone=true;}
       }
     }
 
-    // Mostrar modal con aviso
+    /* Modal genérico */
     function showModal(text){
       if(document.querySelector(".overlay")) return;
-      const ol=document.createElement("div");
-      ol.className="overlay";
-      const md=document.createElement("div");
-      md.className="modal";
-      const x=document.createElement("button");
-      x.className="close-btn";
-      x.innerHTML="&times;";
+      const ol=document.createElement("div");ol.className="overlay";
+      const md=document.createElement("div");md.className="modal";
+      const x=document.createElement("button");x.className="close-btn";x.innerHTML="&times;";
       x.onclick=()=>ol.remove();
-      const h=document.createElement("h2");
-      h.textContent=text;
-      md.append(x,h);
-      ol.append(md);
-      document.body.append(ol);
+      const h=document.createElement("h2");h.textContent=text;
+      md.append(x,h);ol.append(md);document.body.append(ol);
     }
 
-    // --- Modo Mosquito ---
+    /* Modo Mosquito */
     const EMOJIS=["🪱","🥢","🧩","📡","🟫","🦟"];
-    let activeGame=false,score=0,dropInterval=null,scoreBoard=null,rankingBox=null;
+    let active=false,score=0,interval=null,scoreBoard=null,rankingBox=null;
+    let fallTime=4000, minFall=1500, speedStep=200; // ms
+
     function startMosquitoMode(){
-      if(activeGame) return;
-      activeGame=true;
-      score=0;
-      // oscurecer fondo
+      if(active) return;
+      active=true;score=0;fallTime=4000;
       document.body.style.filter="brightness(.7)";
-      // Score board
       scoreBoard=document.createElement("div");
       scoreBoard.id="scoreBoard";
       scoreBoard.textContent="Mosquitos atrapados: 0";
       document.body.append(scoreBoard);
-      // Ranking box
       rankingBox=document.createElement("div");
       rankingBox.id="ranking";
       document.body.append(rankingBox);
-      // soltar emojis
-      dropInterval=setInterval(dropEmoji,600);
+      interval=setInterval(dropEmoji,700);
     }
 
     function dropEmoji(){
@@ -177,68 +156,69 @@
       e.style.left=Math.random()*100+"vw";
       e.style.top="-3rem";
       document.body.append(e);
-      // caer
       const start=performance.now();
       function fall(t){
-        const p=(t-start)/2500; // 2.5s para caer
+        const p=(t-start)/fallTime;
         if(p<1){
           e.style.top=p*100+"vh";
           requestAnimationFrame(fall);
-        } else {
+        }else{
           endGame();
           e.remove();
         }
       }
       requestAnimationFrame(fall);
-      // click captura
       e.addEventListener("pointerdown",ev=>{
         ev.stopPropagation();
         score++;
         scoreBoard.textContent="Mosquitos atrapados: "+score;
         e.style.transform="scale(0)";
         setTimeout(()=>e.remove(),100);
+        if(fallTime>minFall) fallTime-=speedStep; // acelera
       });
     }
 
-    async function endGame(){
-      clearInterval(dropInterval);
-      document.querySelectorAll(".emoji").forEach(el=>el.remove());
-      scoreBoard.textContent="¡Fin! atrapaste "+score;
-      const name = prompt("Tu puntuación: "+score+" 🦟\nEscribe tu nombre para la tabla de records:");
-      if(name){
-        try {
-          await db.collection("mc_rankings").add({
-            name,
-            score,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        } catch (e) {
-          alert("Error guardando tu puntuación: "+e.message);
-        }
-      }
-      showRankingOnline();
-      activeGame=false;
+    /* Modal para nombre */
+    function nameModal(callback){
+      const ol=document.createElement("div");ol.className="overlay";
+      const md=document.createElement("div");md.className="modal";
+      const x=document.createElement("button");x.className="close-btn";x.innerHTML="&times;";
+      x.onclick=()=>{ol.remove();callback(null);};
+      const h=document.createElement("h2");h.textContent="¡Fin! atrapaste "+score;
+      const input=document.createElement("input");input.placeholder="Tu nombre";
+      const send=document.createElement("button");send.className="submit";send.textContent="Guardar";
+      send.onclick=()=>{callback(input.value.trim());ol.remove();};
+      md.append(x,h,input,send);ol.append(md);document.body.append(ol);
+      input.focus();
     }
 
-    async function showRankingOnline(){
+    async function endGame(){
+      clearInterval(interval);
+      document.querySelectorAll(".emoji").forEach(el=>el.remove());
+      nameModal(async name=>{
+        if(name){
+          try{
+            await db.collection("mc_rankings").add({
+              name,score,
+              timestamp:firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }catch(e){alert("Error guardando: "+e.message);}
+        }
+        showRanking();
+        active=false;
+      });
+    }
+
+    async function showRanking(){
       if(!rankingBox) return;
       rankingBox.style.display="block";
-      rankingBox.innerHTML = "<strong>TOP 5 ONLINE</strong><br>Cargando...";
-      try {
-        const snapshot = await db.collection("mc_rankings")
-          .orderBy("score", "desc")
-          .limit(5)
-          .get();
-        if(snapshot.empty){
-          rankingBox.innerHTML = "<strong>TOP 5 ONLINE</strong><br>No hay registros aún.";
-          return;
-        }
-        const recs = [];
-        snapshot.forEach(doc => recs.push(doc.data()));
-        rankingBox.innerHTML = "<strong>TOP 5 ONLINE</strong><br>" + recs.map((r,i)=>`${i+1}. ${r.name} – ${r.score}`).join("<br>");
-      } catch(e) {
-        rankingBox.innerHTML = "Error cargando ranking: "+e.message;
-      }
+      rankingBox.innerHTML="<strong>RANKING&nbsp;MUNDIAL</strong><br>Cargando...";
+      try{
+        const snap=await db.collection("mc_rankings").orderBy("score","desc").limit(5).get();
+        if(snap.empty){rankingBox.innerHTML="<strong>RANKING&nbsp;MUNDIAL</strong><br>Sin registros.";return;}
+        const list=[];snap.forEach(d=>list.push(d.data()));
+        rankingBox.innerHTML="<strong>RANKING&nbsp;MUNDIAL</strong><br>"+list.map((r,i)=>`${i+1}. ${r.name} – ${r.score}`).join("<br>");
+      }catch(e){rankingBox.innerHTML="Error: "+e.message;}
     }
   </script>
 </body>
