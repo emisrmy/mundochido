@@ -56,14 +56,12 @@
       font-weight: 700;
     }
 
-    /* Animación flotante */
     @keyframes float {
       0% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
       100% { transform: translateY(0); }
     }
 
-    /* Botón secreto */
     #secret {
       position: fixed;
       bottom: 20px;
@@ -91,27 +89,31 @@
       }
     }
 
-    /* ---------- NUEVO: efecto ripple ---------- */
+    /* ---------------------- EFECTO ONDA AGUA ---------------------- */
     @keyframes ripple {
-      to {
-        transform: scale(15);
+      0% {
+        transform: translate(-50%, -50%) scale(0.4);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(10);
         opacity: 0;
       }
     }
+
     .ripple {
       position: fixed;
-      width: 6px;
-      height: 6px;
+      width: 120px;
+      height: 120px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
-      background: var(--gold);
       pointer-events: none;
-      opacity: 0.6;
-      transform: translate(-50%, -50%) scale(0);
-      animation: ripple 600ms ease-out;
-      z-index: 9;           /* justo debajo del botón secreto */
-      mix-blend-mode: overlay;
+      animation: ripple 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      backdrop-filter: blur(2px);
+      will-change: transform, opacity;
     }
-    /* ------------------------------------------ */
+    /* -------------------------------------------------------------- */
   </style>
 </head>
 <body>
@@ -123,20 +125,19 @@
   <button id="secret" aria-label="Sorpresa">?</button>
 
   <script>
-    /* ---------- NUEVO: listener global para ripple ---------- */
+    // EFECTO ONDA AGUA AL TOCAR
     document.addEventListener("pointerdown", (e) => {
-      const circle = document.createElement("span");
-      circle.classList.add("ripple");
-      circle.style.left = `${e.clientX}px`;
-      circle.style.top  = `${e.clientY}px`;
-      document.body.appendChild(circle);
-      circle.addEventListener("animationend", () => circle.remove());
+      const ripple = document.createElement("span");
+      ripple.classList.add("ripple");
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+      ripple.addEventListener("animationend", () => ripple.remove());
     });
-    /* -------------------------------------------------------- */
 
-    // Tu código original del botón secreto
+    // BOTÓN SECRETO
     document.getElementById("secret").addEventListener("click", (event) => {
-      event.stopPropagation();          // evita ripple doble en el botón
+      event.stopPropagation();
       const sonido = new Audio("click.mp3");  // opcional
       sonido.play().catch(() => {});
       window.location.href =
