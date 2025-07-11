@@ -1,364 +1,343 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mundo Chido – Muy pronto</title>
-<link rel="icon" href="https://fav.farm/✨" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
-<style>
-  :root { --gold:#d4af37; }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html, body {
-    height: 100%;
-    overflow: hidden;
-  }
-  body {
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background-color: #f8f8f8;
-    color: #111;
-    text-align: center;
-    animation: fadeIn 1.2s ease forwards;
-    opacity: 0;
-    height: 100vh;
-  }
-  @keyframes fadeIn { to {opacity:1;} }
-
-  body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url("img/fondo.jpg") center/cover no-repeat fixed;
-    filter: blur(8px) brightness(1.05);
-    z-index: -1;
-    transition: .4s;
-  }
-
-  main {
-    padding: 1rem;
-    animation: float 4s ease-in-out infinite;
-    z-index: 2;
-  }
-  h1 {
-    font-size: clamp(2.5rem,6vw,3rem);
-    font-weight: 700;
-  }
-  @keyframes float {
-    0% {transform: translateY(0);}
-    50% {transform: translateY(-8px);}
-    100% {transform: translateY(0);}
-  }
-
-  #secret {
-    position: fixed;
-    bottom: 20px;
-    right: 25px;
-    background: transparent;
-    border: none;
-    font-size: 2.2rem;
-    color: rgba(0,0,0,0.04);
-    transition: .3s;
-    cursor: pointer;
-    z-index: 10;
-  }
-  #secret:hover {
-    color: var(--gold);
-    transform: scale(1.2);
-    text-shadow: 0 0 10px var(--gold);
-  }
-  @media (max-width:600px) {
-    #secret {
-      font-size: 1.8rem;
-      right: 15px;
-      color: rgba(0,0,0,0.12);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mundo Chido – Muy pronto</title>
+  <link rel="icon" href="https://fav.farm/✨" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --gold: #d4af37; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f8f8f8;
+      color: #111;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
     }
-  }
-
-  @keyframes ripple {
-    0% {transform: translate(-50%, -50%) scale(.4);opacity:.5;}
-    100% {transform: translate(-50%, -50%) scale(10);opacity:0;}
-  }
-  .ripple {
-    position: fixed;
-    width: 120px;
-    height: 120px;
-    border: 2px solid rgba(255,255,255,.3);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: ripple 1.4s cubic-bezier(.4,0,.2,1);
-    z-index: 1;
-    backdrop-filter: blur(2px);
-  }
-
-  /* Modal estilos */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeOverlay .25s ease forwards;
-    z-index: 30;
-  }
-  @keyframes fadeOverlay {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-  .modal {
-    background: white;
-    padding: 2rem 2.5rem;
-    border-radius: 18px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.15);
-    text-align: center;
-    max-width: 90%;
-    width: 320px;
-    position: relative;
-    animation: pop .35s cubic-bezier(.4,0,.2,1) forwards;
-    transform: scale(.8);
-    opacity: 0;
-    z-index: 31;
-  }
-  @keyframes pop {
-    to {transform: scale(1); opacity: 1;}
-  }
-  .modal h2 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 1.2rem;
-  }
-  .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    cursor: pointer;
-    color: #555;
-    transition: .2s;
-  }
-  .close-btn:hover {
-    color: #000;
-    transform: scale(1.15);
-  }
-  .modal input {
-    width: 100%;
-    padding: .6rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-family: inherit;
-    margin-bottom: 1rem;
-  }
-  .modal button.submit {
-    background: var(--gold);
-    border: none;
-    color: #fff;
-    padding: .6rem 1.2rem;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: .2s;
-  }
-  .modal button.submit:hover {
-    filter: brightness(1.1);
-  }
-
-  /* Emoji mosquitos */
-  .emoji {
-    position: absolute;
-    font-size: 2.8rem;
-    user-select: none;
-    cursor: pointer;
-    transition: transform .15s ease, opacity .6s ease;
-    pointer-events: auto;
-  }
-  /* Hitbox más chica para emojis no mosquito */
-  .emoji.non-mosquito {
-    pointer-events: auto;
-    padding: 0.1rem 0.1rem;
-    width: 2rem;
-    height: 2rem;
-    user-select: none;
-    touch-action: manipulation;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Animación para el check y cruz */
-  .feedback {
-    position: fixed;
-    font-size: 2.5rem;
-    pointer-events: none;
-    opacity: 0.85;
-    animation: fadeScale 1s forwards;
-    z-index: 40;
-    user-select: none;
-  }
-  @keyframes fadeScale {
-    0% {opacity: 0.85; transform: translateY(0) scale(1);}
-    100% {opacity: 0; transform: translateY(-40px) scale(1.5);}
-  }
-
-  #scoreBoard {
-    position: fixed;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1.1rem;
-    font-weight: 700;
-    z-index: 32;
-    color: white;
-    text-shadow: 0 0 6px #000;
-    user-select: none;
-  }
-
-  /* Barra lateral ranking fija con estética original */
-  #rankingToggle {
-    position: fixed;
-    top: 30vh;
-    right: 0;
-    width: 48px;
-    height: 48px;
-    background: var(--gold);
-    border-radius: 24px 0 0 24px;
-    color: #111;
-    font-size: 1.7rem;
-    font-weight: 700;
-    line-height: 48px;
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,.15);
-    z-index: 32;
-    transition: background .3s ease;
-  }
-  #rankingToggle:hover {
-    background: #c19f2e;
-  }
-
-  #rankingPanel {
-    position: fixed;
-    top: 20vh;
-    right: -320px;
-    width: 320px;
-    height: 60vh;
-    background: rgba(0,0,0,0.6); /* fondo negro transparente */
-    border-radius: 12px 0 0 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.25);
-    overflow-y: auto;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #fff; /* texto blanco para contraste */
-    user-select: none;
-    z-index: 33;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  #rankingPanel.open {
-    right: 0;
-  }
-  #rankingPanel h3 {
-    margin-bottom: 1rem;
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--gold);
-    text-align: center;
-  }
-  #rankingPanel ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  #rankingPanel li {
-    margin-bottom: 0.7rem;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding-bottom: 0.4rem;
-  }
-  #rankingPanel li span.name {
-    font-weight: 700;
-  }
-  #rankingPanel li span.score {
-    float: right;
-    font-weight: 700;
-    color: var(--gold);
-  }
-
-  /* Boton reintentar */
-  #retryBtn {
-    position: fixed;
-    bottom: 80px;
-    right: 25px;
-    background: var(--gold);
-    border: none;
-    border-radius: 12px;
-    padding: 0.5rem 1.2rem;
-    color: #111;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,.15);
-    z-index: 32;
-    transition: background .3s ease;
-  }
-  #retryBtn:hover {
-    background: #c19f2e;
-  }
-
-  /* Vidas */
-  #lives {
-    position: fixed;
-    top: 12px;
-    right: 15px;
-    font-size: 1.8rem;
-    user-select: none;
-    z-index: 32;
-  }
-  #lives span {
-    margin-left: 8px;
-  }
-</style>
+    @keyframes fadeIn { to { opacity: 1; } }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("img/fondo.jpg") center/cover no-repeat fixed;
+      filter: blur(8px) brightness(1.05);
+      z-index: -1;
+    }
+    main { padding: 1rem; animation: float 4s ease-in-out infinite; }
+    h1 { font-size: clamp(2.5rem, 6vw, 3rem); font-weight: 700; }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+    #secret {
+      position: fixed;
+      bottom: 20px;
+      right: 25px;
+      background: transparent;
+      border: none;
+      font-size: 2.2rem;
+      color: rgba(0, 0, 0, 0.04);
+      transition: 0.3s ease;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #secret:hover {
+      color: var(--gold);
+      transform: scale(1.2);
+      text-shadow: 0 0 10px var(--gold);
+    }
+    @media (max-width: 600px) {
+      #secret {
+        font-size: 1.8rem;
+        right: 15px;
+        color: rgba(0, 0, 0, 0.12);
+      }
+    }
+    @keyframes ripple {
+      0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0.5; }
+      100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+    }
+    .ripple {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: ripple 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      backdrop-filter: blur(2px);
+      transform: translate(-50%, -50%);
+    }
+    #mosquitoCanvas {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+    #rankingToggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 1.8rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 15;
+      display: none;
+    }
+    #rankingPanel {
+      position: fixed;
+      top: 50px;
+      left: 10px;
+      width: 180px;
+      background: rgba(0, 0, 0, 0.65);
+      color: white;
+      border-radius: 12px;
+      padding: 12px;
+      display: none;
+      z-index: 15;
+    }
+    #rankingPanel ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 6px;
+    }
+    #rankingPanel li {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+    #scoreBoard, #lives {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      font-size: 1.2rem;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: none;
+    }
+    #lives { top: 50px; }
+    #modalContainer {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 320px;
+      text-align: center;
+    }
+    .modal button {
+      margin-top: 12px;
+      padding: 6px 12px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 <body>
-
   <main>
     <h1>Muy pronto... :P</h1>
   </main>
-
   <button id="secret" aria-label="Sorpresa">?</button>
-
-  <!-- Ranking toggle y panel -->
-  <div id="rankingToggle" title="Mostrar/Ocultar Ranking">📑</div>
-  <div id="rankingPanel" aria-live="polite" aria-atomic="true">
-    <h3>RANKING MUNDIAL</h3>
-    <ul id="rankingList"></ul>
-  </div>
-
-  <!-- Vidas -->
-  <div id="lives" aria-label="Vidas restantes" role="status" aria-live="polite">
-    ❤️<span id="life1"></span>❤️<span id="life2"></span>❤️<span id="life3"></span>
-  </div>
-
-  <!-- Botón reintentar -->
-  <button id="retryBtn" style="display:none;">Reintentar</button>
-
-  <!-- Contador puntos mosquitos -->
-  <div id="scoreBoard" aria-live="polite" aria-atomic="true">Mosquitos atrapados: 0</div>
-
-  <!-- Aquí se generarán las emojis mosquitos -->
-
-  <!-- Modales dinámicos -->
+  <canvas id="mosquitoCanvas"></canvas>
+  <div id="rankingToggle">🏆</div>
+  <div id="rankingPanel"><strong>RANKING MUNDIAL</strong><ul id="rankingList"></ul></div>
+  <div id="scoreBoard">Mosquitos atrapados: 0</div>
+  <div id="lives">❤️❤️❤️</div>
   <div id="modalContainer"></div>
+  <script>
+    document.getElementById("secret").addEventListener("click", () => {
+      const url = "vnd.youtube://JN2N5HorqSI";
+      const fallback = "https://youtu.be/JN2N5HorqSI?si=4Cuq9r8f856Q_lq0";
+      const timeout = setTimeout(() => { window.open(fallback, "_blank"); }, 500);
+      window.location.href = url;
+      setTimeout(() => clearTimeout(timeout), 600);
+    });
+    document.body.addEventListener("click", (e) => {
+      const ripple = document.createElement("div");
+      ripple.className = "ripple";
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 1400);
+    });
 
-  <!-- Scripts de Firebase y lógica abajo -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    // Modo mosquito oculto que se activa tras 4 toques
+    let touchCount = 0;
+    let warnings = 0;
+    document.body.addEventListener("click", () => {
+      touchCount++;
+      if (touchCount === 5) showWarning("PARA UN TOQUE CON LOS CLICKS");
+      if (touchCount === 10) showWarning("DALE LOCO PARAAAAAA");
+      if (touchCount === 15) { showWarning("BUENO LISTO HACE LO QUE SE TE CANTA"); startMosquitoGame(); }
+    });
 
-    // Configuración Firebase
+    function showWarning(msg) {
+      const cont = document.getElementById("modalContainer");
+      cont.innerHTML = `<div class="modal"><p>${msg}</p><button onclick="document.getElementById('modalContainer').style.display='none'">X</button></div>`;
+      cont.style.display = "flex";
+    }
+
+    function startMosquitoGame() {
+      const canvas = document.getElementById("mosquitoCanvas");
+      const ctx = canvas.getContext("2d");
+      const emojiSize = 40;
+      const mosquitoes = [];
+      const valid = ["🦟"];
+      const invalid = ["🪱", "🥢", "🧩", "📡", "🟫"];
+      let score = 0;
+      let lives = 3;
+      let speed = 1;
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.style.pointerEvents = "auto";
+
+      document.getElementById("rankingToggle").style.display = "block";
+      document.getElementById("scoreBoard").style.display = "block";
+      document.getElementById("lives").style.display = "block";
+
+      function spawnEmoji() {
+        const isMosquito = Math.random() < 0.7;
+        const emoji = isMosquito ? "🦟" : invalid[Math.floor(Math.random()*invalid.length)];
+        mosquitoes.push({
+          emoji,
+          x: Math.random() * (canvas.width - emojiSize),
+          y: -emojiSize,
+          speed: speed + Math.random()
+        });
+        if (speed < 5) speed += 0.02;
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const m of mosquitoes) {
+          ctx.font = `${emojiSize}px serif`;
+          ctx.fillText(m.emoji, m.x, m.y);
+          m.y += m.speed;
+        }
+      }
+
+      function gameLoop() {
+        draw();
+        for (let i = mosquitoes.length - 1; i >= 0; i--) {
+          const m = mosquitoes[i];
+          if (m.y > canvas.height) {
+            if (m.emoji === "🦟") loseLife();
+            mosquitoes.splice(i, 1);
+          }
+        }
+        requestAnimationFrame(gameLoop);
+      }
+
+      function loseLife() {
+        lives--;
+        document.getElementById("lives").innerText = "❤️".repeat(lives);
+        if (lives <= 0) {
+          endGame();
+        }
+      }
+
+      canvas.addEventListener("click", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        for (let i = mosquitoes.length - 1; i >= 0; i--) {
+          const m = mosquitoes[i];
+          const hitX = x >= m.x && x <= m.x + emojiSize;
+          const hitY = y >= m.y - emojiSize && y <= m.y;
+          if (hitX && hitY) {
+            if (m.emoji === "🦟") {
+              score++;
+              showFeedback("✅");
+            } else {
+              loseLife();
+              showFeedback("❌");
+            }
+            mosquitoes.splice(i, 1);
+            document.getElementById("scoreBoard").innerText = `Mosquitos atrapados: ${score}`;
+            return;
+          }
+        }
+      });
+
+      function showFeedback(symbol) {
+        const el = document.createElement("div");
+        el.innerText = symbol;
+        el.style.position = "fixed";
+        el.style.top = "50%";
+        el.style.left = "50%";
+        el.style.fontSize = "4rem";
+        el.style.transform = "translate(-50%, -50%)";
+        el.style.opacity = 0.8;
+        el.style.transition = "all 0.8s ease";
+        document.body.appendChild(el);
+        setTimeout(() => { el.style.opacity = 0; el.style.transform = "translate(-50%, -60%)"; }, 0);
+        setTimeout(() => el.remove(), 800);
+      }
+
+      function endGame() {
+        canvas.style.pointerEvents = "none";
+        const name = prompt("Perdiste! Tu puntaje: " + score + "\nIngresa tu nombre:");
+        if (name) saveScore(name, score);
+      }
+
+      function saveScore(name, score) {
+        const db = firebase.database();
+        db.ref("scores").push({ name, score });
+      }
+
+      function loadRanking() {
+        const db = firebase.database();
+        db.ref("scores").orderByChild("score").limitToLast(5).on("value", (snapshot) => {
+          const list = document.getElementById("rankingList");
+          list.innerHTML = "";
+          const data = [];
+          snapshot.forEach(child => data.push(child.val()));
+          data.reverse().forEach(entry => {
+            const li = document.createElement("li");
+            li.textContent = `${entry.name}: ${entry.score}`;
+            list.appendChild(li);
+          });
+        });
+      }
+
+      loadRanking();
+      setInterval(spawnEmoji, 1000);
+      gameLoop();
+    }
+
+    document.getElementById("rankingToggle").addEventListener("click", () => {
+      const panel = document.getElementById("rankingPanel");
+      panel.style.display = panel.style.display === "none" ? "block" : "none";
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"></script>
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCQks6syI84wvIIYa_As9ts7Hc5lenN8hk",
       authDomain: "mundochido-ranking.firebaseapp.com",
@@ -369,170 +348,7 @@
       appId: "1:241949692398:web:0993d30fbddef3f7673eff",
       measurementId: "G-TDYXGHK0TB"
     };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Variables y estado juego
-    const emojiMosquito = "🦟";
-    const emojisOtros = ["🪱","🥢","🧩","📡","🟫"];
-    const emojiCheck = "✅";
-    const emojiCross = "❌";
-
-    let lives = 3;
-    let score = 0;
-    let gameActive = false;
-    let mosquitoSpeed = 1.5; // velocidad inicial
-    let mosquitoSpeedIncrement = 0.1;
-    const mosquitoSpeedMax = 4;
-    let mosquitoIntervalMs = 1300;
-    let mosquitoes = [];
-    let maxMosquitoes = 8;
-
-    const modalContainer = document.getElementById("modalContainer");
-    const rankingList = document.getElementById("rankingList");
-    const rankingToggle = document.getElementById("rankingToggle");
-    const rankingPanel = document.getElementById("rankingPanel");
-    const retryBtn = document.getElementById("retryBtn");
-    const scoreBoard = document.getElementById("scoreBoard");
-    const livesDiv = document.getElementById("lives");
-
-    // Ripple efecto toque
-    document.body.addEventListener("click", e => {
-      const ripple = document.createElement("div");
-      ripple.classList.add("ripple");
-      ripple.style.left = e.clientX + "px";
-      ripple.style.top = e.clientY + "px";
-      document.body.appendChild(ripple);
-      ripple.addEventListener("animationend", () => ripple.remove());
-    });
-
-    // Ranking toggle
-    rankingToggle.addEventListener("click", () => {
-      rankingPanel.classList.toggle("open");
-    });
-
-    // Crear mosquito o emoji otro
-    function crearEmoji() {
-      if(!gameActive) return;
-      if(mosquitoes.length >= maxMosquitoes) return;
-
-      const isMosquito = Math.random() < 0.7; // 70% mosquitos
-      const emojiChar = isMosquito ? emojiMosquito : emojisOtros[Math.floor(Math.random()*emojisOtros.length)];
-
-      const el = document.createElement("div");
-      el.classList.add("emoji");
-      if(!isMosquito) el.classList.add("non-mosquito");
-
-      el.textContent = emojiChar;
-
-      // Posición horizontal random
-      const maxX = window.innerWidth - 40;
-      const x = Math.random() * maxX;
-      el.style.left = x + "px";
-      el.style.top = "-50px";
-      el.style.opacity = "0.85";
-
-      document.body.appendChild(el);
-
-      const hitboxSize = isMosquito ? 48 : 28; // hitbox menor para no mosquitos
-
-      // Velocidad ajustada
-      let speed = mosquitoSpeed;
-
-      let posY = -50;
-      const fall = () => {
-        if(!gameActive) {
-          el.remove();
-          return;
-        }
-        posY += speed;
-        el.style.top = posY + "px";
-
-        if(posY > window.innerHeight) {
-          // Se fue fuera sin atrapar
-          el.remove();
-          mosquitoes = mosquitoes.filter(m => m !== el);
-          perderVida();
-          return;
-        }
-        requestAnimationFrame(fall);
-      }
-      fall();
-
-      // Click en emoji
-      el.addEventListener("click", e => {
-        e.stopPropagation();
-        if(!gameActive) return;
-
-        if(isMosquito) {
-          score++;
-          mosquitoSpeed = Math.min(mosquitoSpeed + mosquitoSpeedIncrement, mosquitoSpeedMax);
-          showFeedback(emojiCheck, e.clientX, e.clientY);
-          updateScore();
-          el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-          el.style.opacity = 0;
-          el.style.transform = "scale(1.8)";
-          setTimeout(() => el.remove(), 500);
-          mosquitoes = mosquitoes.filter(m => m !== el);
-        } else {
-          // Emoji incorrecto -> perder vida
-          perderVida();
-          showFeedback(emojiCross, e.clientX, e.clientY);
-          el.style.transition = "opacity 0.3s ease, transform 0.3s ease";
-          el.style.opacity = 0;
-          el.style.transform = "scale(1.2)";
-          setTimeout(() => {
-            el.remove();
-            mosquitoes = mosquitoes.filter(m => m !== el);
-          }, 300);
-        }
-      });
-
-      mosquitoes.push(el);
-    }
-
-    function showFeedback(symbol, x, y) {
-      const fb = document.createElement("div");
-      fb.classList.add("feedback");
-      fb.textContent = symbol;
-      fb.style.left = x + "px";
-      fb.style.top = y + "px";
-      document.body.appendChild(fb);
-      fb.addEventListener("animationend", () => fb.remove());
-    }
-
-    function updateScore() {
-      scoreBoard.textContent = `Mosquitos atrapados: ${score}`;
-    }
-
-    function perderVida() {
-      if(lives <= 0) return; // ya terminó
-      lives--;
-      actualizarVidas();
-      if(lives <= 0) {
-        finJuego();
-      }
-    }
-
-    function actualizarVidas() {
-      livesDiv.innerHTML = "";
-      for(let i=0; i<lives; i++) {
-        livesDiv.innerHTML += "❤️ ";
-      }
-    }
-
-    function finJuego() {
-      gameActive = false;
-      clearInterval(gameInterval);
-      mosquitoes.forEach(m => m.remove());
-      mosquitoes = [];
-      retryBtn.style.display = "block";
-      mostrarModalNombre();
-    }
-
-    function resetJuego() {
-      lives = 3;
-      score = 0;
-      mosquitoSpeed = 1.5;
-      actualizarVidas();
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</body>
+</html>
