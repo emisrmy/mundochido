@@ -6,15 +6,14 @@
   <title>Mundo Chido – Muy pronto</title>
   <link rel="icon" href="https://fav.farm/✨" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
-
   <style>
     :root { --gold:#d4af37; }
 
     *{margin:0;padding:0;box-sizing:border-box;}
     body{
-      font-family:'Poppins',sans-serif;
-      height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;
-      position:relative;background-color:#f8f8f8;color:#111;text-align:center;
+      font-family:'Poppins',sans-serif;height:100vh;overflow:hidden;display:flex;
+      align-items:center;justify-content:center;position:relative;
+      background-color:#f8f8f8;color:#111;text-align:center;
       animation:fadeIn 1.2s ease forwards;opacity:0;
     }
     @keyframes fadeIn{to{opacity:1;}}
@@ -23,6 +22,7 @@
       content:"";position:absolute;inset:0;
       background:url("img/fondo.jpg") center/cover no-repeat fixed;
       filter:blur(8px) brightness(1.05);z-index:-1;
+      transition:.4s;
     }
 
     main{padding:1rem;animation:float 4s ease-in-out infinite;}
@@ -31,44 +31,37 @@
     @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-8px);}100%{transform:translateY(0);}}
 
     /* Botón secreto */
-    #secret{
-      position:fixed;bottom:20px;right:25px;background:transparent;border:none;
-      font-size:2.2rem;color:rgba(0,0,0,0.04);transition:.3s;cursor:pointer;z-index:10;
-    }
+    #secret{position:fixed;bottom:20px;right:25px;background:transparent;border:none;
+      font-size:2.2rem;color:rgba(0,0,0,0.04);transition:.3s;cursor:pointer;z-index:10;}
     #secret:hover{color:var(--gold);transform:scale(1.2);text-shadow:0 0 10px var(--gold);}
     @media(max-width:600px){#secret{font-size:1.8rem;right:15px;color:rgba(0,0,0,0.12);}}
 
     /* Onda de agua */
-    @keyframes ripple{
-      0%{transform:translate(-50%,-50%) scale(.4);opacity:.5;}
-      100%{transform:translate(-50%,-50%) scale(10);opacity:0;}
-    }
-    .ripple{
-      position:fixed;width:120px;height:120px;border:2px solid rgba(255,255,255,.3);
+    @keyframes ripple{0%{transform:translate(-50%,-50%) scale(.4);opacity:.5;}
+                      100%{transform:translate(-50%,-50%) scale(10);opacity:0;}}
+    .ripple{position:fixed;width:120px;height:120px;border:2px solid rgba(255,255,255,.3);
       border-radius:50%;pointer-events:none;animation:ripple 1.4s cubic-bezier(.4,0,.2,1);
-      z-index:1;backdrop-filter:blur(2px);will-change:transform,opacity;
-    }
+      z-index:1;backdrop-filter:blur(2px);}
 
     /* ---------- Overlay aviso ---------- */
-    .overlay{
-      position:fixed;inset:0;background:rgba(0,0,0,.45);
-      display:flex;align-items:center;justify-content:center;
-      animation:fadeOverlay .25s ease forwards;z-index:20;
-    }
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);
+      display:flex;align-items:center;justify-content:center;animation:fadeOverlay .25s ease forwards;z-index:20;}
     @keyframes fadeOverlay{from{opacity:0;}to{opacity:1;}}
-    .modal{
-      background:white;
-      padding:2rem 2.5rem;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.15);
-      text-align:center;max-width:90%;width:320px;position:relative;
-      animation:pop .35s cubic-bezier(.4,0,.2,1) forwards;transform:scale(.8);opacity:0;
-    }
+    .modal{background:white;padding:2rem 2.5rem;border-radius:18px;
+      box-shadow:0 8px 20px rgba(0,0,0,.15);text-align:center;max-width:90%;width:320px;position:relative;
+      animation:pop .35s cubic-bezier(.4,0,.2,1) forwards;transform:scale(.8);opacity:0;}
     @keyframes pop{to{transform:scale(1);opacity:1;}}
     .modal h2{font-size:1.2rem;font-weight:700;margin-bottom:1.2rem;}
-    .close-btn{
-      position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.3rem;
-      cursor:pointer;color:#555;transition:.2s;
-    }
+    .close-btn{position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.3rem;
+      cursor:pointer;color:#555;transition:.2s;}
     .close-btn:hover{color:#000;transform:scale(1.15);}
+
+    /* --- Modo Mosquito --- */
+    .emoji{position:absolute;font-size:2rem;user-select:none;cursor:pointer;transition:transform .1s;}
+    #scoreBoard{position:fixed;top:12px;left:50%;transform:translateX(-50%);
+      font-size:1.1rem;font-weight:700;z-index:22;color:white;text-shadow:0 0 6px #000;}
+    #ranking{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+      background:rgba(0,0,0,.6);color:#fff;padding:.6rem 1rem;border-radius:12px;font-size:.9rem;z-index:22;display:none;}
   </style>
 </head>
 <body>
@@ -76,75 +69,176 @@
   <main><h1>Muy pronto... :P</h1></main>
   <button id="secret" aria-label="Sorpresa">?</button>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
   <script>
-    // Ripple efecto
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQks6syI84wvIIYa_As9ts7Hc5lenN8hk",
+      authDomain: "mundochido-ranking.firebaseapp.com",
+      projectId: "mundochido-ranking",
+      storageBucket: "mundochido-ranking.firebasestorage.app",
+      messagingSenderId: "241949692398",
+      appId: "1:241949692398:web:0993d30fbddef3f7673eff",
+      measurementId: "G-TDYXGHK0TB"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // --- Ripple efecto ---
     document.addEventListener("pointerdown",(e)=>{
-      const ripple=document.createElement("span");
-      ripple.className="ripple";
-      ripple.style.left=`${e.clientX}px`;
-      ripple.style.top =`${e.clientY}px`;
-      document.body.appendChild(ripple);
-      ripple.addEventListener("animationend",()=>ripple.remove());
-      handleClickBurst();
+      const r=document.createElement("span");
+      r.className="ripple";
+      r.style.left=`${e.clientX}px`;
+      r.style.top=`${e.clientY}px`;
+      document.body.appendChild(r);
+      r.addEventListener("animationend",()=>r.remove());
+      handleBurst();
     });
 
-    // Botón secreto con deep-link + fallback
-    const ytAppLink="vnd.youtube:JN2N5HorqSI";
-    const ytWebLink="https://youtu.be/JN2N5HorqSI?si=4Cuq9r8f856Q_lq0";
-    document.getElementById("secret").addEventListener("click",(ev)=>{
-      ev.stopPropagation();
+    // Botón secreto para abrir YouTube en app o web
+    const ytApp="vnd.youtube:JN2N5HorqSI";
+    const ytWeb="https://youtu.be/JN2N5HorqSI?si=4Cuq9r8f856Q_lq0";
+    document.getElementById("secret").addEventListener("click",e=>{
+      e.stopPropagation();
       new Audio("click.mp3").play().catch(()=>{});
-      window.location.href=ytAppLink;
-      setTimeout(()=>{window.location.href=ytWebLink;},800);
+      location.href=ytApp;
+      setTimeout(()=>location.href=ytWeb,800);
     });
 
-    // Contador de clics rápidos y fases
-    let clickCount=0, timer=null, warningPhase=0;
-    const warningMessages = [
-      "PARA UN TOQUE CON LOS CLICKS",
-      "DALE LOCO PARAAAAAA",
-      "BUENO LISTO HACE LO QUE SE TE CANTA"
-    ];
-
-    function handleClickBurst(){
-      clickCount++;
-      if(!timer){
-        timer = setTimeout(() => {
-          clickCount = 0;
-          timer = null;
-        }, 1500);
-      }
-      if(clickCount >= 7){
-        clickCount = 0;
+    // Avisos y conteo clicks
+    let clicks=0, timer=null, phase=0, modalDone=false;
+    const msgs=["PARA UN TOQUE CON LOS CLICKS","DALE LOCO PARAAAAAA","BUENO LISTO HACE LO QUE SE TE CANTA"];
+    function handleBurst(){
+      if(modalDone) return; // Después del juego no molestar
+      clicks++;
+      if(!timer) timer=setTimeout(()=>{clicks=0;timer=null;},1500);
+      if(clicks>=7){
+        clicks=0;
         clearTimeout(timer);
-        timer = null;
-        showOverlay();
+        timer=null;
+        if(phase<msgs.length){
+          showModal(msgs[phase]);
+          phase++;
+        } else {
+          startMosquitoMode();
+          modalDone=true;
+        }
       }
     }
 
-    function showOverlay(){
+    // Mostrar modal con aviso
+    function showModal(text){
       if(document.querySelector(".overlay")) return;
+      const ol=document.createElement("div");
+      ol.className="overlay";
+      const md=document.createElement("div");
+      md.className="modal";
+      const x=document.createElement("button");
+      x.className="close-btn";
+      x.innerHTML="&times;";
+      x.onclick=()=>ol.remove();
+      const h=document.createElement("h2");
+      h.textContent=text;
+      md.append(x,h);
+      ol.append(md);
+      document.body.append(ol);
+    }
 
-      const overlay = document.createElement("div");
-      overlay.className = "overlay";
+    // --- Modo Mosquito ---
+    const EMOJIS=["🪱","🥢","🧩","📡","🟫","🦟"];
+    let activeGame=false,score=0,dropInterval=null,scoreBoard=null,rankingBox=null;
+    function startMosquitoMode(){
+      if(activeGame) return;
+      activeGame=true;
+      score=0;
+      // oscurecer fondo
+      document.body.style.filter="brightness(.7)";
+      // Score board
+      scoreBoard=document.createElement("div");
+      scoreBoard.id="scoreBoard";
+      scoreBoard.textContent="Mosquitos atrapados: 0";
+      document.body.append(scoreBoard);
+      // Ranking box
+      rankingBox=document.createElement("div");
+      rankingBox.id="ranking";
+      document.body.append(rankingBox);
+      // soltar emojis
+      dropInterval=setInterval(dropEmoji,600);
+    }
 
-      const modal = document.createElement("div");
-      modal.className = "modal";
+    function dropEmoji(){
+      const e=document.createElement("span");
+      e.className="emoji";
+      e.textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+      e.style.left=Math.random()*100+"vw";
+      e.style.top="-3rem";
+      document.body.append(e);
+      // caer
+      const start=performance.now();
+      function fall(t){
+        const p=(t-start)/2500; // 2.5s para caer
+        if(p<1){
+          e.style.top=p*100+"vh";
+          requestAnimationFrame(fall);
+        } else {
+          endGame();
+          e.remove();
+        }
+      }
+      requestAnimationFrame(fall);
+      // click captura
+      e.addEventListener("pointerdown",ev=>{
+        ev.stopPropagation();
+        score++;
+        scoreBoard.textContent="Mosquitos atrapados: "+score;
+        e.style.transform="scale(0)";
+        setTimeout(()=>e.remove(),100);
+      });
+    }
 
-      const closeBtn = document.createElement("button");
-      closeBtn.className = "close-btn";
-      closeBtn.innerHTML = "&times;";
-      closeBtn.addEventListener("click", () => overlay.remove());
+    async function endGame(){
+      clearInterval(dropInterval);
+      document.querySelectorAll(".emoji").forEach(el=>el.remove());
+      scoreBoard.textContent="¡Fin! atrapaste "+score;
+      const name = prompt("Tu puntuación: "+score+" 🦟\nEscribe tu nombre para la tabla de records:");
+      if(name){
+        try {
+          await db.collection("mc_rankings").add({
+            name,
+            score,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) {
+          alert("Error guardando tu puntuación: "+e.message);
+        }
+      }
+      showRankingOnline();
+      activeGame=false;
+    }
 
-      const message = document.createElement("h2");
-      message.textContent = warningMessages[Math.min(warningPhase, warningMessages.length - 1)];
-
-      modal.appendChild(closeBtn);
-      modal.appendChild(message);
-      overlay.appendChild(modal);
-      document.body.appendChild(overlay);
-
-      warningPhase++;
+    async function showRankingOnline(){
+      if(!rankingBox) return;
+      rankingBox.style.display="block";
+      rankingBox.innerHTML = "<strong>TOP 5 ONLINE</strong><br>Cargando...";
+      try {
+        const snapshot = await db.collection("mc_rankings")
+          .orderBy("score", "desc")
+          .limit(5)
+          .get();
+        if(snapshot.empty){
+          rankingBox.innerHTML = "<strong>TOP 5 ONLINE</strong><br>No hay registros aún.";
+          return;
+        }
+        const recs = [];
+        snapshot.forEach(doc => recs.push(doc.data()));
+        rankingBox.innerHTML = "<strong>TOP 5 ONLINE</strong><br>" + recs.map((r,i)=>`${i+1}. ${r.name} – ${r.score}`).join("<br>");
+      } catch(e) {
+        rankingBox.innerHTML = "Error cargando ranking: "+e.message;
+      }
     }
   </script>
 </body>
