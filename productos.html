@@ -185,65 +185,44 @@
 
   <main>
     <h2>Clásicas – Omori</h2>
-    <div class="grid">
-      <div class="product" onclick="showDetails('pack1.jpg', 'Pack Clásico 1', 'Cartas con diseño clásico inspirado en Omori.', '$800')">
-        <div class="card-stack">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" />
-        </div>
-        <div class="product-name">Pack Clásico 1</div>
-      </div>
-      <div class="product" onclick="showDetails('pack2.jpg', 'Pack Clásico 2', 'Estilo alternativo para los más fans.', '$800')">
-        <div class="card-stack">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" />
-        </div>
-        <div class="product-name">Pack Clásico 2</div>
-      </div>
-      <div class="product" onclick="showDetails('pack3.jpeg', 'Pack Clásico 3', 'Otra versión nostálgica de Omori.', '$800')">
-        <div class="card-stack">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" />
-        </div>
-        <div class="product-name">Pack Clásico 3</div>
-      </div>
-    </div>
-
-    <h2>Especiales – Omori</h2>
-    <div class="grid">
-      <div class="product" onclick="showDetails('pack4.jpeg', 'Pack Especial 1', 'Diseño limitado con detalles únicos.', '$1000')">
-        <div class="card-stack">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" />
-        </div>
-        <div class="product-name">Pack Especial 1</div>
-      </div>
-      <div class="product" onclick="showDetails('pack5.jpeg', 'Pack Especial 2', 'Solo para los coleccionistas.', '$1000')">
-        <div class="card-stack">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" />
-        </div>
-        <div class="product-name">Pack Especial 2</div>
-      </div>
-      <div class="product" onclick="showDetails('pack6.jpeg', 'Pack Especial 3', 'Una edición especial con acabado premium.', '$1000')">
-        <div class="card-stack">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" />
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" />
-        </div>
-        <div class="product-name">Pack Especial 3</div>
-      </div>
-    </div>
+    <div class="grid" id="productGrid"></div>
   </main>
 
   <div id="modalContainer"></div>
 
   <script>
+    const products = [
+      { img: 'pack1.jpg', name: 'Pack Clásico 1', desc: 'Cartas con diseño clásico inspirado en Omori.', price: '$800', category: 'Clásicas – Omori' },
+      { img: 'pack2.jpg', name: 'Pack Clásico 2', desc: 'Estilo alternativo para los más fans.', price: '$800', category: 'Clásicas – Omori' },
+      { img: 'pack3.jpeg', name: 'Pack Clásico 3', desc: 'Otra versión nostálgica de Omori.', price: '$800', category: 'Clásicas – Omori' },
+      { img: 'pack4.jpeg', name: 'Pack Especial 1', desc: 'Diseño limitado con detalles únicos.', price: '$1000', category: 'Especiales – Omori' },
+      { img: 'pack5.jpeg', name: 'Pack Especial 2', desc: 'Solo para los coleccionistas.', price: '$1000', category: 'Especiales – Omori' },
+      { img: 'pack6.jpeg', name: 'Pack Especial 3', desc: 'Una edición especial con acabado premium.', price: '$1000', category: 'Especiales – Omori' },
+    ];
+
+    const categories = [...new Set(products.map(p => p.category))];
+    const grid = document.getElementById('productGrid');
+
+    categories.forEach(cat => {
+      const title = document.createElement('h2');
+      title.textContent = cat;
+      grid.before(title);
+      const section = document.createElement('div');
+      section.className = 'grid';
+      products.filter(p => p.category === cat).forEach(p => {
+        section.innerHTML += `
+          <div class="product" onclick="showDetails('${p.img}', '${p.name}', '${p.desc}', '${p.price}')">
+            <div class="card-stack">
+              <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}" />
+              <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}" />
+              <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}" />
+            </div>
+            <div class="product-name">${p.name}</div>
+          </div>`;
+      });
+      grid.before(section);
+    });
+
     function showDetails(img, title, desc, price) {
       const container = document.getElementById('modalContainer');
       document.body.style.overflow = 'hidden';
