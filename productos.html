@@ -13,6 +13,9 @@
       background: #f8f8f8;
       color: #111;
     }
+    body.modal-open {
+      overflow: hidden;
+    }
     header {
       background: #fff;
       padding: 1rem 2rem;
@@ -84,13 +87,14 @@
     .modal {
       background: #fff;
       border-radius: 16px;
-      padding: 1.5rem;
-      width: 90%;
-      max-width: 800px;
+      padding: 2rem;
+      width: 95%;
+      max-width: 900px;
       display: flex;
-      gap: 2rem;
       flex-direction: row;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      position: relative;
+      gap: 2rem;
     }
     .modal img {
       width: 300px;
@@ -111,7 +115,7 @@
     }
     .modal button {
       padding: 0.6rem 1.2rem;
-      margin: 0.3rem;
+      margin: 0.3rem 0.3rem 0 0;
       border: none;
       border-radius: 10px;
       font-weight: 600;
@@ -121,25 +125,18 @@
     .cart { background: #eee; }
     .close-btn {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      background: transparent;
+      top: 12px;
+      right: 12px;
+      background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       cursor: pointer;
-      font-weight: bold;
+      color: #999;
     }
-    @media (max-width: 600px) {
-      nav a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-      }
-      h2 {
-        font-size: 1.2rem;
-      }
+    @media (max-width: 768px) {
       .modal {
         flex-direction: column;
-        padding: 1rem;
+        padding: 1.2rem;
       }
       .modal img {
         width: 100%;
@@ -214,10 +211,11 @@
   <script>
     function showDetails(img, title, desc, price) {
       const container = document.getElementById('modalContainer');
+      document.body.classList.add('modal-open');
       container.innerHTML = `
-        <div class="modal-overlay" onclick="this.remove()">
+        <div class="modal-overlay" onclick="closeModal()">
           <div class="modal" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="document.getElementById('modalContainer').innerHTML = ''">×</button>
+            <button class="close-btn" onclick="closeModal()">×</button>
             <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${img}" alt="${title}" />
             <div class="modal-content">
               <h3>${title}</h3>
@@ -229,6 +227,11 @@
           </div>
         </div>
       `;
+    }
+
+    function closeModal() {
+      document.getElementById('modalContainer').innerHTML = '';
+      document.body.classList.remove('modal-open');
     }
   </script>
 </body>
