@@ -4,75 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Productos – Mundo Chido</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
-  <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
+  <link rel="icon" href="https://emisrmy.github.io/mundochido/img/preview.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --gold: #d4af37;
-      --bg: #f8f8f8;
-      --text: #111;
-      --modal-bg: #fff;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding-top: 70px;
+      background: #f9f9f9;
+      color: #111;
+      padding: 100px 1rem 2rem;
     }
-    .navbar {
+    header {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: white;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
-      z-index: 10;
+      padding: 0 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
     }
-    .navbar img {
+    header img {
       height: 40px;
     }
-    .navbar nav a {
-      margin-left: 20px;
+    nav a {
       text-decoration: none;
+      color: #111;
       font-weight: 600;
-      color: var(--text);
+      margin-left: 1rem;
     }
-    .section {
-      padding: 2rem;
-    }
-    .section h2 {
-      margin-bottom: 1rem;
-      font-size: 1.6rem;
-      border-left: 4px solid var(--gold);
-      padding-left: 10px;
-    }
-    .product-grid {
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem;
+      gap: 1rem;
+      max-width: 1000px;
+      margin: 0 auto;
     }
     .product {
-      background: #fff;
+      background: white;
       border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
+      transition: transform 0.2s ease;
       cursor: pointer;
     }
     .product:hover {
-      transform: scale(1.03);
+      transform: translateY(-4px);
     }
     .product img {
       width: 100%;
       height: 160px;
       object-fit: cover;
     }
-    .product p {
-      padding: 10px;
+    .product-info {
+      padding: 1rem;
+    }
+    .product-info h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .category {
       font-weight: 600;
+      font-size: 1.1rem;
+      margin: 2rem 0 1rem;
       text-align: center;
     }
     /* Modal */
@@ -83,15 +85,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 20;
+      z-index: 2000;
     }
     .modal {
-      background: var(--modal-bg);
+      background: #fff;
+      padding: 2rem;
       border-radius: 20px;
-      padding: 1.5rem;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 90%;
+      width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
       text-align: center;
     }
     .modal img {
@@ -99,39 +103,29 @@
       border-radius: 12px;
       margin-bottom: 1rem;
     }
-    .modal h3 {
+    .modal h2 {
       margin-bottom: 0.5rem;
     }
-    .modal .price {
-      color: var(--gold);
-      font-weight: bold;
+    .modal p {
+      font-size: 0.95rem;
       margin-bottom: 1rem;
     }
     .modal button {
-      padding: 10px 16px;
-      margin: 6px;
-      border: none;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .buy-now {
-      background: var(--gold);
+      background: #d4af37;
       color: #111;
-    }
-    .add-cart {
-      background: #eee;
-    }
-    @media (max-width: 600px) {
-      .navbar nav a { margin-left: 12px; font-size: 0.9rem; }
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0.5rem;
     }
   </style>
 </head>
 <body>
-
-  <header class="navbar">
+  <header>
     <a href="/">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Mundo Chido logo">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Logo" />
     </a>
     <nav>
       <a href="/">Inicio</a>
@@ -140,46 +134,53 @@
     </nav>
   </header>
 
-  <main>
-    <div class="section">
-      <h2>Cartas Clásicas</h2>
-      <div class="product-grid">
-        <div class="product" onclick="showDetails('Pack 1', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg', '$500')">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1">
-          <p>Pack 1</p>
-        </div>
-        <div class="product" onclick="showDetails('Pack 2', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg', '$700')">
-          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2">
-          <p>Pack 2</p>
-        </div>
-      </div>
+  <section class="category">Packs de Cartas</section>
+  <section class="grid">
+    <div class="product" onclick="openModal('Pack 1', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg', '$2.500')">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1" />
+      <div class="product-info"><h3>Pack 1</h3></div>
     </div>
-  </main>
+    <div class="product" onclick="openModal('Pack 2', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg', '$2.800')">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2" />
+      <div class="product-info"><h3>Pack 2</h3></div>
+    </div>
+    <div class="product" onclick="openModal('Pack 3', 'https://via.placeholder.com/300x200?text=Pack+3', '$3.000')">
+      <img src="https://via.placeholder.com/300x200?text=Pack+3" alt="Pack 3" />
+      <div class="product-info"><h3>Pack 3</h3></div>
+    </div>
+    <div class="product" onclick="openModal('Pack 4', 'https://via.placeholder.com/300x200?text=Pack+4', '$3.200')">
+      <img src="https://via.placeholder.com/300x200?text=Pack+4" alt="Pack 4" />
+      <div class="product-info"><h3>Pack 4</h3></div>
+    </div>
+    <div class="product" onclick="openModal('Pack 5', 'https://via.placeholder.com/300x200?text=Pack+5', '$3.400')">
+      <img src="https://via.placeholder.com/300x200?text=Pack+5" alt="Pack 5" />
+      <div class="product-info"><h3>Pack 5</h3></div>
+    </div>
+    <div class="product" onclick="openModal('Pack 6', 'https://via.placeholder.com/300x200?text=Pack+6', '$3.600')">
+      <img src="https://via.placeholder.com/300x200?text=Pack+6" alt="Pack 6" />
+      <div class="product-info"><h3>Pack 6</h3></div>
+    </div>
+  </section>
 
   <div id="modalRoot"></div>
 
   <script>
-    function showDetails(title, img, price) {
-      const modalRoot = document.getElementById('modalRoot');
-      modalRoot.innerHTML = `
+    function openModal(title, image, price) {
+      document.getElementById('modalRoot').innerHTML = `
         <div class="overlay" onclick="closeModal(event)">
-          <div class="modal">
-            <img src="${img}" alt="${title}" />
-            <h3>${title}</h3>
-            <div class="price">${price}</div>
-            <button class="buy-now">Comprar ahora</button>
-            <button class="add-cart">Agregar al carrito</button>
+          <div class="modal" onclick="event.stopPropagation()">
+            <img src="${image}" alt="${title}" />
+            <h2>${title}</h2>
+            <p>Precio: ${price}</p>
+            <button onclick="alert('Compra no disponible aún')">Comprar ahora</button>
+            <button onclick="alert('Agregado al carrito')">Agregar al carrito</button>
           </div>
         </div>
       `;
     }
-
     function closeModal(e) {
-      if (e.target.classList.contains('overlay')) {
-        document.getElementById('modalRoot').innerHTML = '';
-      }
+      document.getElementById('modalRoot').innerHTML = "";
     }
   </script>
-
 </body>
 </html>
