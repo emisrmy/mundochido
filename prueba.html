@@ -2,248 +2,543 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Productos – Mundo Chido</title>
-  <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mundo Chido - Productos</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --card-w: 180px;
-      --card-h: 270px;
+      --gold: #d4af37;
+    }
+    *, *:before, *:after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
       background: #f8f8f8;
+      min-height: 100vh;
+      margin: 0;
       color: #111;
+      display: flex;
+      flex-direction: column;
     }
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    /* Navbar */
+    nav {
       background: #fff;
+      padding: 0.6rem 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
-    header img {
-      height: 60px;
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
     }
-    nav a {
-      margin-left: 1.5rem;
-      font-weight: 600;
+    nav .logo img {
+      height: 42px;
+      width: auto;
+    }
+    nav .nav-links {
+      display: flex;
+      gap: 1.6rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    nav .nav-links a {
       color: #111;
       text-decoration: none;
+      transition: color 0.3s ease;
     }
-    h2 {
-      margin: 2rem 1.5rem 1rem;
-      font-size: 1.25rem;
+    nav .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    main {
+      padding: 1rem 1rem 3rem;
+      flex-grow: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    h2.category-title {
       font-weight: 700;
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+      color: #333;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.2rem;
+      margin-top: 1rem;
     }
 
-    .grid {
+    /* Grid de productos */
+    .product-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+      grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
       gap: 1rem;
-      padding: 0 1.5rem 2rem;
+      margin-bottom: 3rem;
     }
 
+    /* Casilla producto */
     .product {
       background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: pointer;
-      height: var(--card-h);
-      overflow: hidden; /* Para que no se pueda clickear fuera */
-      padding-top: 12px; /* Bajamos un poco las cartas y texto */
-      box-sizing: border-box;
-      justify-content: flex-start; /* para que no quede espacio arriba */
+      padding: 1rem 0 1.3rem;
+      height: 260px;
+      position: relative;
+      overflow: visible; /* importante para cartas rotadas */
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+    .product:hover {
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
     }
 
+    /* Card stack - cartas apiladas con blur */
     .card-stack {
       position: relative;
-      width: 50%;
+      width: 90%;
       aspect-ratio: 63 / 88;
-      margin-bottom: 0.7rem; /* Separamos un poco del nombre */
+      margin-bottom: 0.65rem;
+      pointer-events: none; /* evita clicks fuera del producto en cartas rotadas */
     }
     .card-stack img {
       position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
       transform-origin: bottom left;
-      transition: transform 0.3s ease;
+      transition: transform 0.35s ease;
+      pointer-events: none;
     }
-
-    .card-stack img:nth-child(1) {
-      filter: blur(3px);
-      transform: translate(8px, -2px) rotate(15deg);
+    /* Carta atrás derecha (blur) */
+    .card-stack img:nth-child(1){
+      filter: blur(4px);
+      transform: translate(18px,-4px) rotate(15deg);
       z-index: 1;
     }
-    .card-stack img:nth-child(2) {
-      filter: blur(3px);
-      transform: translate(4px, -1px) rotate(0deg);
+    /* Carta central recta (blur) */
+    .card-stack img:nth-child(2){
+      filter: blur(4px);
+      transform: translate(9px,-2px) rotate(0deg);
       z-index: 2;
     }
-    .card-stack img:nth-child(3) {
+    /* Carta nítida inclinada a la izquierda */
+    .card-stack img:nth-child(3){
       transform: rotate(-15deg);
       z-index: 3;
     }
+    /* Animación hover */
+    .product:hover .card-stack img:nth-child(1){transform: translate(22px,-6px) rotate(18deg);}
+    .product:hover .card-stack img:nth-child(2){transform: translate(11px,-3px) rotate(0deg);}
+    .product:hover .card-stack img:nth-child(3){transform: rotate(-17deg) scale(1.05);}
 
+    /* Nombre del producto */
     .product-name {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      padding: 6px 4px;
+      color: #111;
       text-align: center;
-      margin: 0;
-      user-select: none;
+      padding: 0 0.2rem;
+      user-select: text;
     }
 
-    .product:hover img:nth-child(1) {
-      transform: translate(10px, -3px) rotate(18deg);
-    }
-    .product:hover img:nth-child(2) {
-      transform: translate(5px, -2px) rotate(0deg);
-    }
-    .product:hover img:nth-child(3) {
-      transform: rotate(-17deg) scale(1.04);
-    }
-
-    /* Modal compra */
-    .overlay {
+    /* Modal información producto */
+    #productModal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0,0,0,0.6);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 200;
+      z-index: 100;
+      overflow-y: auto;
+      padding: 1rem;
+      -webkit-overflow-scrolling: touch;
+
+      /* Animación */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
-    .modal {
+    #productModal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #productModal.closing {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #productModal .modal-content {
       background: #fff;
-      border-radius: 18px;
-      padding: 1.2rem;
-      width: 90%;
-      max-width: 640px;
-      display: flex;
-      gap: 1.2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 900px;
+      width: 100%;
       max-height: 90vh;
-      overflow: auto;
+      display: flex;
+      overflow: hidden;
       position: relative;
+
+      /* Escala para animación */
+      transform: scale(0.85);
+      transition: transform 0.3s ease;
     }
-    .modal img {
-      width: 240px;
-      max-width: 100%;
-      border-radius: 12px;
+    #productModal.active .modal-content {
+      transform: scale(1);
     }
-    .modal-content {
-      flex: 1;
+    #productModal.closing .modal-content {
+      transform: scale(0.85);
     }
-    .modal .price {
-      margin: 1rem 0;
-      font-weight: 700;
+
+    #productModal .modal-image {
+      width: 50%;
+      aspect-ratio: 63 / 88;
+      border-radius: 20px 0 0 20px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eee;
     }
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      border: none;
-      background: none;
-      font-size: 1.4rem;
-      color: #777;
-      cursor: pointer;
+    #productModal .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px 0 0 20px;
+      user-select: none;
+      pointer-events: none;
     }
-    .btn {
-      padding: 0.45rem 1.1rem;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-right: 0.4rem;
-    }
-    .buy {
-      background: #d4af37;
+    #productModal .modal-info {
+      padding: 1.8rem 2.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       color: #111;
     }
-    .cart {
+    #productModal .modal-info h3 {
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+    #productModal .modal-info p {
+      flex-grow: 1;
+      line-height: 1.4;
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      color: #555;
+    }
+    #productModal .modal-info .price {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+    }
+    #productModal .modal-info .buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    #productModal .modal-info button {
+      padding: 0.9rem 1.8rem;
+      border-radius: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 1rem;
+      user-select: none;
+    }
+    #productModal .modal-info button.buy-now {
+      background: var(--gold);
+      color: #111;
+    }
+    #productModal .modal-info button.buy-now:hover {
+      background: #b38c23;
+    }
+    #productModal .modal-info button.add-cart {
       background: #eee;
+      color: #111;
+    }
+    #productModal .modal-info button.add-cart:hover {
+      background: #ddd;
+    }
+    /* Botón cerrar */
+    #productModal .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 1.6rem;
+      color: #666;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+      z-index: 110;
+      padding: 4px 8px;
+      border-radius: 12px;
+      opacity: 0.5;
+    }
+    #productModal .close-btn:hover {
+      color: var(--gold);
+      opacity: 1;
+    }
+
+    /* Scroll disable body cuando modal abierto */
+    body.modal-open {
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* Media queries para celular */
+    @media (max-width: 600px) {
+      main {
+        padding: 0.8rem 0.8rem 2rem;
+      }
+      .product-grid {
+        grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+        gap: 0.7rem;
+      }
+      .product {
+        height: 220px;
+        padding: 0.8rem 0 1rem;
+      }
+      .card-stack {
+        width: 75%;
+        margin-bottom: 0.5rem;
+      }
+      .product-name {
+        font-size: 0.85rem;
+        padding: 0 0.15rem;
+      }
+      /* Modal adaptado para celular */
+      #productModal .modal-content {
+        flex-direction: column;
+        max-height: 85vh;
+        max-width: 95vw;
+        border-radius: 16px;
+      }
+      #productModal .modal-image {
+        width: 100%;
+        border-radius: 16px 16px 0 0;
+        aspect-ratio: auto;
+        height: 220px;
+      }
+      #productModal .modal-info {
+        padding: 1.2rem 1.4rem;
+      }
+      #productModal .modal-info h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+      }
+      #productModal .modal-info .price {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+      }
+      #productModal .modal-info button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.2rem;
+        border-radius: 12px;
+      }
+      #productModal .close-btn {
+        top: 6px;
+        right: 8px;
+        font-size: 1.4rem;
+        padding: 3px 6px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <header>
-    <a href="/"><img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/logo.png" alt="Mundo Chido" /></a>
-    <nav>
-      <a href="/">Inicio</a>
-      <a href="/productos">Productos</a>
-      <a href="/contacto">Contacto</a>
-    </nav>
-  </header>
 
-  <main id="root"></main>
-  <div id="modalRoot"></div>
+  <nav>
+    <div class="logo" onclick="location.href='/'" role="link" tabindex="0" aria-label="Ir a inicio Mundo Chido">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/logo.png" alt="Mundo Chido Logo" />
+      <span style="font-weight:700; font-size:1.4rem; color:#111;">MUNDO CHIDO</span>
+    </div>
+    <div class="nav-links" role="navigation">
+      <a href="/" aria-current="false">Inicio</a>
+      <a href="/productos" aria-current="page">Productos</a>
+      <a href="/contactos" aria-current="false">Contacto</a>
+    </div>
+  </nav>
+
+  <main>
+    <h2 class="category-title">Clásicas - Omori</h2>
+    <div class="product-grid" role="list" aria-label="Productos clásicas Omori">
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 1" onclick="openProductModal(0)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
+        </div>
+        <div class="product-name">Pack de cartas Omori 1</div>
+      </div>
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 2" onclick="openProductModal(1)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
+        </div>
+        <div class="product-name">Pack de cartas Omori 2</div>
+      </div>
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 3" onclick="openProductModal(2)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack de cartas Omori 3</div>
+      </div>
+    </div>
+
+    <h2 class="category-title">Especiales - Omori</h2>
+    <div class="product-grid" role="list" aria-label="Productos especiales Omori">
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 4" onclick="openProductModal(3)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack especial Omori 4</div>
+      </div>
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 5" onclick="openProductModal(4)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack especial Omori 5</div>
+      </div>
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 6" onclick="openProductModal(5)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack especial Omori 6</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal información producto -->
+  <div id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-content">
+      <button class="close-btn" aria-label="Cerrar información del producto" onclick="closeProductModal()">×</button>
+      <div class="modal-image">
+        <img src="" alt="" id="modalImg" />
+      </div>
+      <div class="modal-info">
+        <h3 id="modalTitle">Título del producto</h3>
+        <p id="modalDesc">Descripción del producto aquí.</p>
+        <div class="price" id="modalPrice">$0</div>
+        <div class="buttons">
+          <button class="buy-now" aria-label="Comprar ahora">Comprar ahora</button>
+          <button class="add-cart" aria-label="Agregar al carrito">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
+    // Datos de productos
     const products = [
-      { img: 'pack1.jpg', name: 'Pack Clásico 1', desc: 'Cartas clásicas de Omori', price: '$800', cat: 'Clásicas – Omori' },
-      { img: 'pack2.jpg', name: 'Pack Clásico 2', desc: 'Otra edición clásica', price: '$800', cat: 'Clásicas – Omori' },
-      { img: 'pack3.jpeg', name: 'Pack Clásico 3', desc: 'Versión nostálgica', price: '$800', cat: 'Clásicas – Omori' },
-      { img: 'pack4.jpeg', name: 'Pack Especial 1', desc: 'Ilustraciones únicas', price: '$1000', cat: 'Especiales – Omori' },
-      { img: 'pack5.jpeg', name: 'Pack Especial 2', desc: 'Diseños exclusivos', price: '$1000', cat: 'Especiales – Omori' },
-      { img: 'pack6.jpeg', name: 'Pack Especial 3', desc: 'Arte de colección', price: '$1000', cat: 'Especiales – Omori' },
+      {
+        name: 'Pack de cartas Omori 1',
+        description: 'Pack clásico inspirado en Omori con ilustraciones originales.',
+        price: '$1500',
+        img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg',
+      },
+      {
+        name: 'Pack de cartas Omori 2',
+        description: 'Segunda edición del pack clásico con cartas coleccionables.',
+        price: '$1700',
+        img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg',
+      },
+      {
+        name: 'Pack de cartas Omori 3',
+        description: 'Edición especial con cartas JPEG de alta calidad.',
+        price: '$1800',
+        img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg',
+      },
+      {
+        name: 'Pack especial Omori 4',
+        description: 'Pack especial con arte exclusivo y contenido premium.',
+        price: '$2000',
+        img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg',
+      },
+      {
+        name: 'Pack especial Omori 5',
+        description: 'Colección única para fans avanzados con ilustraciones limitadas.',
+        price: '$2200',
+        img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg',
+      },
+      {
+        name: 'Pack especial Omori 6',
+        description: 'Último pack especial con cartas en formato JPEG y extras.',
+        price: '$2400',
+        img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg',
+      },
     ];
 
-    const root = document.getElementById('root');
-    [...new Set(products.map(p => p.cat))].forEach(cat => {
-      const h2 = document.createElement('h2');
-      h2.textContent = cat;
-      root.appendChild(h2);
+    const modal = document.getElementById('productModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalPrice = document.getElementById('modalPrice');
 
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-      products.filter(p => p.cat === cat).forEach(p => {
-        grid.innerHTML += `
-          <div class='product' onclick="openModal('${p.img}', '${p.name}', '${p.desc}', '${p.price}')">
-            <div class='card-stack'>
-              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} blur 1' />
-              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} blur 2' />
-              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} nitida' />
-            </div>
-            <div class='product-name'>${p.name}</div>
-          </div>`;
-      });
-      root.appendChild(grid);
+    function openProductModal(index) {
+      const product = products[index];
+      modalImg.src = product.img;
+      modalImg.alt = product.name;
+      modalTitle.textContent = product.name;
+      modalDesc.textContent = product.description;
+      modalPrice.textContent = product.price;
+      modal.classList.remove('closing');
+      modal.classList.add('active');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeProductModal() {
+      modal.classList.add('closing');
+      modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+      // Esperar a que termine la animación para ocultar modal (300ms)
+      setTimeout(() => {
+        modal.classList.remove('closing');
+      }, 300);
+    }
+
+    // Cerrar modal al hacer click fuera
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal) {
+        closeProductModal();
+      }
     });
 
-    function openModal(img, title, desc, price) {
-      document.body.style.overflow = 'hidden';
-      document.getElementById('modalRoot').innerHTML = `
-        <div class='overlay' onclick='closeM()'>
-          <div class='modal' onclick='event.stopPropagation()'>
-            <button class='close' onclick='closeM()'>×</button>
-            <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${img}' alt='${title}' />
-            <div class='modal-content'>
-              <h3>${title}</h3>
-              <p>${desc}</p>
-              <div class='price'>${price}</div>
-              <button class='btn buy'>Comprar ahora</button>
-              <button class='btn cart'>Agregar al carrito</button>
-            </div>
-          </div>
-        </div>`;
-    }
-    function closeM() {
-      document.getElementById('modalRoot').innerHTML = '';
-      document.body.style.overflow = '';
-    }
+    // Cerrar modal con Escape
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && modal.classList.contains('active')) {
+        closeProductModal();
+      }
+    });
   </script>
 </body>
 </html>
