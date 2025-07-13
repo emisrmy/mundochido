@@ -218,6 +218,70 @@
       color: var(--gold);
     }
 
+    /* Responsive para celulares */
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem 0.5rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+      .products-grid {
+        grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+        gap: 1rem;
+      }
+      .product-card {
+        padding: 0.75rem;
+      }
+      .product-card img {
+        height: 120px;
+        margin-bottom: 0.75rem;
+      }
+      .product-name {
+        font-size: 1rem;
+      }
+      .product-desc {
+        font-size: 0.85rem;
+      }
+      /* Modal producto en móvil - vertical */
+      .modal-content {
+        flex-direction: column;
+        max-width: 90%;
+        padding: 1rem 1rem 2rem;
+      }
+      .modal-img {
+        width: 100%;
+        height: 180px;
+        border-radius: 12px;
+        flex: none;
+        margin-bottom: 1rem;
+      }
+      .modal-details {
+        flex: none;
+      }
+      .modal-details h2 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+      }
+      .modal-details p {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+      .modal-price {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+      .modal-buttons button {
+        font-size: 0.9rem;
+        padding: 0.6rem 0;
+      }
+      .close-modal {
+        font-size: 1.8rem;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body>
