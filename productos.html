@@ -4,55 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Productos – Mundo Chido</title>
-  <link rel="icon" href="https://emisrmy.github.io/mundochido/img/preview.png" />
+  <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
     body {
+      margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: #f9f9f9;
+      background: #f8f8f8;
       color: #111;
-      padding: 100px 1rem 2rem;
     }
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: white;
+      background: #fff;
+      padding: 1rem 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     header img {
       height: 40px;
     }
     nav a {
+      margin-left: 1.5rem;
       text-decoration: none;
       color: #111;
       font-weight: 600;
-      margin-left: 1rem;
+    }
+    h2 {
+      margin: 2rem 1.5rem 1rem;
+      font-size: 1.4rem;
+      font-weight: 700;
     }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      max-width: 1000px;
-      margin: 0 auto;
+      gap: 1.5rem;
+      padding: 0 1.5rem 2rem;
     }
     .product {
-      background: white;
+      background: #fff;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       transition: transform 0.2s ease;
       cursor: pointer;
     }
@@ -61,71 +57,36 @@
     }
     .product img {
       width: 100%;
-      height: 160px;
-      object-fit: cover;
+      height: auto;
+      display: block;
     }
     .product-info {
-      padding: 1rem;
+      padding: 0.75rem 1rem 1rem;
     }
     .product-info h3 {
       font-size: 1rem;
-      margin-bottom: 0.5rem;
+      margin: 0.5rem 0 0.25rem;
     }
-    .category {
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin: 2rem 0 1rem;
-      text-align: center;
+    .product-info p {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
     }
-    /* Modal */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-    .modal {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      max-width: 90%;
-      width: 480px;
-      max-height: 90vh;
-      overflow-y: auto;
-      text-align: center;
-    }
-    .modal img {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-    }
-    .modal h2 {
-      margin-bottom: 0.5rem;
-    }
-    .modal p {
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-    }
-    .modal button {
-      background: #d4af37;
-      color: #111;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 0.5rem;
+    @media (max-width: 600px) {
+      nav a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <a href="/">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Logo" />
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Mundo Chido logo" />
     </a>
     <nav>
       <a href="/">Inicio</a>
@@ -134,53 +95,55 @@
     </nav>
   </header>
 
-  <section class="category">Packs de Cartas</section>
+  <h2>Clásicas – Omori</h2>
   <section class="grid">
-    <div class="product" onclick="openModal('Pack 1', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg', '$2.500')">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1" />
-      <div class="product-info"><h3>Pack 1</h3></div>
+    <div class="product">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Pack 1" />
+      <div class="product-info">
+        <h3>Pack Omori 1</h3>
+        <p>Cartas clásicas de la serie</p>
+      </div>
     </div>
-    <div class="product" onclick="openModal('Pack 2', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg', '$2.800')">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2" />
-      <div class="product-info"><h3>Pack 2</h3></div>
+    <div class="product">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="Pack 2" />
+      <div class="product-info">
+        <h3>Pack Omori 2</h3>
+        <p>Edición nostálgica</p>
+      </div>
     </div>
-    <div class="product" onclick="openModal('Pack 3', 'https://via.placeholder.com/300x200?text=Pack+3', '$3.000')">
-      <img src="https://via.placeholder.com/300x200?text=Pack+3" alt="Pack 3" />
-      <div class="product-info"><h3>Pack 3</h3></div>
-    </div>
-    <div class="product" onclick="openModal('Pack 4', 'https://via.placeholder.com/300x200?text=Pack+4', '$3.200')">
-      <img src="https://via.placeholder.com/300x200?text=Pack+4" alt="Pack 4" />
-      <div class="product-info"><h3>Pack 4</h3></div>
-    </div>
-    <div class="product" onclick="openModal('Pack 5', 'https://via.placeholder.com/300x200?text=Pack+5', '$3.400')">
-      <img src="https://via.placeholder.com/300x200?text=Pack+5" alt="Pack 5" />
-      <div class="product-info"><h3>Pack 5</h3></div>
-    </div>
-    <div class="product" onclick="openModal('Pack 6', 'https://via.placeholder.com/300x200?text=Pack+6', '$3.600')">
-      <img src="https://via.placeholder.com/300x200?text=Pack+6" alt="Pack 6" />
-      <div class="product-info"><h3>Pack 6</h3></div>
+    <div class="product">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpg" alt="Pack 3" />
+      <div class="product-info">
+        <h3>Pack Omori 3</h3>
+        <p>Clásicos inolvidables</p>
+      </div>
     </div>
   </section>
 
-  <div id="modalRoot"></div>
+  <h2>Especiales – Omori</h2>
+  <section class="grid">
+    <div class="product">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpg" alt="Pack 4" />
+      <div class="product-info">
+        <h3>Pack Especial 1</h3>
+        <p>Ilustraciones únicas</p>
+      </div>
+    </div>
+    <div class="product">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpg" alt="Pack 5" />
+      <div class="product-info">
+        <h3>Pack Especial 2</h3>
+        <p>Diseños exclusivos</p>
+      </div>
+    </div>
+    <div class="product">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpg" alt="Pack 6" />
+      <div class="product-info">
+        <h3>Pack Especial 3</h3>
+        <p>Arte de colección</p>
+      </div>
+    </div>
+  </section>
 
-  <script>
-    function openModal(title, image, price) {
-      document.getElementById('modalRoot').innerHTML = `
-        <div class="overlay" onclick="closeModal(event)">
-          <div class="modal" onclick="event.stopPropagation()">
-            <img src="${image}" alt="${title}" />
-            <h2>${title}</h2>
-            <p>Precio: ${price}</p>
-            <button onclick="alert('Compra no disponible aún')">Comprar ahora</button>
-            <button onclick="alert('Agregado al carrito')">Agregar al carrito</button>
-          </div>
-        </div>
-      `;
-    }
-    function closeModal(e) {
-      document.getElementById('modalRoot').innerHTML = "";
-    }
-  </script>
 </body>
 </html>
