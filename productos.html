@@ -78,12 +78,12 @@
     }
     .card-stack img:nth-child(1) {
       filter: blur(6px);
-      transform: translateY(8px) rotate(-1.5deg);
+      transform: translateY(10px) rotate(-2deg);
       z-index: 1;
     }
     .card-stack img:nth-child(2) {
       filter: blur(4px);
-      transform: translateY(4px) rotate(1.5deg);
+      transform: translateY(5px) rotate(2deg);
       z-index: 2;
     }
     .card-stack img:nth-child(3) {
@@ -183,10 +183,7 @@
     </nav>
   </header>
 
-  <main>
-    <h2>Clásicas – Omori</h2>
-    <div class="grid" id="productGrid"></div>
-  </main>
+  <main id="mainContent"></main>
 
   <div id="modalContainer"></div>
 
@@ -200,16 +197,18 @@
       { img: 'pack6.jpeg', name: 'Pack Especial 3', desc: 'Una edición especial con acabado premium.', price: '$1000', category: 'Especiales – Omori' },
     ];
 
+    const main = document.getElementById('mainContent');
     const categories = [...new Set(products.map(p => p.category))];
-    const grid = document.getElementById('productGrid');
 
-    categories.forEach(cat => {
+    categories.forEach(category => {
       const title = document.createElement('h2');
-      title.textContent = cat;
-      grid.before(title);
+      title.textContent = category;
+      main.appendChild(title);
+
       const section = document.createElement('div');
       section.className = 'grid';
-      products.filter(p => p.category === cat).forEach(p => {
+
+      products.filter(p => p.category === category).forEach(p => {
         section.innerHTML += `
           <div class="product" onclick="showDetails('${p.img}', '${p.name}', '${p.desc}', '${p.price}')">
             <div class="card-stack">
@@ -220,7 +219,8 @@
             <div class="product-name">${p.name}</div>
           </div>`;
       });
-      grid.before(section);
+
+      main.appendChild(section);
     });
 
     function showDetails(img, title, desc, price) {
