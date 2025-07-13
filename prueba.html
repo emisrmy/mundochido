@@ -14,10 +14,11 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
     .product {
-      width: 220px;
-      height: 300px;
+      width: 240px;
+      height: 320px;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -26,14 +27,15 @@
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      overflow: hidden;
       cursor: pointer;
       transition: transform 0.3s ease;
+      overflow: visible;
     }
     .card-stack {
       position: relative;
-      width: 90%;
+      width: 100%;
       height: 80%;
+      overflow: visible;
     }
     .card-stack img {
       position: absolute;
@@ -41,16 +43,17 @@
       height: 100%;
       object-fit: cover;
       border-radius: 16px;
-      transition: transform 0.3s ease, filter 0.3s ease;
+      transition: transform 0.4s ease, filter 0.4s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
     .card-stack img:nth-child(1) {
-      filter: blur(8px);
-      transform: translate(20px, 10px) rotate(15deg);
+      filter: blur(10px);
+      transform: translate(50px, 20px) rotate(25deg);
       z-index: 1;
     }
     .card-stack img:nth-child(2) {
-      filter: blur(5px);
-      transform: translate(10px, 5px) rotate(8deg);
+      filter: blur(6px);
+      transform: translate(25px, 10px) rotate(15deg);
       z-index: 2;
     }
     .card-stack img:nth-child(3) {
@@ -58,15 +61,15 @@
       z-index: 3;
     }
     .product-name {
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       font-size: 1rem;
       font-weight: 600;
     }
     .product:hover img:nth-child(1) {
-      transform: translate(25px, 12px) rotate(18deg);
+      transform: translate(55px, 25px) rotate(28deg);
     }
     .product:hover img:nth-child(2) {
-      transform: translate(15px, 8px) rotate(12deg);
+      transform: translate(30px, 15px) rotate(18deg);
     }
     .product:hover img:nth-child(3) {
       transform: scale(1.05);
@@ -76,12 +79,11 @@
 <body>
   <div class="product">
     <div class="card-stack">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta" />
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta" />
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta" />
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta blur 1" />
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta blur 2" />
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta nítida" />
     </div>
     <div class="product-name">Carta Prueba</div>
   </div>
 </body>
 </html>
-
