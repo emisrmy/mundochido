@@ -1,382 +1,198 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Productos - Mundo Chido</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos – Mundo Chido</title>
   <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
-
   <style>
     :root {
       --gold: #d4af37;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f8f8f8;
-      color: #111;
-      min-height: 100vh;
-    }
-    /* Navbar */
-    nav {
-      background: white;
-      position: sticky;
-      top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem 1rem;
-      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
-      z-index: 100;
-      transition: top 0.3s ease;
-    }
-    nav img {
-      height: 40px;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      font-weight: 700;
-      font-size: 1rem;
-    }
-    nav ul li a {
-      color: #111;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    nav ul li a:hover {
-      color: var(--gold);
-    }
+    }* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    main {
-      padding: 2rem 1rem;
-      max-width: 960px;
-      margin: 0 auto;
-    }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f8f8f8;
+  color: #111;
+  min-height: 100vh;
+  padding-top: 80px;
+}
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-    }
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 70px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  z-index: 1000;
+  transition: top 0.3s;
+}
 
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
-      gap: 1.5rem;
-    }
+.navbar img {
+  height: 45px;
+}
 
-    .product-card {
-      background: white;
-      border-radius: 14px;
-      box-shadow: 0 6px 12px rgb(0 0 0 / 0.1);
-      padding: 1rem;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.navbar nav a {
+  margin-left: 1.2rem;
+  text-decoration: none;
+  color: #111;
+  font-weight: bold;
+}
 
-    .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 24px rgb(0 0 0 / 0.15);
-    }
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
 
-    .product-card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      user-select: none;
-      pointer-events: none;
-    }
+.product {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
 
-    .product-name {
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin-bottom: 0.4rem;
-      color: #111;
-      user-select: none;
-    }
+.product:hover {
+  transform: scale(1.02);
+}
 
-    .product-desc {
-      font-size: 0.9rem;
-      color: #555;
-      flex-grow: 1;
-      user-select: none;
-    }
+.product img {
+  width: 100%;
+  object-fit: cover;
+  height: 180px;
+}
 
-    /* Modal producto */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .modal-content {
-      background: white;
-      border-radius: 20px;
-      max-width: 700px;
-      width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-      padding: 2rem;
-      display: flex;
-      gap: 2rem;
-      box-shadow: 0 8px 32px rgb(0 0 0 / 0.2);
-    }
-    .modal-img {
-      flex: 1 1 45%;
-      border-radius: 16px;
-      object-fit: cover;
-      max-height: 100%;
-      user-select: none;
-      pointer-events: none;
-    }
-    .modal-details {
-      flex: 1 1 55%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .modal-details h2 {
-      margin-bottom: 1rem;
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: #111;
-    }
-    .modal-details p {
-      flex-grow: 1;
-      color: #444;
-      font-size: 1rem;
-      margin-bottom: 2rem;
-      line-height: 1.4;
-    }
-    .modal-price {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-    .modal-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-    .modal-buttons button {
-      flex: 1;
-      padding: 0.75rem 0;
-      border-radius: 12px;
-      border: none;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .buy-now {
-      background: var(--gold);
-      color: #111;
-    }
-    .buy-now:hover {
-      background: #b28e24;
-    }
-    .add-cart {
-      background: #ddd;
-      color: #444;
-    }
-    .add-cart:hover {
-      background: #bbb;
-    }
-    .close-modal {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: transparent;
-      border: none;
-      font-size: 2rem;
-      cursor: pointer;
-      color: #666;
-      transition: color 0.3s ease;
-    }
-    .close-modal:hover {
-      color: var(--gold);
-    }
+.product h3 {
+  font-size: 1.1rem;
+  padding: 0.8rem 1rem;
+}
 
-    /* Responsive para celulares */
-    @media (max-width: 600px) {
-      main {
-        padding: 1rem 0.5rem;
-      }
-      h1 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-      }
-      .products-grid {
-        grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
-        gap: 1rem;
-      }
-      .product-card {
-        padding: 0.75rem;
-      }
-      .product-card img {
-        height: 120px;
-        margin-bottom: 0.75rem;
-      }
-      .product-name {
-        font-size: 1rem;
-      }
-      .product-desc {
-        font-size: 0.85rem;
-      }
-      /* Modal producto en móvil - vertical */
-      .modal-content {
-        flex-direction: column;
-        max-width: 90%;
-        padding: 1rem 1rem 2rem;
-      }
-      .modal-img {
-        width: 100%;
-        height: 180px;
-        border-radius: 12px;
-        flex: none;
-        margin-bottom: 1rem;
-      }
-      .modal-details {
-        flex: none;
-      }
-      .modal-details h2 {
-        font-size: 1.4rem;
-        margin-bottom: 0.5rem;
-      }
-      .modal-details p {
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-      }
-      .modal-price {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-      }
-      .modal-buttons button {
-        font-size: 0.9rem;
-        padding: 0.6rem 0;
-      }
-      .close-modal {
-        font-size: 1.8rem;
-        top: 0.5rem;
-        right: 0.5rem;
-      }
-    }
+/* Modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+@media(min-width: 768px) {
+  .modal-content {
+    flex-direction: row;
+  }
+}
+
+.modal img {
+  max-width: 100%;
+  border-radius: 20px 20px 0 0;
+}
+
+.modal-info {
+  padding: 1rem;
+  flex: 1;
+}
+
+.modal h2 {
+  margin-bottom: 0.5rem;
+}
+
+.modal p {
+  margin-bottom: 1rem;
+}
+
+.modal button {
+  padding: 10px 16px;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-close {
+  align-self: flex-end;
+  background: none;
+  font-size: 1.5rem;
+  border: none;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.btn-buy {
+  background-color: #d4af37;
+}
+
   </style>
 </head>
 <body>
-
-  <nav>
-    <a href="/"><img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/logo.png" alt="Mundo Chido" /></a>
-    <ul>
-      <li><a href="/">El inicio</a></li>
-      <li><a href="/productos">Productos</a></li>
-      <li><a href="/contactos">Contacto</a></li>
-    </ul>
-  </nav>
-
-  <main>
-    <h1>Productos</h1>
-
-    <div class="products-grid" id="productsGrid">
-      <div class="product-card" tabindex="0" data-name="Pack de cartas básico" data-desc="Pack con 50 cartas con ilustraciones originales." data-price="$499" data-img="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Pack de cartas básico" />
-        <div class="product-name">Pack de cartas básico</div>
-        <div class="product-desc">Pack con 50 cartas con ilustraciones originales.</div>
-      </div>
-      <div class="product-card" tabindex="0" data-name="Pack de cartas avanzado" data-desc="Pack con 100 cartas exclusivas para coleccionistas." data-price="$799" data-img="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="Pack de cartas avanzado" />
-        <div class="product-name">Pack de cartas avanzado</div>
-        <div class="product-desc">Pack con 100 cartas exclusivas para coleccionistas.</div>
-      </div>
+  <header class="navbar">
+    <a href="/">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Logo" />
+    </a>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/productos">Productos</a>
+      <a href="/contacto">Contacto</a>
+    </nav>
+  </header>  <main class="products">
+    <div class="product" onclick="openModal('pack1.jpg', 'Pack 1 – Cartas Mágicas', 'Este pack incluye cartas mágicas con poderes únicos.', '$2000')">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1" />
+      <h3>Pack 1 – Cartas Mágicas</h3>
     </div>
-  </main>
-
-  <!-- Modal Producto -->
-  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" hidden>
-    <div class="modal-content">
-      <button class="close-modal" aria-label="Cerrar modal">&times;</button>
-      <img src="" alt="" class="modal-img" id="modalImg" />
-      <div class="modal-details">
-        <h2 id="modalTitle"></h2>
-        <p id="modalDesc"></p>
-        <div class="modal-price" id="modalPrice"></div>
-        <div class="modal-buttons">
-          <button class="buy-now">Comprar ahora</button>
-          <button class="add-cart">Agregar al carrito</button>
+    <div class="product" onclick="openModal('pack2.jpg', 'Pack 2 – Cartas Misteriosas', 'Cartas misteriosas que esconden secretos sorprendentes.', '$2500')">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2" />
+      <h3>Pack 2 – Cartas Misteriosas</h3>
+    </div>
+  </main>  <div id="modalRoot"></div>  <script>
+    function openModal(img, title, desc, price) {
+      const modal = document.createElement('div');
+      modal.className = 'overlay';
+      modal.innerHTML = `
+        <div class="modal">
+          <button class="btn-close" onclick="this.closest('.overlay').remove()">×</button>
+          <div class="modal-content">
+            <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/${img}" alt="${title}" />
+            <div class="modal-info">
+              <h2>${title}</h2>
+              <p>${desc}</p>
+              <p><strong>${price}</strong></p>
+              <button class="btn-buy">Comprar ahora</button>
+              <button>Agregar al carrito</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Modal producto
-    const modalOverlay = document.getElementById('modalOverlay');
-    const modalImg = document.getElementById('modalImg');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalPrice = document.getElementById('modalPrice');
-    const closeModalBtn = modalOverlay.querySelector('.close-modal');
-
-    function openModal(product) {
-      modalImg.src = product.dataset.img;
-      modalImg.alt = product.dataset.name;
-      modalTitle.textContent = product.dataset.name;
-      modalDesc.textContent = product.dataset.desc;
-      modalPrice.textContent = product.dataset.price;
-      modalOverlay.hidden = false;
-      modalOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      `;
+      document.getElementById("modalRoot").innerHTML = "";
+      document.getElementById("modalRoot").appendChild(modal);
     }
-
-    function closeModal() {
-      modalOverlay.hidden = true;
-      modalOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    closeModalBtn.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', e => {
-      if (e.target === modalOverlay) closeModal();
-    });
-
-    // Abrir modal al clickear producto
-    document.getElementById('productsGrid').addEventListener('click', e => {
-      const card = e.target.closest('.product-card');
-      if (card) openModal(card);
-    });
-
-    // Abrir modal al presionar Enter o Space sobre un producto (accesibilidad)
-    document.getElementById('productsGrid').addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const card = e.target.closest('.product-card');
-        if (card) {
-          e.preventDefault();
-          openModal(card);
-        }
-      }
-    });
-  </script>
-
-</body>
+  </script></body>
 </html>
