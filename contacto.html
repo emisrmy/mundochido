@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto – Mundo Chido</title>
+  <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f8f8f8;
+      color: #111;
+    }
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header img {
+      height: 50px;
+    }
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #111;
+      font-weight: 600;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      flex-wrap: wrap;
+      gap: 3rem;
+    }
+    .logo-contacto img {
+      width: 200px;
+      max-width: 100%;
+    }
+    .info-contacto {
+      max-width: 500px;
+    }
+    .info-contacto h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .info-contacto p {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+    }
+    .info-contacto a {
+      color: #111;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .info-contacto a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Mundo Chido logo" />
+    </a>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/productos">Productos</a>
+      <a href="/contactos">Contacto</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="logo-contacto">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Logo grande Mundo Chido" />
+    </div>
+    <div class="info-contacto">
+      <h1>Contacto</h1>
+      <p><strong>WhatsApp:</strong> <a href="https://wa.me/5491133706142" target="_blank">+54 9 11 3370 6142</a></p>
+      <p><strong>Instagram:</strong> <a href="https://instagram.com/emi_sr_my" target="_blank">@emi_sr_my</a></p>
+      <p><strong>Diseño gráfico:</strong> <a href="https://instagram.com/kikagmz_" target="_blank">@kikagmz_</a></p>
+    </div>
+  </main>
+</body>
+</html>
