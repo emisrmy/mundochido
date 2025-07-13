@@ -55,8 +55,10 @@
       position: relative;
       height: 220px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
     }
     .product:hover {
       transform: translateY(-4px);
@@ -64,7 +66,7 @@
     .card-stack {
       position: relative;
       width: 90%;
-      height: 90%;
+      height: 80%;
     }
     .card-stack img {
       position: absolute;
@@ -86,6 +88,11 @@
     }
     .card-stack img:nth-child(3) {
       z-index: 3;
+    }
+    .product-name {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
     }
     .modal-overlay {
       position: fixed;
@@ -185,6 +192,7 @@
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" />
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" />
         </div>
+        <div class="product-name">Pack Clásico 1</div>
       </div>
       <div class="product" onclick="showDetails('pack2.jpg', 'Pack Clásico 2', 'Estilo alternativo para los más fans.', '$800')">
         <div class="card-stack">
@@ -192,6 +200,7 @@
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" />
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" />
         </div>
+        <div class="product-name">Pack Clásico 2</div>
       </div>
       <div class="product" onclick="showDetails('pack3.jpeg', 'Pack Clásico 3', 'Otra versión nostálgica de Omori.', '$800')">
         <div class="card-stack">
@@ -199,6 +208,7 @@
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" />
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" />
         </div>
+        <div class="product-name">Pack Clásico 3</div>
       </div>
     </div>
 
@@ -210,6 +220,7 @@
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" />
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" />
         </div>
+        <div class="product-name">Pack Especial 1</div>
       </div>
       <div class="product" onclick="showDetails('pack5.jpeg', 'Pack Especial 2', 'Solo para los coleccionistas.', '$1000')">
         <div class="card-stack">
@@ -217,6 +228,7 @@
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" />
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" />
         </div>
+        <div class="product-name">Pack Especial 2</div>
       </div>
       <div class="product" onclick="showDetails('pack6.jpeg', 'Pack Especial 3', 'Una edición especial con acabado premium.', '$1000')">
         <div class="card-stack">
@@ -224,6 +236,7 @@
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" />
           <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" />
         </div>
+        <div class="product-name">Pack Especial 3</div>
       </div>
     </div>
   </main>
