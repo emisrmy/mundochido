@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -78,12 +77,12 @@
     }
     .card-stack img:nth-child(1) {
       filter: blur(6px);
-      transform: translateY(10px) rotate(-2deg);
+      transform: translateY(12px) rotate(-2deg);
       z-index: 1;
     }
     .card-stack img:nth-child(2) {
-      filter: blur(4px);
-      transform: translateY(5px) rotate(2deg);
+      filter: blur(3px);
+      transform: translateY(6px) rotate(2deg);
       z-index: 2;
     }
     .card-stack img:nth-child(3) {
@@ -181,13 +180,7 @@
       <a href="/productos">Productos</a>
       <a href="/contacto">Contacto</a>
     </nav>
-  </header>
-
-  <main id="mainContent"></main>
-
-  <div id="modalContainer"></div>
-
-  <script>
+  </header>  <main id="mainContent"></main>  <div id="modalContainer"></div>  <script>
     const products = [
       { img: 'pack1.jpg', name: 'Pack Clásico 1', desc: 'Cartas con diseño clásico inspirado en Omori.', price: '$800', category: 'Clásicas – Omori' },
       { img: 'pack2.jpg', name: 'Pack Clásico 2', desc: 'Estilo alternativo para los más fans.', price: '$800', category: 'Clásicas – Omori' },
@@ -197,8 +190,8 @@
       { img: 'pack6.jpeg', name: 'Pack Especial 3', desc: 'Una edición especial con acabado premium.', price: '$1000', category: 'Especiales – Omori' },
     ];
 
-    const main = document.getElementById('mainContent');
     const categories = [...new Set(products.map(p => p.category))];
+    const main = document.getElementById('mainContent');
 
     categories.forEach(category => {
       const title = document.createElement('h2');
@@ -246,6 +239,5 @@
       document.getElementById('modalContainer').innerHTML = '';
       document.body.style.overflow = '';
     }
-  </script>
-</body>
+  </script></body>
 </html>
