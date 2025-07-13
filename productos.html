@@ -181,6 +181,26 @@
     .cart {
       background: #eee;
     }
+    @media (max-width: 600px) {
+  :root {
+    --card-w: 130px; /* ancho de la casilla más pequeño */
+    --card-h: 190px; /* altura más chica */
+  }
+  .product {
+    height: var(--card-h);
+    padding: 0.5rem 0;
+  }
+  .card-stack {
+    width: 65%; /* cartas más chicas */
+    margin-bottom: 0.3rem;
+  }
+  .product-name {
+    font-size: 0.85rem;
+    margin: 0;
+    padding: 0 4px;
+  }
+}
+
   </style>
 </head>
 <body>
