@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      /* Dejamos la cuadricula igual que antes, sin cambiar */
       --card-w: 180px;
       --card-h: 270px;
     }
@@ -44,7 +43,6 @@
       font-weight: 700;
     }
 
-    /* Grilla con tamaño original */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
@@ -52,26 +50,26 @@
       padding: 0 1.5rem 2rem;
     }
 
-    /* Tarjeta producto (cuadrícula y texto sin cambiar) */
     .product {
       background: #fff;
       border-radius: 14px;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-      padding-top: 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
       height: var(--card-h);
-      /* Para asegurar la altura fija y consistente */
+      overflow: hidden; /* Para que no se pueda clickear fuera */
+      padding-top: 12px; /* Bajamos un poco las cartas y texto */
+      box-sizing: border-box;
+      justify-content: flex-start; /* para que no quede espacio arriba */
     }
 
-    /* ACHICAMOS solo las cartas apiladas dentro */
     .card-stack {
       position: relative;
-      width: 50%; /* reducido a la mitad */
+      width: 50%;
       aspect-ratio: 63 / 88;
-      margin: 0 auto;
+      margin-bottom: 0.7rem; /* Separamos un poco del nombre */
     }
     .card-stack img {
       position: absolute;
@@ -84,7 +82,6 @@
       transition: transform 0.3s ease;
     }
 
-    /* Cartas blur y nítida ajustadas a nuevo tamaño (ya no se toca la cuadricula) */
     .card-stack img:nth-child(1) {
       filter: blur(3px);
       transform: translate(8px, -2px) rotate(15deg);
@@ -101,14 +98,14 @@
     }
 
     .product-name {
-      font-size: 0.9rem; /* tamaño texto original */
+      font-size: 0.9rem;
       font-weight: 600;
       padding: 6px 4px;
       text-align: center;
-      margin-top: 0.8rem;
+      margin: 0;
+      user-select: none;
     }
 
-    /* Hover cartas */
     .product:hover img:nth-child(1) {
       transform: translate(10px, -3px) rotate(18deg);
     }
@@ -195,7 +192,6 @@
   <div id="modalRoot"></div>
 
   <script>
-    /* datos packs */
     const products = [
       { img: 'pack1.jpg', name: 'Pack Clásico 1', desc: 'Cartas clásicas de Omori', price: '$800', cat: 'Clásicas – Omori' },
       { img: 'pack2.jpg', name: 'Pack Clásico 2', desc: 'Otra edición clásica', price: '$800', cat: 'Clásicas – Omori' },
@@ -227,7 +223,6 @@
       root.appendChild(grid);
     });
 
-    /* modal */
     function openModal(img, title, desc, price) {
       document.body.style.overflow = 'hidden';
       document.getElementById('modalRoot').innerHTML = `
