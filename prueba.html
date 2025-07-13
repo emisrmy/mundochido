@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prueba Efecto Cartas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .product {
+      width: 200px;
+      height: 280px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .card-stack {
+      position: relative;
+      width: 90%;
+      height: 80%;
+    }
+    .card-stack img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+      transition: 0.3s ease;
+    }
+    .card-stack img:nth-child(1) {
+      filter: blur(6px);
+      transform: translateY(10px) rotate(-2deg);
+      z-index: 1;
+    }
+    .card-stack img:nth-child(2) {
+      filter: blur(4px);
+      transform: translateY(5px) rotate(2deg);
+      z-index: 2;
+    }
+    .card-stack img:nth-child(3) {
+      z-index: 3;
+    }
+    .product-name {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="product">
+    <div class="card-stack">
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta" />
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta" />
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="Carta" />
+    </div>
+    <div class="product-name">Carta Prueba</div>
+  </div>
+</body>
+</html>
