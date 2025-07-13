@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -6,238 +7,250 @@
   <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --card-w: 180px;
+      --card-h: 250px; /* un poco menos para ajustarlo */
+    }
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background: #f8f8f8;
       color: #111;
-      overflow-x: hidden;
     }
     header {
-      background: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       position: sticky;
       top: 0;
       z-index: 100;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
     header img {
-      height: 70px;
+      height: 60px;
     }
     nav a {
       margin-left: 1.5rem;
-      text-decoration: none;
-      color: #111;
       font-weight: 600;
+      color: #111;
+      text-decoration: none;
     }
     h2 {
       margin: 2rem 1.5rem 1rem;
-      font-size: 1.4rem;
+      font-size: 1.25rem;
       font-weight: 700;
     }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
       gap: 1rem;
       padding: 0 1.5rem 2rem;
     }
+
     .product {
       background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      transition: transform 0.2s ease;
-      cursor: pointer;
-      position: relative;
-      height: 220px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
+      cursor: pointer;
+      height: var(--card-h);
+      overflow: hidden;
+      box-sizing: border-box;
+      justify-content: center; /* centro vertical */
+      padding: 0.8rem 0; /* algo de padding arriba y abajo */
+      position: relative; /* para contener imagenes */
     }
-    .product:hover {
-      transform: translateY(-4px);
-    }
+
     .card-stack {
       position: relative;
-      width: 90%;
-      height: 80%;
+      width: 50%;
+      aspect-ratio: 63 / 88;
+      margin-bottom: 0.5rem; /* separa un poco del nombre */
+      overflow: visible; /* permitir que cartas se muestren fuera */
     }
     .card-stack img {
       position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 16px;
-      transition: 0.3s ease;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transform-origin: bottom left;
+      transition: transform 0.3s ease;
+      pointer-events: none; /* para evitar que las imagenes bloqueen el click */
     }
+
     .card-stack img:nth-child(1) {
-      filter: blur(6px);
-      transform: translateY(12px) rotate(-2deg);
+      filter: blur(3px);
+      transform: translate(8px, -2px) rotate(15deg);
       z-index: 1;
     }
     .card-stack img:nth-child(2) {
       filter: blur(3px);
-      transform: translateY(6px) rotate(2deg);
+      transform: translate(4px, -1px) rotate(0deg);
       z-index: 2;
     }
     .card-stack img:nth-child(3) {
+      transform: rotate(-15deg);
       z-index: 3;
     }
+
     .product-name {
-      margin-top: 0.5rem;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
+      padding: 6px 4px;
+      text-align: center;
+      margin: 0;
+      user-select: none;
+      pointer-events: none; /* para que click pase al contenedor */
+      z-index: 10;
+      position: relative;
     }
-    .modal-overlay {
+
+    .product:hover img:nth-child(1) {
+      transform: translate(10px, -3px) rotate(18deg);
+    }
+    .product:hover img:nth-child(2) {
+      transform: translate(5px, -2px) rotate(0deg);
+    }
+    .product:hover img:nth-child(3) {
+      transform: rotate(-17deg) scale(1.04);
+    }
+
+    /* Modal compra */
+    .overlay {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      z-index: 200;
     }
     .modal {
       background: #fff;
-      border-radius: 16px;
-      padding: 1.5rem;
+      border-radius: 18px;
+      padding: 1.2rem;
       width: 90%;
-      max-width: 800px;
+      max-width: 640px;
       display: flex;
-      gap: 2rem;
+      gap: 1.2rem;
       max-height: 90vh;
       overflow: auto;
       position: relative;
     }
     .modal img {
-      width: 280px;
+      width: 240px;
       max-width: 100%;
       border-radius: 12px;
     }
     .modal-content {
       flex: 1;
-      min-width: 200px;
-    }
-    .modal h3 {
-      margin-top: 0;
     }
     .modal .price {
-      font-weight: bold;
       margin: 1rem 0;
-      font-size: 1.1rem;
+      font-weight: 700;
     }
-    .modal button {
-      padding: 0.6rem 1.2rem;
-      margin: 0.3rem;
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: none;
+      font-size: 1.4rem;
+      color: #777;
+      cursor: pointer;
+    }
+    .btn {
+      padding: 0.45rem 1.1rem;
       border: none;
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
+      margin-right: 0.4rem;
     }
-    .buy { background: #d4af37; color: #111; }
-    .cart { background: #eee; }
-    .close-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: transparent;
-      border: none;
-      font-size: 1.3rem;
-      cursor: pointer;
-      font-weight: bold;
-      color: #888;
+    .buy {
+      background: #d4af37;
+      color: #111;
     }
-    @media (max-width: 600px) {
-      nav a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-      }
-      h2 {
-        font-size: 1.2rem;
-      }
-      .modal {
-        flex-direction: column;
-        padding: 1rem;
-      }
-      .modal img {
-        width: 100%;
-      }
+    .cart {
+      background: #eee;
     }
   </style>
 </head>
 <body>
+  <!-- Navbar -->
   <header>
-    <a href="/">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/logo.png" alt="Mundo Chido Logo" />
-    </a>
+    <a href="/"><img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/logo.png" alt="Mundo Chido" /></a>
     <nav>
       <a href="/">Inicio</a>
       <a href="/productos">Productos</a>
       <a href="/contacto">Contacto</a>
     </nav>
-  </header>  <main id="mainContent"></main>  <div id="modalContainer"></div>  <script>
+  </header>
+
+  <main id="root"></main>
+  <div id="modalRoot"></div>
+
+  <script>
     const products = [
-      { img: 'pack1.jpg', name: 'Pack Clásico 1', desc: 'Cartas con diseño clásico inspirado en Omori.', price: '$800', category: 'Clásicas – Omori' },
-      { img: 'pack2.jpg', name: 'Pack Clásico 2', desc: 'Estilo alternativo para los más fans.', price: '$800', category: 'Clásicas – Omori' },
-      { img: 'pack3.jpeg', name: 'Pack Clásico 3', desc: 'Otra versión nostálgica de Omori.', price: '$800', category: 'Clásicas – Omori' },
-      { img: 'pack4.jpeg', name: 'Pack Especial 1', desc: 'Diseño limitado con detalles únicos.', price: '$1000', category: 'Especiales – Omori' },
-      { img: 'pack5.jpeg', name: 'Pack Especial 2', desc: 'Solo para los coleccionistas.', price: '$1000', category: 'Especiales – Omori' },
-      { img: 'pack6.jpeg', name: 'Pack Especial 3', desc: 'Una edición especial con acabado premium.', price: '$1000', category: 'Especiales – Omori' },
+      { img: 'pack1.jpg', name: 'Pack Clásico 1', desc: 'Cartas clásicas de Omori', price: '$800', cat: 'Clásicas – Omori' },
+      { img: 'pack2.jpg', name: 'Pack Clásico 2', desc: 'Otra edición clásica', price: '$800', cat: 'Clásicas – Omori' },
+      { img: 'pack3.jpeg', name: 'Pack Clásico 3', desc: 'Versión nostálgica', price: '$800', cat: 'Clásicas – Omori' },
+      { img: 'pack4.jpeg', name: 'Pack Especial 1', desc: 'Ilustraciones únicas', price: '$1000', cat: 'Especiales – Omori' },
+      { img: 'pack5.jpeg', name: 'Pack Especial 2', desc: 'Diseños exclusivos', price: '$1000', cat: 'Especiales – Omori' },
+      { img: 'pack6.jpeg', name: 'Pack Especial 3', desc: 'Arte de colección', price: '$1000', cat: 'Especiales – Omori' },
     ];
 
-    const categories = [...new Set(products.map(p => p.category))];
-    const main = document.getElementById('mainContent');
+    const root = document.getElementById('root');
+    [...new Set(products.map(p => p.cat))].forEach(cat => {
+      const h2 = document.createElement('h2');
+      h2.textContent = cat;
+      root.appendChild(h2);
 
-    categories.forEach(category => {
-      const title = document.createElement('h2');
-      title.textContent = category;
-      main.appendChild(title);
-
-      const section = document.createElement('div');
-      section.className = 'grid';
-
-      products.filter(p => p.category === category).forEach(p => {
-        section.innerHTML += `
-          <div class="product" onclick="showDetails('${p.img}', '${p.name}', '${p.desc}', '${p.price}')">
-            <div class="card-stack">
-              <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}" />
-              <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}" />
-              <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}" />
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      products.filter(p => p.cat === cat).forEach(p => {
+        grid.innerHTML += `
+          <div class='product' onclick="openModal('${p.img}', '${p.name}', '${p.desc}', '${p.price}')">
+            <div class='card-stack'>
+              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} blur 1' />
+              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} blur 2' />
+              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} nitida' />
             </div>
-            <div class="product-name">${p.name}</div>
+            <div class='product-name'>${p.name}</div>
           </div>`;
       });
-
-      main.appendChild(section);
+      root.appendChild(grid);
     });
 
-    function showDetails(img, title, desc, price) {
-      const container = document.getElementById('modalContainer');
+    function openModal(img, title, desc, price) {
       document.body.style.overflow = 'hidden';
-      container.innerHTML = `
-        <div class='modal-overlay' onclick='closeModal()'>
+      document.getElementById('modalRoot').innerHTML = `
+        <div class='overlay' onclick='closeM()'>
           <div class='modal' onclick='event.stopPropagation()'>
-            <button class='close-btn' onclick='closeModal()'>×</button>
+            <button class='close' onclick='closeM()'>×</button>
             <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${img}' alt='${title}' />
             <div class='modal-content'>
               <h3>${title}</h3>
               <p>${desc}</p>
               <div class='price'>${price}</div>
-              <button class='buy'>Comprar ahora</button>
-              <button class='cart'>Agregar al carrito</button>
+              <button class='btn buy'>Comprar ahora</button>
+              <button class='btn cart'>Agregar al carrito</button>
             </div>
           </div>
         </div>`;
     }
-
-    function closeModal() {
-      document.getElementById('modalContainer').innerHTML = '';
+    function closeM() {
+      document.getElementById('modalRoot').innerHTML = '';
       document.body.style.overflow = '';
     }
-  </script></body>
+  </script>
+</body>
 </html>
+
