@@ -15,10 +15,9 @@
       align-items: center;
       height: 100vh;
     }
-    /* Contenedor principal */
     .product {
-      width: 180px;
-      height: 260px;
+      width: 170px;
+      height: 250px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -29,12 +28,10 @@
       overflow: visible;
       cursor: pointer;
     }
-    /* Pila de cartas */
     .card-stack {
       position: relative;
       width: 90%;
-      aspect-ratio: 63 / 88;
-      transform: rotate(-25deg);
+      aspect-ratio: 63/88;
     }
     .card-stack img {
       position: absolute;
@@ -46,35 +43,27 @@
       transform-origin: bottom left;
       transition: transform 0.35s ease;
     }
-    .card-stack img:nth-child(1) {
-      filter: blur(5px);
-      transform: translate(30px, -8px) rotate(30deg);
-      z-index: 1;
-    }
-    .card-stack img:nth-child(2) {
+    /* carta de atrás derecha */
+    .card-stack img:nth-child(1){
       filter: blur(4px);
-      transform: translate(15px, -5px) rotate(18deg);
-      z-index: 2;
+      transform: translate(18px,-4px) rotate(15deg);
+      z-index:1;
     }
-    .card-stack img:nth-child(3) {
-      transform: translate(0, 0) rotate(-10deg);
-      z-index: 3;
+    /* carta central recta */
+    .card-stack img:nth-child(2){
+      filter: blur(4px);
+      transform: translate(9px,-2px) rotate(0deg);
+      z-index:2;
     }
-    .product-name {
-      margin-top: 0.6rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-align: center;
+    /* carta nítida inclinada a la izquierda */
+    .card-stack img:nth-child(3){
+      transform: rotate(-15deg);
+      z-index:3;
     }
-    .product:hover .card-stack img:nth-child(1) {
-      transform: translate(34px, -12px) rotate(34deg);
-    }
-    .product:hover .card-stack img:nth-child(2) {
-      transform: translate(20px, -8px) rotate(22deg);
-    }
-    .product:hover .card-stack img:nth-child(3) {
-      transform: translate(0, 0) rotate(-12deg) scale(1.04);
-    }
+    .product-name{margin-top:.6rem;font-size:.9rem;font-weight:600;text-align:center}
+    .product:hover img:nth-child(1){transform:translate(22px,-6px) rotate(18deg)}
+    .product:hover img:nth-child(2){transform:translate(11px,-3px) rotate(0deg)}
+    .product:hover img:nth-child(3){transform:rotate(-17deg) scale(1.05)}
   </style>
 </head>
 <body>
