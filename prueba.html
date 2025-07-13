@@ -7,43 +7,177 @@
   <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    :root { --card-w: 90px; --card-h: 135px; }            /* 50 % más chicas */
-    body{margin:0;font-family:'Poppins',sans-serif;background:#f8f8f8;color:#111}
-    header{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-    header img{height:60px}
-    nav a{margin-left:1.5rem;font-weight:600;color:#111;text-decoration:none}
-    h2{margin:2rem 1.5rem 1rem;font-size:1.25rem;font-weight:700}
+    :root {
+      /* Dejamos la cuadricula igual que antes, sin cambiar */
+      --card-w: 180px;
+      --card-h: 270px;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f8f8f8;
+      color: #111;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    header img {
+      height: 60px;
+    }
+    nav a {
+      margin-left: 1.5rem;
+      font-weight: 600;
+      color: #111;
+      text-decoration: none;
+    }
+    h2 {
+      margin: 2rem 1.5rem 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
 
-    /* grilla responsive */
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-w),1fr));gap:1rem;padding:0 1.5rem 2rem}
+    /* Grilla con tamaño original */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+      gap: 1rem;
+      padding: 0 1.5rem 2rem;
+    }
 
-    /* tarjeta producto */
-    .product{background:#fff;border-radius:14px;box-shadow:0 3px 10px rgba(0,0,0,.08);padding-top:6px;display:flex;flex-direction:column;align-items:center;cursor:pointer}
-    .card-stack{position:relative;width:100%;aspect-ratio:63/88;}
-    .card-stack img{position:absolute;width:100%;height:100%;object-fit:cover;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.12);transform-origin:bottom left;transition:transform .3s ease}
+    /* Tarjeta producto (cuadrícula y texto sin cambiar) */
+    .product {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      padding-top: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      height: var(--card-h);
+      /* Para asegurar la altura fija y consistente */
+    }
 
-    /* cartas blur y nítida (ajustadas al nuevo tamaño) */
-    .card-stack img:nth-child(1){filter:blur(3px);transform:translate(8px,-2px) rotate(15deg);z-index:1}
-    .card-stack img:nth-child(2){filter:blur(3px);transform:translate(4px,-1px) rotate(0deg);z-index:2}
-    .card-stack img:nth-child(3){transform:rotate(-15deg);z-index:3}
+    /* ACHICAMOS solo las cartas apiladas dentro */
+    .card-stack {
+      position: relative;
+      width: 50%; /* reducido a la mitad */
+      aspect-ratio: 63 / 88;
+      margin: 0 auto;
+    }
+    .card-stack img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transform-origin: bottom left;
+      transition: transform 0.3s ease;
+    }
 
-    .product-name{font-size:.7rem;font-weight:600;padding:6px 4px;text-align:center}
+    /* Cartas blur y nítida ajustadas a nuevo tamaño (ya no se toca la cuadricula) */
+    .card-stack img:nth-child(1) {
+      filter: blur(3px);
+      transform: translate(8px, -2px) rotate(15deg);
+      z-index: 1;
+    }
+    .card-stack img:nth-child(2) {
+      filter: blur(3px);
+      transform: translate(4px, -1px) rotate(0deg);
+      z-index: 2;
+    }
+    .card-stack img:nth-child(3) {
+      transform: rotate(-15deg);
+      z-index: 3;
+    }
 
-    /* hover */
-    .product:hover img:nth-child(1){transform:translate(10px,-3px) rotate(18deg)}
-    .product:hover img:nth-child(2){transform:translate(5px,-2px) rotate(0deg)}
-    .product:hover img:nth-child(3){transform:rotate(-17deg) scale(1.04)}
+    .product-name {
+      font-size: 0.9rem; /* tamaño texto original */
+      font-weight: 600;
+      padding: 6px 4px;
+      text-align: center;
+      margin-top: 0.8rem;
+    }
 
-    /* modal compra */
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:200}
-    .modal{background:#fff;border-radius:18px;padding:1.2rem;width:90%;max-width:640px;display:flex;gap:1.2rem;max-height:90vh;overflow:auto;position:relative}
-    .modal img{width:240px;max-width:100%;border-radius:12px}
-    .modal-content{flex:1}
-    .modal .price{margin:1rem 0;font-weight:700}
-    .close{position:absolute;top:10px;right:10px;border:none;background:none;font-size:1.4rem;color:#777;cursor:pointer}
-    .btn{padding:.45rem 1.1rem;border:none;border-radius:10px;font-weight:600;cursor:pointer;margin-right:.4rem}
-    .buy{background:#d4af37;color:#111}
-    .cart{background:#eee}
+    /* Hover cartas */
+    .product:hover img:nth-child(1) {
+      transform: translate(10px, -3px) rotate(18deg);
+    }
+    .product:hover img:nth-child(2) {
+      transform: translate(5px, -2px) rotate(0deg);
+    }
+    .product:hover img:nth-child(3) {
+      transform: rotate(-17deg) scale(1.04);
+    }
+
+    /* Modal compra */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 18px;
+      padding: 1.2rem;
+      width: 90%;
+      max-width: 640px;
+      display: flex;
+      gap: 1.2rem;
+      max-height: 90vh;
+      overflow: auto;
+      position: relative;
+    }
+    .modal img {
+      width: 240px;
+      max-width: 100%;
+      border-radius: 12px;
+    }
+    .modal-content {
+      flex: 1;
+    }
+    .modal .price {
+      margin: 1rem 0;
+      font-weight: 700;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: none;
+      font-size: 1.4rem;
+      color: #777;
+      cursor: pointer;
+    }
+    .btn {
+      padding: 0.45rem 1.1rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 0.4rem;
+    }
+    .buy {
+      background: #d4af37;
+      color: #111;
+    }
+    .cart {
+      background: #eee;
+    }
   </style>
 </head>
 <body>
@@ -62,30 +196,30 @@
 
   <script>
     /* datos packs */
-    const products=[
-      {img:'pack1.jpg',name:'Pack Clásico 1',desc:'Cartas clásicas de Omori',price:'$800',cat:'Clásicas – Omori'},
-      {img:'pack2.jpg',name:'Pack Clásico 2',desc:'Otra edición clásica',price:'$800',cat:'Clásicas – Omori'},
-      {img:'pack3.jpeg',name:'Pack Clásico 3',desc:'Versión nostálgica',price:'$800',cat:'Clásicas – Omori'},
-      {img:'pack4.jpeg',name:'Pack Especial 1',desc:'Ilustraciones únicas',price:'$1000',cat:'Especiales – Omori'},
-      {img:'pack5.jpeg',name:'Pack Especial 2',desc:'Diseños exclusivos',price:'$1000',cat:'Especiales – Omori'},
-      {img:'pack6.jpeg',name:'Pack Especial 3',desc:'Arte de colección',price:'$1000',cat:'Especiales – Omori'},
+    const products = [
+      { img: 'pack1.jpg', name: 'Pack Clásico 1', desc: 'Cartas clásicas de Omori', price: '$800', cat: 'Clásicas – Omori' },
+      { img: 'pack2.jpg', name: 'Pack Clásico 2', desc: 'Otra edición clásica', price: '$800', cat: 'Clásicas – Omori' },
+      { img: 'pack3.jpeg', name: 'Pack Clásico 3', desc: 'Versión nostálgica', price: '$800', cat: 'Clásicas – Omori' },
+      { img: 'pack4.jpeg', name: 'Pack Especial 1', desc: 'Ilustraciones únicas', price: '$1000', cat: 'Especiales – Omori' },
+      { img: 'pack5.jpeg', name: 'Pack Especial 2', desc: 'Diseños exclusivos', price: '$1000', cat: 'Especiales – Omori' },
+      { img: 'pack6.jpeg', name: 'Pack Especial 3', desc: 'Arte de colección', price: '$1000', cat: 'Especiales – Omori' },
     ];
 
-    const root=document.getElementById('root');
-    [...new Set(products.map(p=>p.cat))].forEach(cat=>{
-      const h2=document.createElement('h2');
-      h2.textContent=cat;
+    const root = document.getElementById('root');
+    [...new Set(products.map(p => p.cat))].forEach(cat => {
+      const h2 = document.createElement('h2');
+      h2.textContent = cat;
       root.appendChild(h2);
 
-      const grid=document.createElement('div');
-      grid.className='grid';
-      products.filter(p=>p.cat===cat).forEach(p=>{
-        grid.innerHTML+=`
-          <div class='product' onclick="openModal('${p.img}','${p.name}','${p.desc}','${p.price}')">
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      products.filter(p => p.cat === cat).forEach(p => {
+        grid.innerHTML += `
+          <div class='product' onclick="openModal('${p.img}', '${p.name}', '${p.desc}', '${p.price}')">
             <div class='card-stack'>
-              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' />
-              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' />
-              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' />
+              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} blur 1' />
+              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} blur 2' />
+              <img src='https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${p.img}' alt='${p.name} nitida' />
             </div>
             <div class='product-name'>${p.name}</div>
           </div>`;
@@ -94,9 +228,9 @@
     });
 
     /* modal */
-    function openModal(img,title,desc,price){
-      document.body.style.overflow='hidden';
-      document.getElementById('modalRoot').innerHTML=`
+    function openModal(img, title, desc, price) {
+      document.body.style.overflow = 'hidden';
+      document.getElementById('modalRoot').innerHTML = `
         <div class='overlay' onclick='closeM()'>
           <div class='modal' onclick='event.stopPropagation()'>
             <button class='close' onclick='closeM()'>×</button>
@@ -111,7 +245,10 @@
           </div>
         </div>`;
     }
-    function closeM(){document.getElementById('modalRoot').innerHTML='';document.body.style.overflow=''}
+    function closeM() {
+      document.getElementById('modalRoot').innerHTML = '';
+      document.body.style.overflow = '';
+    }
   </script>
 </body>
 </html>
