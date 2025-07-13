@@ -86,15 +86,20 @@
       border-radius: 16px;
       padding: 1.5rem;
       width: 90%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      text-align: center;
+      max-width: 800px;
+      display: flex;
+      gap: 2rem;
+      flex-direction: row;
+      flex-wrap: wrap;
     }
     .modal img {
-      width: 100%;
+      width: 300px;
+      max-width: 100%;
       border-radius: 12px;
-      margin-bottom: 1rem;
+    }
+    .modal-content {
+      flex: 1;
+      min-width: 200px;
     }
     .modal h3 {
       margin-top: 0;
@@ -114,6 +119,16 @@
     }
     .buy { background: #d4af37; color: #111; }
     .cart { background: #eee; }
+    .close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
     @media (max-width: 600px) {
       nav a {
         margin-left: 1rem;
@@ -122,7 +137,13 @@
       h2 {
         font-size: 1.2rem;
       }
-      .modal { padding: 1rem; }
+      .modal {
+        flex-direction: column;
+        padding: 1rem;
+      }
+      .modal img {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -196,12 +217,15 @@
       container.innerHTML = `
         <div class="modal-overlay" onclick="this.remove()">
           <div class="modal" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="document.getElementById('modalContainer').innerHTML = ''">×</button>
             <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/${img}" alt="${title}" />
-            <h3>${title}</h3>
-            <p>${desc}</p>
-            <div class="price">${price}</div>
-            <button class="buy">Comprar ahora</button>
-            <button class="cart">Agregar al carrito</button>
+            <div class="modal-content">
+              <h3>${title}</h3>
+              <p>${desc}</p>
+              <div class="price">${price}</div>
+              <button class="buy">Comprar ahora</button>
+              <button class="cart">Agregar al carrito</button>
+            </div>
           </div>
         </div>
       `;
@@ -209,4 +233,3 @@
   </script>
 </body>
 </html>
-
