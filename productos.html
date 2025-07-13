@@ -1,131 +1,135 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Productos – Mundo Chido</title>
-  <link rel="icon" href="https://emisrmy.github.io/mundochido/img/preview.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Productos – Mundo Chido</title>
+<link rel="icon" href="https://emisrmy.github.io/mundochido/img/preview.png" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f7f7f7;
-      color: #111;
-      padding: 2rem 1rem 4rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
+<style>
+:root { --gold:#d4af37; --card-bg:#fff; --shadow:0 10px 25px rgba(0,0,0,.07);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Poppins',sans-serif;background:#f7f7f7;color:#111;
+  display:flex;flex-direction:column;align-items:center;min-height:100vh;
+  padding:2rem 1rem 4rem;
+}
+h1{font-size:2.6rem;margin-bottom:2rem;opacity:0;animation:fIn .8s .2s forwards}
+@keyframes fIn{to{opacity:1;transform:none}}
+/* ---------- carrusel ---------- */
+.category{width:100%;max-width:1080px;margin-bottom:3.5rem}
+.category h2{font-size:1.5rem;margin:0 0 1rem .2rem;font-weight:700}
+.carousel{
+  display:flex;gap:2rem;overflow-x:auto;padding-bottom:.5rem;
+  scroll-snap-type:x mandatory;scroll-padding:2rem;
+}
+.carousel::-webkit-scrollbar{display:none}
+.product{
+  flex:0 0 260px;scroll-snap-align:start;
+  background:var(--card-bg);border-radius:20px;box-shadow:var(--shadow);
+  overflow:hidden;transform:translateY(20px);opacity:0;
+  transition:transform .35s ease,box-shadow .35s ease;
+  perspective:800px; /* para el parallax */
+}
+.product.show{transform:translateY(0);opacity:1}
+.product:hover{box-shadow:0 14px 40px rgba(0,0,0,.1)}
+.card-inner{transition:transform .25s ease;will-change:transform}
+.product:hover .card-inner{transform:translateZ(20px)}
+/* Imagen con zoom */
+.product img{width:100%;display:block;transition:transform .4s ease}
+.product:hover img{transform:scale(1.08)}
+.product-content{padding:1rem 1.1rem 1.4rem}
+.product-title{font-size:1.25rem;margin-bottom:.4rem}
+.product-desc{font-size:.9rem;color:#555}
+.badge{
+  position:absolute;top:10px;left:10px;background:var(--gold);
+  color:#111;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:8px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1)
+}
+/* Back button */
+.back-btn{
+  position:fixed;top:20px;left:20px;font-size:.9rem;
+  background:rgba(0,0,0,.05);padding:.45rem 1rem;border-radius:12px;
+  text-decoration:none;color:#111;transition:.2s;
+}
+.back-btn:hover{background:rgba(0,0,0,.08)}
+/* small screens tweak */
+@media(max-width:600px){
+  h1{font-size:2rem}
+  .product{flex:0 0 220px}
+}
+</style>
+</head>
+<body>
 
-    h1 {
-      font-size: 2.6rem;
-      margin-bottom: 1.5rem;
-      animation: fadeIn 1s ease forwards;
-      opacity: 0;
-    }
+<a class="back-btn" href="/">← Volver</a>
+<h1>Packs de Cartas</h1>
 
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      max-width: 1080px;
-    }
+<!-- ---------- CATEGORÍA: CLÁSICOS ---------- -->
+<section class="category">
+  <h2>Clásicos</h2>
+  <div class="carousel">
 
-    .product {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
-    }
-
-    .product img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-bottom: 1px solid #eee;
-    }
-
-    .product-content {
-      padding: 1.2rem 1rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .product-title {
-      font-size: 1.3rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .product-desc {
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    .back-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      font-size: 0.9rem;
-      background: rgba(0, 0, 0, 0.05);
-      padding: 0.4rem 0.9rem;
-      border-radius: 12px;
-      text-decoration: none;
-      color: #111;
-      transition: background 0.2s ease;
-    }
-
-    .back-button:hover {
-      background: rgba(0, 0, 0, 0.08);
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-      .product-title {
-        font-size: 1.1rem;
-      }
-      .product-desc {
-        font-size: 0.85rem;
-      }
-    }
-  </style></head>
-<body><a href="/" class="back-button">← Volver</a>
-
-  <h1>Packs de Cartas</h1>  <section class="product-grid">
     <div class="product">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1">
-      <div class="product-content">
-        <h2 class="product-title">Pack Clásico</h2>
-        <p class="product-desc">El set original. 30 cartas únicas, diseño elegante y divertido.</p>
+      <div class="card-inner">
+        <div style="position:relative">
+          <span class="badge">Nuevo</span>
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack Clásico">
+        </div>
+        <div class="product-content">
+          <h3 class="product-title">Pack Clásico</h3>
+          <p class="product-desc">El set original. 30 cartas únicas con diseño elegante y divertido.</p>
+        </div>
       </div>
-    </div><div class="product">
-  <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2">
-  <div class="product-content">
-    <h2 class="product-title">Pack Oscuro</h2>
-    <p class="product-desc">Cartas misteriosas con tonos profundos y detalles dorados.</p>
-  </div>
-</div>
+    </div>
 
-  </section></body>
+    <!-- duplica más productos aquí si quieres -->
+
+  </div>
+</section>
+
+<!-- ---------- CATEGORÍA: OSCUROS ---------- -->
+<section class="category">
+  <h2>Oscuros</h2>
+  <div class="carousel">
+
+    <div class="product">
+      <div class="card-inner">
+        <div style="position:relative">
+          <span class="badge">Popular</span>
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack Oscuro">
+        </div>
+        <div class="product-content">
+          <h3 class="product-title">Pack Oscuro</h3>
+          <p class="product-desc">Cartas misteriosas con tonos profundos y detalles dorados.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- duplica más productos aquí -->
+
+  </div>
+</section>
+
+<script>
+// ------------ Fade-in con IntersectionObserver ------------
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');observer.unobserve(e.target)}})
+},{threshold:.3});
+document.querySelectorAll('.product').forEach(p=>observer.observe(p));
+
+// ------------ Parallax hover (desktop only) ------------
+document.querySelectorAll('.product').forEach(card=>{
+  const inner=card.querySelector('.card-inner');
+  card.addEventListener('mousemove',e=>{
+    const rect=card.getBoundingClientRect();
+    const x=(e.clientX-rect.left)/rect.width-.5;
+    const y=(e.clientY-rect.top)/rect.height-.5;
+    inner.style.transform=`rotateY(${x*10}deg) rotateX(${ -y*10}deg) translateZ(20px)`;
+  });
+  card.addEventListener('mouseleave',()=>inner.style.transform='translateZ(0)');
+});
+</script>
+</body>
 </html>
