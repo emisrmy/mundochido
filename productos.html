@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos – Mundo Chido</title>
+  <link rel="icon" href="https://emisrmy.github.io/mundochido/img/preview.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f7f7f7;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 960px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-6px);
+    }
+
+    .product img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .product-content {
+      padding: 1rem;
+    }
+
+    .product-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-desc {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Packs de Cartas</h1>
+
+  <section class="product-grid">
+
+    <div class="product">
+      <img src="https://emisrmy.github.io/mundochido/img/pack1.jpg" alt="Pack 1">
+      <div class="product-content">
+        <h2 class="product-title">Pack Clásico</h2>
+        <p class="product-desc">El set original. 30 cartas únicas, diseño elegante y divertido.</p>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://emisrmy.github.io/mundochido/img/pack2.jpg" alt="Pack 2">
+      <div class="product-content">
+        <h2 class="product-title">Pack Oscuro</h2>
+        <p class="product-desc">Cartas misteriosas con tonos profundos y detalles dorados.</p>
+      </div>
+    </div>
+
+    <!-- Agregá más productos duplicando el bloque -->
+
+  </section>
+
+</body>
+</html>
