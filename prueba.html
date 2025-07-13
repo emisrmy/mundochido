@@ -68,12 +68,23 @@
     width: 100%;
   }
 
+  /* Categoría */
+  .category {
+    margin-bottom: 3rem;
+  }
+  .category h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #222;
+    user-select: none;
+  }
+
   /* Grid de productos */
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
     gap: 1rem;
-    margin-bottom: 3rem;
   }
 
   /* Casilla producto */
@@ -302,6 +313,11 @@
     main {
       padding: 0.8rem 0.8rem 2rem;
     }
+    .category h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.7rem;
+      padding-left: 0.3rem;
+    }
     .product-grid {
       grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
       gap: 0.7rem;
@@ -370,56 +386,67 @@
 </nav>
 
 <main>
-  <div class="product-grid" role="list" aria-label="Productos clásicos y especiales Omori">
-    <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 1" onclick="openProductModal(0)">
-      <div class="card-stack" aria-hidden="true">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
+  <!-- Categoría Clásicas -->
+  <section class="category" aria-label="Categoría Clásicas Omori">
+    <h2>Clásicas - Omori</h2>
+    <div class="product-grid" role="list">
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 1" onclick="openProductModal(0)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg" alt="" />
+        </div>
+        <div class="product-name">Pack de cartas Omori 1</div>
       </div>
-      <div class="product-name">Pack de cartas Omori 1</div>
-    </div>
-    <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 2" onclick="openProductModal(1)">
-      <div class="card-stack" aria-hidden="true">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 2" onclick="openProductModal(1)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg" alt="" />
+        </div>
+        <div class="product-name">Pack de cartas Omori 2</div>
       </div>
-      <div class="product-name">Pack de cartas Omori 2</div>
-    </div>
-    <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 3" onclick="openProductModal(2)">
-      <div class="card-stack" aria-hidden="true">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack de cartas Omori 3" onclick="openProductModal(2)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack3.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack de cartas Omori 3</div>
       </div>
-      <div class="product-name">Pack de cartas Omori 3</div>
     </div>
-    <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 4" onclick="openProductModal(3)">
-      <div class="card-stack" aria-hidden="true">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
+  </section>
+
+  <!-- Categoría Especiales -->
+  <section class="category" aria-label="Categoría Especiales Omori">
+    <h2>Especiales - Omori</h2>
+    <div class="product-grid" role="list">
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 4" onclick="openProductModal(3)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack4.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack especial Omori 4</div>
       </div>
-      <div class="product-name">Pack especial Omori 4</div>
-    </div>
-    <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 5" onclick="openProductModal(4)">
-      <div class="card-stack" aria-hidden="true">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 5" onclick="openProductModal(4)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack5.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack especial Omori 5</div>
       </div>
-      <div class="product-name">Pack especial Omori 5</div>
-    </div>
-    <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 6" onclick="openProductModal(5)">
-      <div class="card-stack" aria-hidden="true">
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
-        <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
+      <div class="product" role="listitem" tabindex="0" aria-label="Pack especial Omori 6" onclick="openProductModal(5)">
+        <div class="card-stack" aria-hidden="true">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack6.jpeg" alt="" />
+        </div>
+        <div class="product-name">Pack especial Omori 6</div>
       </div>
-      <div class="product-name">Pack especial Omori 6</div>
     </div>
-  </div>
+  </section>
 </main>
 
 <!-- Modal información producto -->
@@ -442,18 +469,17 @@
 </div>
 
 <script>
-  // Datos de productos
   const products = [
     {
       name: 'Pack de cartas Omori 1',
-      description: 'Pack clásico inspirado en Omori con ilustraciones originales.',
-      price: '$1500',
+      description: 'Edición especial con arte exclusivo y contenido premium.',
+      price: '$1200',
       img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack1.jpg',
     },
     {
       name: 'Pack de cartas Omori 2',
-      description: 'Segunda edición del pack clásico con cartas coleccionables.',
-      price: '$1700',
+      description: 'Pack clásico con cartas nítidas y diseños únicos.',
+      price: '$1500',
       img: 'https://raw.githubusercontent.com/emisrmy/mundochido/main/img/pack2.jpg',
     },
     {
@@ -510,13 +536,13 @@
   }
 
   modal.addEventListener('click', (e) => {
-    if(e.target === modal) {
+    if (e.target === modal) {
       closeProductModal();
     }
   });
 
   document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape' && modal.classList.contains('active')) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
       closeProductModal();
     }
   });
