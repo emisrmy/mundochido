@@ -23,7 +23,6 @@
     display: flex;
     flex-direction: column;
   }
-  /* Navbar */
   nav {
     background: #fff;
     padding: 0.6rem 1rem;
@@ -59,7 +58,6 @@
   nav .nav-links a:hover {
     color: var(--gold);
   }
-
   main {
     padding: 1rem 1rem 3rem;
     flex-grow: 1;
@@ -67,8 +65,6 @@
     margin: 0 auto;
     width: 100%;
   }
-
-  /* Categoría */
   .category {
     margin-bottom: 3rem;
   }
@@ -79,15 +75,11 @@
     color: #222;
     user-select: none;
   }
-
-  /* Grid de productos */
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
     gap: 1rem;
   }
-
-  /* Casilla producto */
   .product {
     background: #fff;
     border-radius: 16px;
@@ -97,7 +89,6 @@
     flex-direction: column;
     align-items: center;
     padding: 1rem 0 1.3rem;
-    /* altura automática para ajustar cartas + nombre */
     height: auto;
     min-height: 260px;
     position: relative;
@@ -108,13 +99,11 @@
   .product:hover {
     box-shadow: 0 12px 28px rgba(0,0,0,0.18);
   }
-
-  /* Card stack - cartas apiladas con blur */
   .card-stack {
     position: relative;
     width: 45%;
     aspect-ratio: 63 / 88;
-    margin-bottom: 1rem; /* espacio entre cartas y nombre */
+    margin-bottom: 1rem;
     pointer-events: none;
   }
   .card-stack img {
@@ -128,29 +117,12 @@
     transition: transform 0.35s ease;
     pointer-events: none;
   }
-  /* Carta atrás derecha (blur) */
-  .card-stack img:nth-child(1){
-    filter: blur(4px);
-    transform: translate(18px,-4px) rotate(15deg);
-    z-index: 1;
-  }
-  /* Carta central recta (blur) */
-  .card-stack img:nth-child(2){
-    filter: blur(4px);
-    transform: translate(9px,-2px) rotate(0deg);
-    z-index: 2;
-  }
-  /* Carta nítida inclinada a la izquierda */
-  .card-stack img:nth-child(3){
-    transform: rotate(-15deg);
-    z-index: 3;
-  }
-  /* Animación hover */
+  .card-stack img:nth-child(1){filter: blur(4px);transform: translate(18px,-4px) rotate(15deg);z-index: 1;}
+  .card-stack img:nth-child(2){filter: blur(4px);transform: translate(9px,-2px) rotate(0deg);z-index: 2;}
+  .card-stack img:nth-child(3){transform: rotate(-15deg);z-index: 3;}
   .product:hover .card-stack img:nth-child(1){transform: translate(22px,-6px) rotate(18deg);}
   .product:hover .card-stack img:nth-child(2){transform: translate(11px,-3px) rotate(0deg);}
   .product:hover .card-stack img:nth-child(3){transform: rotate(-17deg) scale(1.05);}
-
-  /* Nombre del producto */
   .product-name {
     font-size: 0.95rem;
     font-weight: 600;
@@ -158,11 +130,8 @@
     text-align: center;
     padding: 0 0.4rem;
     user-select: text;
-    /* Separación desde abajo para que no se vea pegado */
     margin-bottom: 0;
   }
-
-  /* Modal información producto */
   #productModal {
     position: fixed;
     inset: 0;
@@ -173,9 +142,6 @@
     z-index: 100;
     overflow-y: auto;
     padding: 1rem;
-    -webkit-overflow-scrolling: touch;
-
-    /* Animación */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -198,8 +164,6 @@
     display: flex;
     overflow: hidden;
     position: relative;
-
-    /* Escala para animación */
     transform: scale(0.85);
     transition: transform 0.3s ease;
   }
@@ -209,7 +173,6 @@
   #productModal.closing .modal-content {
     transform: scale(0.85);
   }
-
   #productModal .modal-image {
     width: 50%;
     aspect-ratio: 63 / 88;
@@ -224,123 +187,22 @@
   }
   #productModal .modal-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     border-radius: 20px 0 0 20px;
     user-select: none;
     pointer-events: none;
   }
-  #productModal .modal-info {
-    padding: 1.8rem 2.5rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: #111;
-  }
-  #productModal .modal-info h3 {
-    margin-bottom: 0.8rem;
-    font-weight: 700;
-    font-size: 1.8rem;
-  }
-  #productModal .modal-info p {
-    flex-grow: 1;
-    line-height: 1.4;
-    font-size: 1rem;
-    margin-bottom: 1.2rem;
-    color: #555;
-  }
-  #productModal .modal-info .price {
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--gold);
-    margin-bottom: 1.8rem;
-  }
-  #productModal .modal-info .buttons {
-    display: flex;
-    gap: 1rem;
-  }
-  #productModal .modal-info button {
-    padding: 0.9rem 1.8rem;
-    border-radius: 14px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-    user-select: none;
-  }
-  #productModal .modal-info button.buy-now {
-    background: var(--gold);
-    color: #111;
-  }
-  #productModal .modal-info button.buy-now:hover {
-    background: #b38c23;
-  }
-  #productModal .modal-info button.add-cart {
-    background: #eee;
-    color: #111;
-  }
-  #productModal .modal-info button.add-cart:hover {
-    background: #ddd;
-  }
-  /* Botón cerrar */
-  #productModal .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 14px;
-    font-size: 1.6rem;
-    color: #666;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.3s ease;
-    z-index: 110;
-    padding: 4px 8px;
-    border-radius: 12px;
-    opacity: 0.5;
-  }
-  #productModal .close-btn:hover {
-    color: var(--gold);
-    opacity: 1;
-  }
-
-  /* Scroll disable body cuando modal abierto */
-  body.modal-open {
-    overflow: hidden;
-    touch-action: none;
-  }
-
-  /* Media queries para celular */
   @media (max-width: 600px) {
-    main {
-      padding: 0.8rem 0.8rem 2rem;
-    }
-    .category h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.7rem;
-      padding-left: 0.3rem;
-    }
-    .product-grid {
-      grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
-      gap: 0.7rem;
-    }
-    .product {
-      height: auto;
-      padding: 0.8rem 0 1rem;
-      min-height: auto;
-    }
     .card-stack {
-      width: 36%; /* 20% menos que 45% */
+      width: 33%;
       margin-bottom: 0.9rem;
     }
     .product-name {
       font-size: 0.85rem;
-      padding: 0 0.6rem; /* más padding para que no quede pegado */
+      padding: 0 0.6rem;
       margin-bottom: 0;
     }
-    /* Modal adaptado para celular */
     #productModal .modal-content {
       flex-direction: column;
       max-height: 85vh;
@@ -349,34 +211,13 @@
     }
     #productModal .modal-image {
       width: 100%;
+      height: auto;
+      aspect-ratio: 63 / 88;
       border-radius: 16px 16px 0 0;
-      aspect-ratio: auto;
-      height: 220px;
-    }
-    #productModal .modal-info {
-      padding: 1.2rem 1.4rem;
-    }
-    #productModal .modal-info h3 {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    #productModal .modal-info .price {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
-    #productModal .modal-info button {
-      font-size: 0.9rem;
-      padding: 0.7rem 1.2rem;
-      border-radius: 12px;
-    }
-    #productModal .close-btn {
-      top: 6px;
-      right: 8px;
-      font-size: 1.4rem;
-      padding: 3px 6px;
     }
   }
 </style>
+  
 </head>
 <body>
 
