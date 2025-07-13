@@ -1,198 +1,185 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Productos – Mundo Chido</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
   <link rel="icon" type="image/png" href="https://emisrmy.github.io/mundochido/img/preview.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --gold: #d4af37;
-    }* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #f8f8f8;
-  color: #111;
-  min-height: 100vh;
-  padding-top: 80px;
-}
-
-.navbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 70px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  z-index: 1000;
-  transition: top 0.3s;
-}
-
-.navbar img {
-  height: 45px;
-}
-
-.navbar nav a {
-  margin-left: 1.2rem;
-  text-decoration: none;
-  color: #111;
-  font-weight: bold;
-}
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.product {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.product:hover {
-  transform: scale(1.02);
-}
-
-.product img {
-  width: 100%;
-  object-fit: cover;
-  height: 180px;
-}
-
-.product h3 {
-  font-size: 1.1rem;
-  padding: 0.8rem 1rem;
-}
-
-/* Modal */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.modal {
-  background: white;
-  border-radius: 20px;
-  max-width: 90%;
-  max-height: 90vh;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: column;
-}
-
-@media(min-width: 768px) {
-  .modal-content {
-    flex-direction: row;
-  }
-}
-
-.modal img {
-  max-width: 100%;
-  border-radius: 20px 20px 0 0;
-}
-
-.modal-info {
-  padding: 1rem;
-  flex: 1;
-}
-
-.modal h2 {
-  margin-bottom: 0.5rem;
-}
-
-.modal p {
-  margin-bottom: 1rem;
-}
-
-.modal button {
-  padding: 10px 16px;
-  margin-right: 0.5rem;
-  border: none;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-close {
-  align-self: flex-end;
-  background: none;
-  font-size: 1.5rem;
-  border: none;
-  margin: 1rem;
-  cursor: pointer;
-}
-
-.btn-buy {
-  background-color: #d4af37;
-}
-
+      --bg: #f8f8f8;
+      --text: #111;
+      --modal-bg: #fff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-top: 70px;
+    }
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      z-index: 10;
+    }
+    .navbar img {
+      height: 40px;
+    }
+    .navbar nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .section {
+      padding: 2rem;
+    }
+    .section h2 {
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+      border-left: 4px solid var(--gold);
+      padding-left: 10px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+    .product {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    .product:hover {
+      transform: scale(1.03);
+    }
+    .product img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    .product p {
+      padding: 10px;
+      font-weight: 600;
+      text-align: center;
+    }
+    /* Modal */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+    .modal {
+      background: var(--modal-bg);
+      border-radius: 20px;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .modal img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+    .modal h3 {
+      margin-bottom: 0.5rem;
+    }
+    .modal .price {
+      color: var(--gold);
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    .modal button {
+      padding: 10px 16px;
+      margin: 6px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .buy-now {
+      background: var(--gold);
+      color: #111;
+    }
+    .add-cart {
+      background: #eee;
+    }
+    @media (max-width: 600px) {
+      .navbar nav a { margin-left: 12px; font-size: 0.9rem; }
+    }
   </style>
 </head>
 <body>
+
   <header class="navbar">
     <a href="/">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Logo" />
+      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/logo.png" alt="Mundo Chido logo">
     </a>
     <nav>
       <a href="/">Inicio</a>
       <a href="/productos">Productos</a>
-      <a href="/contacto">Contacto</a>
+      <a href="/contactos">Contacto</a>
     </nav>
-  </header>  <main class="products">
-    <div class="product" onclick="openModal('pack1.jpg', 'Pack 1 – Cartas Mágicas', 'Este pack incluye cartas mágicas con poderes únicos.', '$2000')">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1" />
-      <h3>Pack 1 – Cartas Mágicas</h3>
+  </header>
+
+  <main>
+    <div class="section">
+      <h2>Cartas Clásicas</h2>
+      <div class="product-grid">
+        <div class="product" onclick="showDetails('Pack 1', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg', '$500')">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1">
+          <p>Pack 1</p>
+        </div>
+        <div class="product" onclick="showDetails('Pack 2', 'https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg', '$700')">
+          <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2">
+          <p>Pack 2</p>
+        </div>
+      </div>
     </div>
-    <div class="product" onclick="openModal('pack2.jpg', 'Pack 2 – Cartas Misteriosas', 'Cartas misteriosas que esconden secretos sorprendentes.', '$2500')">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2" />
-      <h3>Pack 2 – Cartas Misteriosas</h3>
-    </div>
-  </main>  <div id="modalRoot"></div>  <script>
-    function openModal(img, title, desc, price) {
-      const modal = document.createElement('div');
-      modal.className = 'overlay';
-      modal.innerHTML = `
-        <div class="modal">
-          <button class="btn-close" onclick="this.closest('.overlay').remove()">×</button>
-          <div class="modal-content">
-            <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/${img}" alt="${title}" />
-            <div class="modal-info">
-              <h2>${title}</h2>
-              <p>${desc}</p>
-              <p><strong>${price}</strong></p>
-              <button class="btn-buy">Comprar ahora</button>
-              <button>Agregar al carrito</button>
-            </div>
+  </main>
+
+  <div id="modalRoot"></div>
+
+  <script>
+    function showDetails(title, img, price) {
+      const modalRoot = document.getElementById('modalRoot');
+      modalRoot.innerHTML = `
+        <div class="overlay" onclick="closeModal(event)">
+          <div class="modal">
+            <img src="${img}" alt="${title}" />
+            <h3>${title}</h3>
+            <div class="price">${price}</div>
+            <button class="buy-now">Comprar ahora</button>
+            <button class="add-cart">Agregar al carrito</button>
           </div>
         </div>
       `;
-      document.getElementById("modalRoot").innerHTML = "";
-      document.getElementById("modalRoot").appendChild(modal);
     }
-  </script></body>
+
+    function closeModal(e) {
+      if (e.target.classList.contains('overlay')) {
+        document.getElementById('modalRoot').innerHTML = '';
+      }
+    }
+  </script>
+
+</body>
 </html>
