@@ -97,7 +97,9 @@
     flex-direction: column;
     align-items: center;
     padding: 1rem 0 1.3rem;
-    height: 260px;
+    /* altura automática para ajustar cartas + nombre */
+    height: auto;
+    min-height: 260px;
     position: relative;
     overflow: visible;
     user-select: none;
@@ -112,7 +114,7 @@
     position: relative;
     width: 45%;
     aspect-ratio: 63 / 88;
-    margin-bottom: 0.65rem;
+    margin-bottom: 1rem; /* espacio entre cartas y nombre */
     pointer-events: none;
   }
   .card-stack img {
@@ -154,8 +156,10 @@
     font-weight: 600;
     color: #111;
     text-align: center;
-    padding: 0 0.2rem;
+    padding: 0 0.4rem;
     user-select: text;
+    /* Separación desde abajo para que no se vea pegado */
+    margin-bottom: 0;
   }
 
   /* Modal información producto */
@@ -323,16 +327,18 @@
       gap: 0.7rem;
     }
     .product {
-      height: 220px;
+      height: auto;
       padding: 0.8rem 0 1rem;
+      min-height: auto;
     }
     .card-stack {
-      width: 75%;
-      margin-bottom: 0.5rem;
+      width: 36%; /* 20% menos que 45% */
+      margin-bottom: 0.9rem;
     }
     .product-name {
       font-size: 0.85rem;
-      padding: 0 0.15rem;
+      padding: 0 0.6rem; /* más padding para que no quede pegado */
+      margin-bottom: 0;
     }
     /* Modal adaptado para celular */
     #productModal .modal-content {
@@ -457,9 +463,9 @@
       <img src="" alt="" id="modalImg" />
     </div>
     <div class="modal-info">
-      <h3 id="modalTitle">Título del producto</h3>
-      <p id="modalDesc">Descripción del producto aquí.</p>
-      <div class="price" id="modalPrice">$0</div>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+      <div class="price" id="modalPrice"></div>
       <div class="buttons">
         <button class="buy-now" aria-label="Comprar ahora">Comprar ahora</button>
         <button class="add-cart" aria-label="Agregar al carrito">Agregar al carrito</button>
