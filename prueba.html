@@ -15,63 +15,67 @@
       align-items: center;
       height: 100vh;
     }
+    /* Contenedor principal */
     .product {
-      width: 280px;
+      width: 260px;
       height: 360px;
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
       overflow: visible;
       cursor: pointer;
-      transition: transform 0.3s ease;
     }
+    /* Pila de cartas */
     .card-stack {
       position: relative;
-      width: 100%;
-      height: 80%;
-      overflow: visible;
+      width: 80%; /* deja margen dentro del contenedor */
+      aspect-ratio: 63 / 88; /* proporción típica carta 2.5×3.5in */
     }
     .card-stack img {
       position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 16px;
-      transition: transform 0.4s ease, filter 0.4s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      transform-origin: bottom left; /* pivote en esquina inferior izquierda */
+      transition: transform 0.35s ease;
     }
+    /* Carta más lejana */
     .card-stack img:nth-child(1) {
-      filter: blur(6px);
-      transform: translate(50px, 30px) rotate(35deg);
+      filter: blur(5px);
+      transform: translate(35px,-5px) rotate(25deg);
       z-index: 1;
     }
+    /* Carta intermedia */
     .card-stack img:nth-child(2) {
-      filter: blur(6px);
-      transform: translate(30px, 15px) rotate(20deg);
+      filter: blur(4px);
+      transform: translate(18px,-3px) rotate(14deg);
       z-index: 2;
     }
+    /* Carta principal nítida */
     .card-stack img:nth-child(3) {
-      transform: rotate(-45deg);
+      transform: translate(0,0) rotate(-8deg);
       z-index: 3;
     }
     .product-name {
-      margin-top: 0.8rem;
+      margin-top: 1rem;
       font-size: 1rem;
       font-weight: 600;
     }
-    .product:hover img:nth-child(1) {
-      transform: translate(55px, 35px) rotate(40deg);
+    /* Hover suave para enfatizar efecto */
+    .product:hover .card-stack img:nth-child(1) {
+      transform: translate(40px,-10px) rotate(30deg);
     }
-    .product:hover img:nth-child(2) {
-      transform: translate(35px, 20px) rotate(25deg);
+    .product:hover .card-stack img:nth-child(2) {
+      transform: translate(22px,-6px) rotate(18deg);
     }
-    .product:hover img:nth-child(3) {
-      transform: rotate(-45deg) scale(1.05);
+    .product:hover .card-stack img:nth-child(3) {
+      transform: translate(0,0) rotate(-10deg) scale(1.04);
     }
   </style>
 </head>
@@ -86,3 +90,4 @@
   </div>
 </body>
 </html>
+
