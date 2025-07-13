@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Productos – Mundo Chido</title>
   <link rel="icon" href="https://emisrmy.github.io/mundochido/img/preview.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
-
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />  <style>
     * {
       margin: 0;
       padding: 0;
@@ -18,14 +15,15 @@
       font-family: 'Poppins', sans-serif;
       background: #f7f7f7;
       color: #111;
+      padding: 2rem 1rem 4rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem 1rem;
+      min-height: 100vh;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.6rem;
       margin-bottom: 1.5rem;
       animation: fadeIn 1s ease forwards;
       opacity: 0;
@@ -33,37 +31,45 @@
 
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 2rem;
       width: 100%;
-      max-width: 960px;
+      max-width: 1080px;
     }
 
     .product {
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
       overflow: hidden;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
 
     .product:hover {
       transform: translateY(-6px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
     }
 
     .product img {
       width: 100%;
       height: auto;
       display: block;
+      border-bottom: 1px solid #eee;
     }
 
     .product-content {
-      padding: 1rem;
+      padding: 1.2rem 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .product-title {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+      margin-bottom: 0.4rem;
     }
 
     .product-desc {
@@ -71,34 +77,55 @@
       color: #555;
     }
 
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 0.9rem;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 0.4rem 0.9rem;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #111;
+      transition: background 0.2s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
+
     @keyframes fadeIn {
       to { opacity: 1; }
     }
-  </style>
-</head>
-<body>
 
-  <h1>Packs de Cartas</h1>
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .product-title {
+        font-size: 1.1rem;
+      }
+      .product-desc {
+        font-size: 0.85rem;
+      }
+    }
+  </style></head>
+<body><a href="/" class="back-button">← Volver</a>
 
-  <section class="product-grid">
-
+  <h1>Packs de Cartas</h1>  <section class="product-grid">
     <div class="product">
       <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack1.jpg" alt="Pack 1">
       <div class="product-content">
         <h2 class="product-title">Pack Clásico</h2>
         <p class="product-desc">El set original. 30 cartas únicas, diseño elegante y divertido.</p>
       </div>
-    </div>
+    </div><div class="product">
+  <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2">
+  <div class="product-content">
+    <h2 class="product-title">Pack Oscuro</h2>
+    <p class="product-desc">Cartas misteriosas con tonos profundos y detalles dorados.</p>
+  </div>
+</div>
 
-    <div class="product">
-      <img src="https://raw.githubusercontent.com/emisrmy/mundochido/refs/heads/main/img/pack2.jpg" alt="Pack 2">
-      <div class="product-content">
-        <h2 class="product-title">Pack Oscuro</h2>
-        <p class="product-desc">Cartas misteriosas con tonos profundos y detalles dorados.</p>
-      </div>
-    </div>
-
-  </section>
-
-</body>
+  </section></body>
 </html>
